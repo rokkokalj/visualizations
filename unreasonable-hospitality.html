@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unreasonable Hospitality — Will Guidara</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08070e;
+  --card: #0f0e18;
+  --card-hover: #15141f;
+  --border: #1c1a2e;
+  --text: #e6e4f0;
+  --text-dim: #7e7a96;
+  --accent: #d4a853;
+  --accent-glow: rgba(212, 168, 83, 0.10);
+  --accent-deep: #b8903a;
+  --green: #5ec47a;
+  --green-glow: rgba(94, 196, 122, 0.10);
+  --red: #e05c5c;
+  --red-glow: rgba(224, 92, 92, 0.10);
+  --blue: #5c8ee0;
+  --blue-glow: rgba(92, 142, 224, 0.10);
+  --purple: #9b7ed4;
+  --purple-glow: rgba(155, 126, 212, 0.10);
+  --warm: #e08a5c;
+  --warm-glow: rgba(224, 138, 92, 0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section { padding: 100px 0; }
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0;
+}
+
+/* Typography */
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.section-title {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.15;
+  margin: 16px 0 24px;
+  color: var(--text);
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 680px;
+  line-height: 1.75;
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 36px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-deep);
+}
+
+.big-idea-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+.big-idea-card::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-right: 8px;
+  margin-bottom: 6px;
+}
+
+.tag-accent { background: var(--accent-glow); color: var(--accent); }
+.tag-green { background: var(--green-glow); color: var(--green); }
+.tag-red { background: var(--red-glow); color: var(--red); }
+.tag-blue { background: var(--blue-glow); color: var(--blue); }
+.tag-purple { background: var(--purple-glow); color: var(--purple); }
+.tag-warm { background: var(--warm-glow); color: var(--warm); }
+
+/* Grids */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+
+/* Quote */
+.quote {
+  text-align: center;
+  padding: 64px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quote p {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.5;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+.quote cite {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.hero-title {
+  font-size: clamp(44px, 6.5vw, 88px);
+  line-height: 1.05;
+  background: linear-gradient(135deg, var(--accent), #f0d89a, var(--accent-deep));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 24px 0;
+}
+
+.hero-subtitle {
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--text-dim);
+  max-width: 640px;
+  margin: 0 auto 32px;
+  line-height: 1.8;
+}
+
+.hero-meta {
+  font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+.hero-meta span {
+  margin: 0 12px;
+  color: var(--border);
+}
+
+/* Numbered items */
+.numbered-item {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.number {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  color: var(--accent);
+  opacity: 0.3;
+  line-height: 1;
+  flex-shrink: 0;
+  width: 56px;
+  text-align: center;
+}
+
+.numbered-content h3 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+.numbered-content p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* Comparison table */
+.vs-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  align-items: stretch;
+}
+
+.vs-col {
+  padding: 36px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.vs-col:first-child { border-radius: 18px 0 0 18px; }
+.vs-col:last-child { border-radius: 0 18px 18px 0; }
+
+.vs-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.vs-col h4 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.vs-col ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vs-col ul li {
+  font-size: 14px;
+  color: var(--text-dim);
+  padding: 6px 0;
+  padding-left: 18px;
+  position: relative;
+}
+
+.vs-col ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.vs-col.left ul li::before { background: var(--blue); }
+.vs-col.right ul li::before { background: var(--accent); }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--border));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 6px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 3px solid var(--bg);
+}
+
+.timeline-year {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.timeline-event {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.timeline-detail {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* Diagram */
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  padding: 24px 0;
+}
+
+.flow-node {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  min-width: 140px;
+}
+
+.flow-node .flow-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.flow-node .flow-text {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.flow-arrow {
+  font-size: 24px;
+  color: var(--accent);
+  opacity: 0.4;
+  padding: 0 12px;
+}
+
+/* Closing */
+.closing {
+  text-align: center;
+  padding: 120px 24px;
+}
+
+.closing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  background: linear-gradient(135deg, var(--accent), #f0d89a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 24px;
+}
+
+.closing p {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Highlight list */
+.highlight-list {
+  list-style: none;
+  padding: 0;
+}
+
+.highlight-list li {
+  padding: 12px 0;
+  padding-left: 24px;
+  position: relative;
+  font-size: 15px;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.highlight-list li:last-child { border-bottom: none; }
+
+.highlight-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20px;
+  width: 8px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.highlight-list li strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  section { padding: 64px 0; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .card { padding: 28px; }
+  .big-idea-card { padding: 32px; }
+  .hero { min-height: auto; padding: 100px 24px 60px; }
+  .vs-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .vs-col:first-child { border-radius: 18px 18px 0 0; }
+  .vs-col:last-child { border-radius: 0 0 18px 18px; }
+  .vs-divider {
+    width: 100%;
+    height: 48px;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: none;
+    border-bottom: none;
+  }
+  .flow-diagram { flex-direction: column; }
+  .flow-arrow { transform: rotate(90deg); padding: 8px 0; }
+  .quote { padding: 40px 16px; }
+  .card:hover { transform: none; }
+  .numbered-item { gap: 16px; }
+  .number { font-size: 36px; width: 44px; }
+  .timeline { padding-left: 32px; }
+}
+
+@media (max-width: 380px) {
+  .hero-title { font-size: 36px; }
+  .section-title { font-size: 28px; }
+  .card { padding: 20px; }
+  .container { padding: 0 16px; }
+  .label { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <div class="container">
+    <span class="label">Book Visual &mdash; Key Principles &amp; Frameworks</span>
+    <h1 class="hero-title">Unreasonable<br>Hospitality</h1>
+    <p class="hero-subtitle">The remarkable power of giving people more than they expect &mdash; and how the relentless pursuit of making people feel seen transformed a middling brasserie into the #1 restaurant in the world.</p>
+    <p class="hero-meta">Will Guidara<span>|</span>2022<span>|</span>Leadership &amp; Hospitality</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== CENTRAL THESIS ==================== -->
+<section>
+  <div class="container">
+    <span class="label">The Central Thesis</span>
+    <h2 class="section-title">Service Is Black &amp; White.<br>Hospitality Is Color.</h2>
+    <div style="height: 40px;"></div>
+    <div class="big-idea-card">
+      <div class="tag tag-accent">Core Distinction</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 26px; margin: 20px 0 16px;">Two different things. One without the other is incomplete.</h3>
+      <div class="grid-2" style="margin-top: 28px;">
+        <div>
+          <h4 style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 12px;">Service</h4>
+          <p style="font-size: 15px; color: var(--text-dim); line-height: 1.75;">Doing your job with competence and efficiency. Getting the right plate to the right person at the right table. It's the technical execution &mdash; the black and white.</p>
+        </div>
+        <div>
+          <h4 style="font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;">Hospitality</h4>
+          <p style="font-size: 15px; color: var(--text-dim); line-height: 1.75;">Making people <em>feel great</em> about the job you're doing for them. Genuinely engaging with the person you're serving so you can make an authentic connection. It's the color.</p>
+        </div>
+      </div>
+      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+        <p style="font-size: 15px; color: var(--text-dim);">
+          <strong style="color: var(--accent);">Unreasonable Hospitality</strong> means pursuing hospitality with the same passion, attention to detail, and rigor that world-class chefs bring to food. No one who ever changed the game did so by being reasonable.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== THE JOURNEY (TIMELINE) ==================== -->
+<section>
+  <div class="container">
+    <span class="label">The Arc</span>
+    <h2 class="section-title">From #50 to #1</h2>
+    <p class="section-subtitle">The journey of Eleven Madison Park, and the principles discovered along the way.</p>
+    <div style="height: 48px;"></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2006</div>
+        <div class="timeline-event">Will becomes GM at EMP (2 stars)</div>
+        <div class="timeline-detail">Inherits a divided team, no systems, inconsistent service. Starts with listening, building culture through daily 30-minute pre-meal meetings.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2007</div>
+        <div class="timeline-event">3 Stars from The New York Times</div>
+        <div class="timeline-detail">Focus on excellence pays off. First strategic planning session with entire team. Core values crystallized: Education, Passion, Excellence, Hospitality.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2008</div>
+        <div class="timeline-event">Relais & Ch&acirc;teaux + Culture Reboot</div>
+        <div class="timeline-detail">Accepted into elite association. Team nearly burns out from ambition. Introduces DBC and "Touch the Lapel." Learns to slow down to speed up.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2009</div>
+        <div class="timeline-event">4 Stars &mdash; Through the Recession</div>
+        <div class="timeline-detail">Global recession nearly kills the restaurant. Plays offense: $29 lunches, dessert cart, Kentucky Derby party. "Adversity is a terrible thing to waste."</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2010</div>
+        <div class="timeline-event">#50 on World's 50 Best &mdash; The Napkin</div>
+        <div class="timeline-detail">"We will be Number One." Writes "Unreasonable Hospitality" on a cocktail napkin. Removes podium, creates ticketless coat check, eliminates transactional moments.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2011-2012</div>
+        <div class="timeline-event">Buys EMP. Opens the NoMad (3 stars)</div>
+        <div class="timeline-detail">Creates Make It Nice company. Scales culture via "sourdough starter" approach. Introduces Dreamweaver program and Legends.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2015-2016</div>
+        <div class="timeline-event">Back to Basics &mdash; The Final Evolution</div>
+        <div class="timeline-detail">Cuts menu from 15 to 7 courses. Removes menus entirely. Returns to first principles: "The most delicious and gracious restaurant in the world."</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2017</div>
+        <div class="timeline-event">#1 Restaurant in the World</div>
+        <div class="timeline-detail">First dining room person ever to accept the award on stage. Won through the relentless pursuit of Unreasonable Hospitality.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== QUOTE ==================== -->
+<div class="quote">
+  <p>&ldquo;People will forget what you do; they'll forget what you said. But they'll never forget how you made them feel.&rdquo;</p>
+  <cite>Often attributed to Maya Angelou</cite>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== RESTAURANT-SMART vs CORPORATE-SMART ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #1</span>
+    <h2 class="section-title">Restaurant-Smart vs.<br>Corporate-Smart</h2>
+    <p class="section-subtitle">The best organizations are both. You need the creativity and autonomy of being restaurant-smart AND the systems and controls of being corporate-smart.</p>
+    <div style="height: 40px;"></div>
+    <div class="vs-grid">
+      <div class="vs-col left">
+        <h4 style="color: var(--blue);">Restaurant-Smart</h4>
+        <ul>
+          <li>More autonomy and creative latitude</li>
+          <li>Greater sense of ownership</li>
+          <li>Nimble &mdash; fewer rules blocking connection</li>
+          <li>People feel empowered</li>
+          <li>Risk: lacks corporate infrastructure</li>
+          <li>Risk: leaves money on the table</li>
+        </ul>
+      </div>
+      <div class="vs-divider">vs</div>
+      <div class="vs-col right">
+        <h4 style="color: var(--accent);">Corporate-Smart</h4>
+        <ul>
+          <li>Back-end systems and controls</li>
+          <li>Accounting, purchasing, HR infrastructure</li>
+          <li>More profitable through efficiency</li>
+          <li>Consistency across operations</li>
+          <li>Risk: control stifles creativity</li>
+          <li>Risk: people on the ground feel disempowered</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top: 24px;">
+      <div class="card" style="text-align: center;">
+        <p style="font-size: 15px; color: var(--text-dim);"><strong style="color: var(--accent);">The goal:</strong> Creativity is the main ingredient in striking a true balance. Corporate-smart doesn't have to stifle creativity &mdash; but left unchecked, it will.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== RULE OF 95/5 ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #2</span>
+    <h2 class="section-title">The Rule of 95/5</h2>
+    <p class="section-subtitle">Manage 95% of your budget down to the penny. Spend the last 5% "foolishly." It sounds irresponsible; in fact, it's some of the smartest money you'll ever spend.</p>
+    <div style="height: 40px;"></div>
+    <div class="big-idea-card">
+      <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 260px;">
+          <div style="background: var(--bg); border-radius: 12px; padding: 32px; text-align: center;">
+            <div style="font-family: 'Playfair Display', serif; font-size: 64px; color: var(--accent);">95</div>
+            <div style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); margin-top: 8px;">Disciplined</div>
+            <p style="font-size: 14px; color: var(--text-dim); margin-top: 8px;">Negotiate hard, cut waste, manage labor, monitor every penny.</p>
+          </div>
+        </div>
+        <div style="flex: 1; min-width: 260px;">
+          <div style="background: var(--bg); border-radius: 12px; padding: 32px; text-align: center;">
+            <div style="font-family: 'Playfair Display', serif; font-size: 64px; color: var(--accent);">5</div>
+            <div style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-top: 8px;">"Foolish"</div>
+            <p style="font-size: 14px; color: var(--text-dim); margin-top: 8px;">Splurge on the details that dramatically transform the experience.</p>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border);">
+        <p style="font-size: 14px; color: var(--text-dim);"><strong style="color: var(--text);">Examples:</strong> Tiny Italian blue gelato spoons at MoMA. Grand Cru Burgundy as the final glass in wine pairings. Dom P&eacute;rignon staff parties. Brand-new sleds for a family who'd never seen snow. The 5% has an outsize impact because it's earned through the discipline of the 95%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== BUILDING CULTURE ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #3</span>
+    <h2 class="section-title">Building a Culture<br>of Excellence</h2>
+    <p class="section-subtitle">Excellence isn't one grand gesture. It's the aggregation of marginal gains &mdash; thousands of details executed perfectly.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tag tag-accent">Principle</div>
+        <h3 style="font-size: 20px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">The One-Inch Rule</h3>
+        <p style="font-size: 15px; color: var(--text-dim);">When you lose focus in the last inch, you compromise all the work done to get there. A reminder to stay present and follow through &mdash; literally (put plates down gently) and metaphorically (finish every task completely).</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-accent">Principle</div>
+        <h3 style="font-size: 20px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">The Way You Do One Thing Is the Way You Do Everything</h3>
+        <p style="font-size: 15px; color: var(--text-dim);">Place every plate so the manufacturer's stamp faces the guest. Unreasonable? Yes. But precision in the smallest details translates to precision in bigger ones. People can <em>feel</em> perfection.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-green">Mantra</div>
+        <h3 style="font-size: 20px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Their Perception Is Our Reality</h3>
+        <p style="font-size: 15px; color: var(--text-dim);">If a guest says their steak is undercooked, the only response is "Let me fix it" &mdash; even if it's technically perfect. You're serving guests, not egos. Being right is irrelevant.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-green">Mantra</div>
+        <h3 style="font-size: 20px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Slow Down to Speed Up</h3>
+        <p style="font-size: 15px; color: var(--text-dim);">Take 10 seconds to double-check an order, because entering the wrong dish can ruin your whole night. Strengthen the foundation before adding stories. Do less, and do it well.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== QUOTE ==================== -->
+<div class="quote">
+  <p>&ldquo;No one who ever changed the game did so by being reasonable.&rdquo;</p>
+  <cite>Will Guidara</cite>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== LEADERSHIP PRINCIPLES ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Leadership</span>
+    <h2 class="section-title">How to Lead People</h2>
+    <p class="section-subtitle">The frameworks Will developed for building, managing, and inspiring teams.</p>
+    <div style="height: 48px;"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 40px;">
+      <div class="numbered-item">
+        <div class="number">01</div>
+        <div class="numbered-content">
+          <h3>Hire the Person, Not the R&eacute;sum&eacute;</h3>
+          <p>Look for people who run after strangers to return a dropped scarf. Hospitality is an instinct &mdash; you can teach wine knowledge, but you can't teach someone to care. Every hire sends a message to your existing team: surround A players with A players.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">02</div>
+        <div class="numbered-content">
+          <h3>Praise in Public, Criticize in Private</h3>
+          <p>Praise with emotion, criticize without emotion. Criticize the behavior, never the person. And if you can't find more compliments than criticism, that's a failure in leadership. Criticism is investment; praise is affirmation.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">03</div>
+        <div class="numbered-content">
+          <h3>Find the Hidden Treasures</h3>
+          <p>A leader's responsibility is to identify strengths, no matter how buried. The guy failing as a food runner became a genius expeditor. Don't fire people before checking if they're simply in the wrong role.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">04</div>
+        <div class="numbered-content">
+          <h3>30 Minutes a Day Can Transform a Culture</h3>
+          <p>A daily meeting where a collection of individuals becomes a team. Same time, same format, every day. Start with housekeeping, then inspiration. Tell them <em>why</em>, not just <em>what</em>. Fill their tanks before you ask them to fill others'.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">05</div>
+        <div class="numbered-content">
+          <h3>Set Them Up to Succeed</h3>
+          <p>Expectations too high = overwhelmed team. Cut what you're asking people to learn to digestible pieces. Make tests passable, not punitive. Your biggest responsibility: make sure people who are trying have what they need.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">06</div>
+        <div class="numbered-content">
+          <h3>Promote Before They're Ready</h3>
+          <p>The perfect moment to give someone more responsibility is before they're ready. Take a chance, and they'll work extra hard to prove you right. You can't promote from within if you wait until they have all the experience.</p>
+        </div>
+      </div>
+      <div class="numbered-item">
+        <div class="number">07</div>
+        <div class="numbered-content">
+          <h3>Leaders Say Sorry</h3>
+          <p>The idea that you won't make errors is criminally stupid &mdash; as is thinking no one will notice. Publicly owning mistakes strengthens the bond with your team. If you're willing to criticize yourself, they'll accept criticism from you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== COLLABORATION ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #4</span>
+    <h2 class="section-title">The Collaboration Engine</h2>
+    <p class="section-subtitle">Collaboration was the foundation upon which Unreasonable Hospitality was built. Every single program improved by leaps and bounds.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="tag tag-purple">System</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Ownership Programs</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Give people ownership of specific areas that match their passions. Beer geek runs beer. Coffee geek runs coffee. Budget + education + autonomy = programs that become best-in-class.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-purple">System</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Strategic Planning for All</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Close the restaurant. Invite everyone &mdash; from dishwashers to the GM &mdash; to brainstorm the future. A busser sees things a manager never can. Collective decisions create collective ownership.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-purple">System</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Let Them Lead &amp; Teach</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Happy Hours led by staff. Saturday pre-meals run by team members. The more they taught, the more they learned. The more they led meetings, the more they became leaders.</p>
+      </div>
+    </div>
+
+    <div style="height: 32px;"></div>
+
+    <div class="card">
+      <div style="display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+          <div class="tag tag-warm">Key Insight</div>
+          <h3 style="font-size: 18px; margin: 12px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Share the Spotlight</h3>
+          <p style="font-size: 14px; color: var(--text-dim);">When press calls about your beer program, put them in touch with the person who runs it. Don't take credit for other people's work. The more mini-celebrities on staff, the longer the line of people wanting to work for you.</p>
+        </div>
+        <div style="flex: 1; min-width: 240px;">
+          <div class="tag tag-warm">Key Insight</div>
+          <h3 style="font-size: 18px; margin: 12px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Great Leaders Create Leaders</h3>
+          <p style="font-size: 14px; color: var(--text-dim);">You don't want a hundred keys; you win when you end up with only one &mdash; the key to the front door. The more responsibility you trust people with, the more responsible they become.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== HOSPITALITY & EXCELLENCE ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #5</span>
+    <h2 class="section-title">Choose Conflicting Goals</h2>
+    <p class="section-subtitle">Hospitality and excellence are not friends. Embracing the tension between them &mdash; choosing "and" instead of "or" &mdash; forces innovation.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <div class="flow-label">Goal A</div>
+        <div class="flow-text">Excellence</div>
+      </div>
+      <div class="flow-arrow">&harr;</div>
+      <div class="flow-node" style="border-color: var(--accent);">
+        <div class="flow-label">Tension</div>
+        <div class="flow-text" style="color: var(--accent);">Innovation</div>
+      </div>
+      <div class="flow-arrow">&harr;</div>
+      <div class="flow-node">
+        <div class="flow-label">Goal B</div>
+        <div class="flow-text">Hospitality</div>
+      </div>
+    </div>
+
+    <div style="height: 32px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3 style="font-size: 18px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 700; color: var(--red);">Easy hospitality without excellence</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Who cares if the waitress forgot your Coke? What's a little sloppiness between friends? Warmth without precision.</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size: 18px; margin-bottom: 12px; font-family: 'Inter', sans-serif; font-weight: 700; color: var(--red);">Easy excellence without hospitality</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Scare your staff into never making mistakes. Technical perfection, but they're living in fear &mdash; no warmth, no personality, no connection.</p>
+      </div>
+    </div>
+
+    <div style="height: 16px;"></div>
+
+    <div class="big-idea-card" style="text-align: center;">
+      <p style="font-size: 17px; color: var(--text);">The hard path &mdash; and the only one that matters &mdash; is to be <strong style="color: var(--accent);">both</strong>. Multiple conflicting goals force you to innovate. This is what Roger Martin calls <em>integrative thinking</em>.</p>
+      <p style="font-size: 14px; color: var(--text-dim); margin-top: 12px;">Southwest Airlines chose to be the lowest-cost airline AND #1 in customer and employee satisfaction. For 50 years, they've been the most profitable airline in the country.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== QUOTE ==================== -->
+<div class="quote">
+  <p>&ldquo;What would you attempt to do if you knew you could not fail?&rdquo;</p>
+  <cite>The paperweight from Will's father</cite>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== RELATIONSHIPS ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #6</span>
+    <h2 class="section-title">Relationships Are Simple.<br>Simple Is Hard.</h2>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tag tag-green">Rule</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Don't Go to Bed Angry</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Don't leave work harboring frustration toward a colleague. Talk things through. People usually want to be heard more than agreed with. Even without resolution, both feel lighter.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-blue">Strategy</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Find the Third Option</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">When two passionate people get entrenched, try swapping sides. Argue for the other person's position. This jogs you out of "your" idea and often reveals a third option neither would have found alone.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-blue">Strategy</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Concede the Win</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Sometimes the only way forward: whoever cares more gets their way. "It's important to me" &mdash; that's all you need to say. But don't abuse the card. Willingness to relinquish builds trust.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-warm">Insight</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Learn Their Tough-Love Language</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">One size fits one. Some people need gentle correction. Others won't hear you unless it comes with a little thunder. Know the people you're working with. Sarcasm, however, never works.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== RESTORING BALANCE ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #7</span>
+    <h2 class="section-title">Restoring Balance</h2>
+    <p class="section-subtitle">Ambition is a nuclear reactor. Left unchecked, it melts down. You can't pour endlessly from your own pitcher without stopping to refill it.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-3">
+      <div class="card" style="text-align: center;">
+        <div style="font-family: 'Playfair Display', serif; font-size: 48px; color: var(--accent); margin-bottom: 12px;">DBC</div>
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Deep Breathing Club</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">In moments of crisis, walk up to an overwhelmed colleague and say "DBC." A few deep breaths. What's really communicated: "I see you. We're in this together."</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 12px;">&#128406;</div>
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Touch the Lapel</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Make eye contact with a colleague and touch your lapel = "I need help." Systemizing it stripped the stigma from asking. Asking for help is a display of strength.</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div style="font-size: 36px; margin-bottom: 12px;">&#9203;</div>
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Find Your Oxygen</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Everyone's oxygen is different. Exercise, nature, cooking, friends, binge-watching TV. Put your own mask on first. You can only be restorative if you restore yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== UNREASONABLE HOSPITALITY IN ACTION ==================== -->
+<section>
+  <div class="container">
+    <span class="label">The Big Move</span>
+    <h2 class="section-title">Unreasonable Hospitality<br>in Practice</h2>
+    <p class="section-subtitle">How to systematically create magic. Remove the transactional. Create Legends. Build a tool kit.</p>
+    <div style="height: 48px;"></div>
+
+    <!-- Step 1: Remove Transactional -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="tag tag-accent">Step 1</div>
+      <h3 style="font-size: 22px; margin: 16px 0 12px; font-family: 'Playfair Display', serif;">Remove Everything Transactional</h3>
+      <ul class="highlight-list">
+        <li><strong>Remove the podium.</strong> Greet guests by name at the door (Google their photos beforehand). Welcome them like a friend, not a transaction.</li>
+        <li><strong>Ban computers from the dining room.</strong> No printers, no screens. Build a separate room for them.</li>
+        <li><strong>Ticketless coat check.</strong> Transfer coats to the on-deck room when a table is paying. Guests approach the door and their coats are already waiting.</li>
+        <li><strong>Solve the check problem with generosity.</strong> Leave a full bottle of cognac at the table with the check. No one feels rushed when they've been given a bottle of free booze.</li>
+      </ul>
+    </div>
+
+    <!-- Step 2: Earning Informality -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="tag tag-green">Step 2</div>
+      <h3 style="font-size: 22px; margin: 16px 0 12px; font-family: 'Playfair Display', serif;">Earn Informality</h3>
+      <p style="font-size: 15px; color: var(--text-dim);">Start formal, then earn the right to be casual. Amp up formality at the beginning of the meal. Over the course of the evening, earn trust enough to shift expectations. Like calling your father-in-law "Mr. Tosi" until he tells you to call him Gino.</p>
+      <div style="margin-top: 16px; padding: 16px; background: var(--bg); border-radius: 10px;">
+        <p style="font-size: 14px; color: var(--text-dim);"><strong style="color: var(--accent);">Being Present vs. Being Attentive:</strong> Attentive servers see everything and turn tables efficiently. Present servers are so focused on the interaction that the bonds they create are much stronger. The present servers earned more in tips despite serving fewer people.</p>
+      </div>
+    </div>
+
+    <!-- Step 3: Legends -->
+    <div class="big-idea-card" style="margin-bottom: 24px;">
+      <div class="tag tag-accent">Step 3</div>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 26px; margin: 16px 0;">Create Legends</h3>
+      <p style="font-size: 15px; color: var(--text-dim); margin-bottom: 24px;">One-off, personalized gestures that give people a story to tell. The gift isn't the object &mdash; it's the story. It's proof you were seen and heard.</p>
+
+      <div class="grid-2">
+        <div style="padding: 20px; background: var(--bg); border-radius: 12px;">
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">The Hot Dog</h4>
+          <p style="font-size: 14px; color: var(--text-dim);">European tourists mentioned their only NYC regret: never having a street hot dog. Will bought a $2 Sabrett's, had Daniel plate it four ways. They called it the highlight of their entire trip.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 12px;">
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">The Snow Sleds</h4>
+          <p style="font-size: 14px; color: var(--text-dim);">Spanish family's kids had never seen snow. EMP bought four sleds and had an SUV whisk them to Central Park after dinner for a nightcap in the fresh snow.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 12px;">
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">The $100 Grand Bars</h4>
+          <p style="font-size: 14px; color: var(--text-dim);">Banker joked he needed a million dollars. They tucked a bag of ten 100 Grand chocolate bars under his chair. He called the night "legendary."</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-radius: 12px;">
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px;">The Private Beach</h4>
+          <p style="font-size: 14px; color: var(--text-dim);">Couple's vacation flight canceled. EMP turned the private dining room into a beach: chairs, sand, kiddie pool, tropical daiquiris with little umbrellas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Dreamweavers & Tool Kit -->
+    <div class="card">
+      <div class="tag tag-purple">Step 4</div>
+      <h3 style="font-size: 22px; margin: 16px 0 12px; font-family: 'Playfair Display', serif;">Build a Tool Kit &amp; Hire Dreamweavers</h3>
+      <p style="font-size: 15px; color: var(--text-dim); margin-bottom: 20px;">You can be proactive about improvisational hospitality. Pattern recognition: identify recurring moments, prepare materials in advance, empower your team to deploy them.</p>
+
+      <div class="grid-2">
+        <div>
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;">Tool Kit Examples</h4>
+          <ul class="highlight-list">
+            <li>City maps with secret favorite spots for out-of-towners</li>
+            <li>Empire State Building tickets for excited tourists</li>
+            <li>Tiffany crystal flutes for newly engaged couples</li>
+            <li>Morning rescue kits (coffee, Alka-Seltzer, muffin) for guests anticipating hangovers</li>
+            <li>Airplane snack boxes for travelers heading to the airport</li>
+            <li>Plus One cards answering frequently asked questions</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;">The Dreamweaver Role</h4>
+          <p style="font-size: 14px; color: var(--text-dim);">A dedicated person (eventually a full team with their own studio) to execute personalized hospitality gestures. Santa's workshop: leather tools, sewing machine, art supplies. The best part: the team came up with ideas independently &mdash; the perfect marriage of ownership and improvisational hospitality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== QUOTE ==================== -->
+<div class="quote">
+  <p>&ldquo;People often confuse hospitality with luxury. Luxury means giving more. Hospitality means being more thoughtful.&rdquo;</p>
+  <cite>Will Guidara</cite>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== SCALING ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Framework #8</span>
+    <h2 class="section-title">Scaling a Culture</h2>
+    <p class="section-subtitle">As you grow, you can't lose the very thing that gave you the opportunity to grow.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tag tag-accent">Method</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Sourdough Starter</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Transplant seasoned people from your existing team to seed the new spot with your culture. They communicate, through words and actions, everything you stand for. Their passion infects every new hire.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-accent">Method</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Commit to Paper</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Compile your core values, phrases, and stories into a little red book (Field Manual). Every company should spend weeks hashing out what they stand for and writing it down. Welcome new employees with the same warmth you welcome guests.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-green">Insight</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Creativity Is a Practice</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">Even McCartney had a system. Dispel the myth that creativity is spontaneous and limited to geniuses. Be disciplined and intentional about creating space to dream freely. No bad ideas at first.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-green">Insight</div>
+        <h3 style="font-size: 18px; margin: 16px 0 8px; font-family: 'Inter', sans-serif; font-weight: 700;">Nobody Knows What They're Doing Before They Do It</h3>
+        <p style="font-size: 14px; color: var(--text-dim);">The biggest accomplishments start with a simple commitment to do them. A black diamond is scary if you usually ski blues. Growth happens outside your comfort zone. Don't worry &mdash; you will get down the hill.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== DANNY MEYER'S LANGUAGE ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Cultural Language</span>
+    <h2 class="section-title">Language Creates Culture</h2>
+    <p class="section-subtitle">The shared phrases and mantras that shaped the culture at EMP &mdash; repeated daily until they became instinct.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-3">
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"Make the Charitable Assumption"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">Assume the best of people. Maybe they're dismissive because they just got divorced. They might need more hospitality than anyone else in the room.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"Constant, Gentle Pressure"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">The kaizen principle &mdash; everyone should always be improving, getting a little better all the time. Never stop.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"Be the Swan"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">Graceful neck and meticulous white feathers on the surface. Webbed feet churning furiously below, driving the glide.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"One Size Fits One"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">Some guests love schmoozing. Others want you to disappear. Read the room. Serve them how they want to be served.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"Raindrops Make Oceans"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">Chase every penny. Small cuts add up. Half a paper towel, one less linen cloth, cheaper toques. Discipline in the details.</p>
+      </div>
+      <div class="card" style="border-left: 3px solid var(--accent);">
+        <h3 style="font-size: 16px; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 700;">"Adversity Is a Terrible Thing to Waste"</h3>
+        <p style="font-size: 13px; color: var(--text-dim);">Don't panic in the face of adversity. Creativity is the better solution. The recession taught EMP more about profitability than any good year ever could.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== APPLICABLE ANYWHERE ==================== -->
+<section>
+  <div class="container">
+    <span class="label">Beyond Restaurants</span>
+    <h2 class="section-title">Hospitality Exists in<br>Every Business</h2>
+    <p class="section-subtitle">The principles apply everywhere. Look for inflection points and patterns in your business. When you find them, do something about it.</p>
+    <div style="height: 40px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="tag tag-warm">Real Estate</div>
+        <p style="font-size: 14px; color: var(--text-dim); margin-top: 12px;">Stop leaving generic sparkling wine. If they mentioned doing yoga in the sunlit nook, leave a mat rolled out there. Remove the doorjamb where the seller marked her kids' heights. Total cost: $0. Value: priceless.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-warm">Car Sales</div>
+        <p style="font-size: 14px; color: var(--text-dim); margin-top: 12px;">Buying a car for a new teenage driver? Give them a year of AAA ($119). Dad struggling with a booster seat? A bag of Goldfish and a DustBuster in the glovebox. That parent will never buy from anyone else.</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-warm">Banking</div>
+        <p style="font-size: 14px; color: var(--text-dim); margin-top: 12px;">You give private banking to your wealthiest clients. How much would it cost to give every teller a similarly attentive experience? How can you quantify the improvement in service they'd deliver?</p>
+      </div>
+      <div class="card">
+        <div class="tag tag-warm">Any Industry</div>
+        <p style="font-size: 14px; color: var(--text-dim); margin-top: 12px;">You can sell houses, or sell homes. Provide financial services, or provide families with a future. Sell insurance, or offer the comfort of knowing loved ones are safe. Name for yourself why your work matters.</p>
+      </div>
+    </div>
+
+    <div style="height: 24px;"></div>
+    <div class="card" style="text-align: center;">
+      <p style="font-size: 15px; color: var(--text-dim);">
+        <strong style="color: var(--accent);">The key insight:</strong> It isn't the lavishness of the gift that counts, but its pricelessness. A $2 hot dog beat a bottle of vintage Krug. The value is in the thoughtfulness &mdash; proof that someone was <em>seen</em>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ==================== FINAL QUOTE ==================== -->
+<div class="quote">
+  <p>&ldquo;It was our pursuit of excellence that brought us to the table, but it was our pursuit of Unreasonable Hospitality that took us to the top.&rdquo;</p>
+  <cite>Will Guidara</cite>
+</div>
+
+<div class="divider"></div>
+
+<!-- ==================== CLOSING ==================== -->
+<section class="closing">
+  <span class="label">The Final Lesson</span>
+  <h2 class="closing-title">Serve What You Want<br>to Receive</h2>
+  <p>The restaurant changed radically over the years because Will and his team changed. Not for the sake of change itself, but because as they grew and evolved, what they wanted to receive changed too. In the end, they stripped away everything that wasn't essential and returned to first principles: <strong style="color: var(--text);">"To be the most delicious and gracious restaurant in the world."</strong> Nine words. That's all they needed.</p>
+</section>
+
+</body>
+</html>
