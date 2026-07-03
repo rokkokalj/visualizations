@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#06060c">
+<title>Poletje 2026 · Trije kandidati za Hrvaško</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06060c; --card:#0e0e18; --border:#1a1a2e; --text:#e4e4f0; --dim:#8888a0;
+  --accent:#2dd4bf; --accent-glow:rgba(45,212,191,.10);
+  --gold:#f0b45a; --green:#4ade80; --green-glow:rgba(74,222,128,.10);
+  --red:#f87171; --red-glow:rgba(248,113,113,.10);
+  --amber:#fbbf24; --amber-glow:rgba(251,191,36,.10);
+  --blue:#60a5fa; --blue-glow:rgba(96,165,250,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+section{padding:60px 0}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:3px;font-weight:700;color:var(--accent)}
+h1,h2,h3{font-family:'Playfair Display',serif}
+h2{font-size:clamp(26px,4vw,40px);margin:12px 0 8px}
+.lede{color:var(--dim);font-size:16px;max-width:760px}
+.pill{display:inline-block;font-size:11px;text-transform:uppercase;letter-spacing:2px;font-weight:700;padding:4px 12px;border-radius:6px;white-space:nowrap}
+.pill.green{background:var(--green-glow);color:var(--green)}
+.pill.red{background:var(--red-glow);color:var(--red)}
+.pill.amber{background:var(--amber-glow);color:var(--amber)}
+.pill.blue{background:var(--blue-glow);color:var(--blue)}
+.pill.teal{background:var(--accent-glow);color:var(--accent)}
+
+.hero{padding:90px 0 50px;text-align:center;background:radial-gradient(ellipse 70% 45% at 50% 0%,rgba(45,212,191,.07),transparent)}
+.hero h1{font-size:clamp(36px,6vw,68px);line-height:1.1;margin:16px 0;background:linear-gradient(120deg,#e4e4f0 30%,var(--accent) 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{color:var(--dim);max-width:640px;margin:0 auto;font-size:17px}
+
+.prop{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:32px;margin-top:24px}
+.prop-head{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+.prop-head h3{font-size:24px;line-height:1.25;max-width:640px}
+.prop-head .place{color:var(--dim);font-size:14px;margin-top:2px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.price-row{display:flex;flex-wrap:wrap;gap:28px;margin:20px 0 6px}
+.price-row .pr{min-width:120px}
+.price-row .val{font-size:24px;font-weight:800;color:var(--gold)}
+.price-row .val.teal{color:var(--accent)}
+.price-row .cap{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--dim);font-weight:600}
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0 4px}
+.photos img{width:100%;height:210px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block;background:#0a0a12}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 24px;margin:14px 0;font-size:14px}
+.facts div{color:var(--dim);padding-left:18px;position:relative}
+.facts div::before{content:'·';position:absolute;left:2px;color:var(--accent);font-weight:900}
+.facts b{color:var(--text)}
+.flag{border-left:3px solid var(--red);background:var(--red-glow);border-radius:0 10px 10px 0;padding:10px 16px;font-size:13px;color:var(--dim);margin:12px 0}
+.flag b{color:var(--red)}
+.flag.ok{border-color:var(--green);background:var(--green-glow)}
+.flag.ok b{color:var(--green)}
+.linkrow{margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:13px}
+.linkrow a{color:var(--accent);text-decoration:none;word-break:break-all;overflow-wrap:anywhere}
+.linkrow a:hover{text-decoration:underline}
+.linkrow .src{color:var(--dim);font-size:12px;margin-top:6px}
+
+.tbl-wrap{overflow-x:auto;margin-top:24px;border:1px solid var(--border);border-radius:14px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px}
+th{background:#0a0a12;text-align:left;padding:12px 14px;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);white-space:nowrap}
+td{padding:12px 14px;border-top:1px solid var(--border);vertical-align:top;color:var(--dim)}
+tr:hover td{background:#141420}
+td b{color:var(--text)}
+.ok{color:var(--green);font-weight:700}
+.no{color:var(--red);font-weight:700}
+.mid{color:var(--amber);font-weight:700}
+
+.qform{background:var(--card);border:1px solid rgba(45,212,191,.3);border-radius:18px;padding:32px;margin-top:28px}
+.qform .qtitle{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:16px}
+.qform label{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;cursor:pointer;font-size:14px;transition:all .2s}
+.qform label:hover{border-color:var(--accent);background:#141420}
+.qform input[type=radio]{margin-top:4px;accent-color:var(--accent)}
+.qform textarea{width:100%;background:#0a0a12;border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;padding:12px;margin-top:12px;resize:vertical;min-height:60px}
+.qform button{background:var(--accent);color:#06231f;border:none;border-radius:10px;padding:12px 26px;font-size:14px;font-weight:800;cursor:pointer;margin-top:16px;font-family:'Inter',sans-serif}
+.qform button:hover{filter:brightness(1.1)}
+.qform .hint{font-size:12px;color:var(--dim);margin-top:10px}
+.qstate{font-size:13px;color:var(--green);margin-top:10px;display:none}
+footer{padding:28px 0;text-align:center;font-size:12px;color:var(--dim);border-top:1px solid var(--border);margin-top:40px}
+
+@media (max-width:768px){
+  section{padding:40px 0}
+  .facts,.photos{grid-template-columns:1fr}
+  .prop,.qform{padding:22px}
+  .photos img{height:180px}
+  .price-row{gap:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <div class="label">Poletje 2026 · Hrvaška · družinski izbor</div>
+    <h1>Trije kandidati, tri zgodbe</h1>
+    <p class="sub">Hvar ob plaži, Korčula z veliko vilo ali luksuzni apartma z bazenom tik ob morju. Vsak ima svoj termin in svoj značaj. Poglejte in povejte, katera vam je najbolj všeč.</p>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section>
+  <div class="container">
+
+    <!-- ZAVALA -->
+    <div class="prop">
+      <div class="prop-head">
+        <div>
+          <h3>1. Apartma Zavala, Hvar</h3>
+          <div class="place">Zavala, mirna južna obala Hvara · tik ob morju</div>
+        </div>
+        <div class="badges">
+          <span class="pill teal">Ob plaži</span>
+          <span class="pill green">14 noči</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="pr"><div class="val">2.797 €</div><div class="cap">12. do 26. julij, 14 noči</div></div>
+        <div class="pr"><div class="val teal">≈ 200 €</div><div class="cap">na noč</div></div>
+        <div class="pr"><div class="val teal">9,4</div><div class="cap">ocena postelj (4 ocene)</div></div>
+      </div>
+      <div class="photos">
+        <img src="img/zavala-terasa.png" alt="Zavala, terasa s pogledom na morje" loading="lazy">
+        <img src="img/zavala-obala.png" alt="Zavala, obala pred hišo iz zraka" loading="lazy">
+      </div>
+      <div class="facts">
+        <div><b>Ob plaži</b>, približno 80 m do urejene prodnate plaže, čez vrt do morja</div>
+        <div><b>Terasa s pogledom na morje</b>, senčna, z jedilnim kotom</div>
+        <div>39 m²: 1 spalnica (velika zakonska) + raztegljiv kavč v dnevni sobi</div>
+        <div>Klimatska naprava, WiFi, manjša kuhinja, satelitska TV</div>
+        <div><b>Center:</b> Jelsa ~15 min vožnje (čez predor Pitve)</div>
+        <div><b>Šport:</b> Black Pearl Diving, PADI 5*, Jelsa ~15 min vožnje</div>
+        <div>Zavala je mirno počitniško naselje z lepimi zalivčki v obe smeri</div>
+        <div>Zgornja nadstropja dostopna po stopnicah</div>
+      </div>
+      <div class="flag"><b>Pozor:</b> 39 m² za 4 osebe je tesno; Kaja in Anja si delita raztegljiv kavč v dnevni sobi. Booking pri tej hiši navaja, da psi niso dovoljeni; pred rezervacijo obvezno pisno preveriti pri gostitelju za Rubi in Sisu.</div>
+      <div class="linkrow">
+        <a href="https://www.booking.com/hotel/hr/apartment-a-2061-b-zavala-hvar.sl.html" target="_blank">booking.com/hotel/hr/apartment-a-2061-b-zavala-hvar.sl.html</a>
+        <div class="src">Diving vir: hvarscubadiving.com (preverjeno 2. 7. 2026)</div>
+      </div>
+    </div>
+
+    <!-- BELL ARIA -->
+    <div class="prop">
+      <div class="prop-head">
+        <div>
+          <h3>2. Villa Bell'Aria, Korčula</h3>
+          <div class="place">Zahodna Korčula · 15 min do Vele Luke</div>
+        </div>
+        <div class="badges">
+          <span class="pill teal">Največji apartma s 2 spalnicama</span>
+          <span class="pill amber">13 noči</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="pr"><div class="val">3.509 €</div><div class="cap">11. do 24. julij, 13 noči</div></div>
+        <div class="pr"><div class="val teal">≈ 270 €</div><div class="cap">na noč</div></div>
+        <div class="pr"><div class="val teal">78 m²</div><div class="cap">2 spalnici + dnevna</div></div>
+      </div>
+      <div class="facts">
+        <div><b>2 ločeni spalnici</b> (vsaka svoja zakonska postelja) + raztegljiv kavč</div>
+        <div><b>Balkon s pogledom na morje</b>, zunanji jedilni kot, žar</div>
+        <div>Polno opremljena kuhinja: pomivalni stroj, pečica, mikrovalovka</div>
+        <div>Pralni stroj, Netflix, mreže proti komarjem, sef, zaseben vhod</div>
+        <div><b>Center:</b> Vela Luka ~15 min vožnje</div>
+        <div><b>Šport:</b> Croatia Divers, PADI 5* center na obali Vele Luke, ~15 min; tečaj za začetnike 379 €, od 10 let</div>
+        <div>Klimatska naprava, ogrevanje, 1 kopalnica</div>
+        <div>Brez možnosti vračila denarja, še 1 apartma na voljo</div>
+      </div>
+      <div class="flag"><b>Pozor:</b> najdražja opcija (270 €/noč) in najkrajši glavni termin (13 noči). Politika glede psov iz podatkov ni razvidna; pred rezervacijo pisno preveriti za oba pudlja. Ena kopalnica za 4 osebe.</div>
+      <div class="flag ok"><b>Plus:</b> edina opcija, kjer imata Kaja in Anja vsaka svojo pravo posteljo v ločeni spalnici, in hkrati najboljši potapljaški center v bližini (Croatia Divers je PADI 5* IDC šola).</div>
+      <div class="linkrow">
+        <a href="https://www.booking.com/hotel/hr/villa-bell-aria-korcula.sl.html" target="_blank">booking.com/hotel/hr/villa-bell-aria-korcula.sl.html</a>
+        <div class="src">Diving vir: croatiadivers.com (preverjeno 2. 7. 2026)</div>
+      </div>
+    </div>
+
+    <!-- SEAZEN -->
+    <div class="prop">
+      <div class="prop-head">
+        <div>
+          <h3>3. SeaZen Luxury Seaside, Račišće (Korčula)</h3>
+          <div class="place">Račišće, severna obala Korčule · terasa tik ob morju</div>
+        </div>
+        <div class="badges">
+          <span class="pill blue">Bazen + zasebna plaža</span>
+          <span class="pill red">Samo 6. do 13. 7. (7 noči)</span>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="pr"><div class="val">cena ni podana</div><div class="cap">last minute, 7 noči</div></div>
+        <div class="pr"><div class="val teal">150 m²</div><div class="cap">2 spalnici, 2 kopalnici</div></div>
+        <div class="pr"><div class="val teal">psi brezplačno</div><div class="cap">verbatim Booking</div></div>
+      </div>
+      <div class="photos">
+        <img src="img/seazen-zaliv.png" alt="Račišće, zaliv z jadrnico" loading="lazy">
+        <img src="img/seazen-terasa.png" alt="SeaZen, terasa s kadjo ob plaži" loading="lazy">
+      </div>
+      <div class="facts">
+        <div><b>Bazen z razgledom</b> + terasa tik ob morju + zasebni del plaže</div>
+        <div><b>150 m²</b>, daleč največji: 2 spalnici (veliki zakonski), 2 kopalnici</div>
+        <div><b>Psi dovoljeni brezplačno</b>, brez doplačil</div>
+        <div>Polna kuhinja s pomivalnim strojem in pečico, žar, zunanji jedilni kot</div>
+        <div><b>Center:</b> mesto Korčula ~15 km, ~30 min vožnje</div>
+        <div><b>Šport:</b> Dupin Dive Centre v mestu Korčula, ~30 min vožnje</div>
+        <div>Vrhunska estetika (terasa s kadjo, mir, prazna plaža po recenzijah)</div>
+        <div>Klimatska naprava samo v eni sobi (samostojna enota)</div>
+      </div>
+      <div class="flag"><b>Pozor:</b> termin je SAMO 6. do 13. julij, torej teden prej in pol krajši od ostalih dveh; to pomeni drugačen dopust, ne samo drugo lokacijo. Ocena udobja postelj 2,5 na podlagi 1 ocene je čuden signal; skupna ocena enote je 7,5 iz samo 4 mnenj. Cene za ta termin še nimamo.</div>
+      <div class="linkrow">
+        <a href="https://www.booking.com/hotel/hr/seazen-luxury-seaside-apartment-korcula.sl.html" target="_blank">booking.com/hotel/hr/seazen-luxury-seaside-apartment-korcula.sl.html</a>
+        <div class="src">Diving vir: tripadvisor.com Dupin Dive Centre (preverjeno 2. 7. 2026)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <div class="container">
+    <div class="label">Primerjava</div>
+    <h2>Vse troje na enem mestu</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Kaj</th><th>1. Zavala, Hvar</th><th>2. Bell'Aria, Korčula</th><th>3. SeaZen, Račišće</th></tr></thead>
+        <tbody>
+          <tr><td><b>Termin</b></td><td class="ok">12. do 26. 7. (14 noči)</td><td class="mid">11. do 24. 7. (13 noči)</td><td class="no">6. do 13. 7. (7 noči)</td></tr>
+          <tr><td><b>Cena skupaj</b></td><td><b>2.797 €</b></td><td><b>3.509 €</b></td><td>ni podana</td></tr>
+          <tr><td><b>Cena na noč</b></td><td class="ok">≈ 200 €</td><td class="mid">≈ 270 €</td><td>ni podana</td></tr>
+          <tr><td><b>Morje</b></td><td class="ok">ob plaži (~80 m)</td><td class="mid">pogled na morje, razdalja ni podana</td><td class="ok">terasa tik ob morju + zasebna plaža</td></tr>
+          <tr><td><b>Bazen</b></td><td class="no">ne</td><td class="no">ne</td><td class="ok">da, z razgledom</td></tr>
+          <tr><td><b>Velikost</b></td><td class="no">39 m², 1 spalnica</td><td class="ok">78 m², 2 spalnici</td><td class="ok">150 m², 2 spalnici + 2 kopalnici</td></tr>
+          <tr><td><b>Spanje deklet</b></td><td class="no">skupni raztegljiv kavč</td><td class="ok">vsaka svoja postelja</td><td class="ok">svoja spalnica</td></tr>
+          <tr><td><b>Rubi + Sisu</b></td><td class="no">Booking: psi niso dovoljeni, preveri</td><td class="mid">ni podatka, preveri</td><td class="ok">brezplačno dovoljeni</td></tr>
+          <tr><td><b>Center / kraj</b></td><td class="ok">Jelsa ~15 min</td><td class="ok">Vela Luka ~15 min</td><td class="mid">Korčula ~30 min</td></tr>
+          <tr><td><b>Potapljaški center</b></td><td class="ok">Black Pearl (PADI 5*), Jelsa ~15 min</td><td class="ok">Croatia Divers (PADI 5*), Vela Luka ~15 min, tečaj 379 €</td><td class="mid">Dupin, Korčula ~30 min</td></tr>
+          <tr><td><b>Ocene</b></td><td class="ok">9,4 (7 mnenj)</td><td>ni podatka v izboru</td><td class="mid">7,5 (4 mnenja)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="lede" style="margin-top:18px">Termini se med sabo razlikujejo, zato izbira lokacije pomeni tudi izbiro datuma dopusta. Cene so iz Booking izpisov ob pripravi (2. 7. 2026) in se lahko spremenijo; razpoložljivosti namenoma nismo ponovno preverjali.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section>
+  <div class="container">
+    <div class="label">Družinsko glasovanje</div>
+    <h2>Katera vam je najbolj všeč?</h2>
+    <form class="qform" data-lavish-question="druzinski-glas" onsubmit="submitVote(event)">
+      <div class="qtitle">Vsak glasuje, opomba dobrodošla</div>
+      <label><input type="radio" name="glas" value="1. Apartma Zavala, Hvar"> <span><b>1. Zavala, Hvar</b> · ob plaži, mirno, 14 noči, ≈200 €/noč</span></label>
+      <label><input type="radio" name="glas" value="2. Villa Bell'Aria, Korcula"> <span><b>2. Bell'Aria, Korčula</b> · največ prostora za spanje, najboljši diving, 13 noči, ≈270 €/noč</span></label>
+      <label><input type="radio" name="glas" value="3. SeaZen, Racisce Korcula"> <span><b>3. SeaZen, Račišće</b> · bazen + zasebna plaža + psi brezplačno, ampak samo 6. do 13. 7.</span></label>
+      <label><input type="radio" name="glas" value="4. Nobena, isci naprej"> <span><b>4. Nobena</b> · iščemo naprej</span></label>
+      <textarea name="opomba" placeholder="Kdo glasuje in zakaj? (npr. Anja: SeaZen zaradi bazena)"></textarea>
+      <button type="submit">Oddaj glas</button>
+      <div class="hint">Glas se pošlje šele s klikom na gumb; vsak družinski član lahko odda svojega.</div>
+      <div class="qstate" id="qstate">Glas je v vrsti. Kliknite "Send to Agent", da ga pošljete.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  Pripravljeno 2. 7. 2026 · cene in podatki iz Booking.com izpisov (Rok) · potapljaški centri preverjeni: hvarscubadiving.com, croatiadivers.com, tripadvisor.com · razpoložljivost namenoma nepreverjena
+</footer>
+
+<script>
+function submitVote(e){
+  e.preventDefault();
+  var fd = new FormData(e.currentTarget);
+  var choice = fd.get('glas');
+  var note = (fd.get('opomba')||'').trim();
+  if(!choice){ alert('Najprej izberi eno opcijo.'); return; }
+  var msg = 'Druzinski glas HR primerjava: ' + choice + (note ? (' | ' + note) : '');
+  if (window.lavish) {
+    window.lavish.queuePrompt(msg, { tag:'choice', text:msg, element:e.currentTarget, data:{question:'druzinski-glas', answer:choice, note:note} });
+    document.getElementById('qstate').style.display='block';
+    e.currentTarget.reset();
+  } else {
+    alert('Lavish ni povezan. Odpri stran preko lavish-axi.');
+  }
+}
+</script>
+</body>
+</html>
