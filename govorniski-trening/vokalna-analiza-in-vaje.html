@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vokalna analiza in vaje</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --accent: #b0722a;
+    --accent-dark: #8a5a20;
+    --good: #2e7d4f;
+    --warn: #c0392b;
+    --line: #e5e0d5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.55;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { margin-bottom: 28px; }
+  header h1 { font-size: 1.7rem; margin: 0 0 4px; }
+  header p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+  .anchor-card {
+    background: #1c1c1c;
+    color: #fff;
+    border-radius: 14px;
+    padding: 28px 24px;
+    text-align: center;
+    margin: 24px 0 32px;
+  }
+  .anchor-card .label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: #c9a15e; margin-bottom: 10px; }
+  .anchor-card .big { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; line-height: 1.35; }
+  .anchor-card .sub { margin-top: 12px; color: #bbb; font-size: 0.95rem; }
+
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; margin-bottom: 22px; }
+  section h2 { font-size: 1.15rem; margin: 0 0 14px; color: var(--accent-dark); }
+  section h3 { font-size: 1rem; margin: 18px 0 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.83rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  .table-scroll { overflow-x: auto; }
+  .ok { color: var(--good); font-weight: 600; }
+  .bad { color: var(--warn); font-weight: 600; }
+
+  .chain { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+  .chain .step { background: #f3ede2; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; flex: 1 1 180px; min-width: 0; font-size: 0.92rem; }
+  .chain .step strong { display: block; margin-bottom: 3px; color: var(--accent-dark); }
+
+  .drill { border-left: 4px solid var(--accent); padding: 4px 0 4px 16px; margin: 16px 0; }
+  .drill .when { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .drill h3 { margin: 4px 0 8px; }
+  ol, ul { margin: 8px 0; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  .note { background: #fdf6ea; border: 1px solid #ecd9b0; border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; margin: 12px 0; }
+  .sidra { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .sidra span { background: #1c1c1c; color: #fff; border-radius: 20px; padding: 6px 14px; font-size: 0.9rem; }
+  footer { color: var(--muted); font-size: 0.82rem; margin-top: 30px; text-align: center; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    section { border: 1px solid #ccc; break-inside: avoid; }
+    .anchor-card { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Vokalna analiza in vaje</h1>
+  <p>Rok · izmerjeno na S1E13 (16. 9. 2026) · analiza 21.–22. 9. 2026 · Praat/parselmouth</p>
+</header>
+
+<div class="anchor-card">
+  <div class="label">Sidro med snemanjem</div>
+  <div class="big">MISLI V TIŠINI.<br>ZADNJA BESEDA NAJMOČNEJŠA.</div>
+  <div class="sub">Dokler govoriš: polna energija do pike. Razmišljaš šele v pavzi za njo.</div>
+</div>
+
+<section>
+  <h2>1 · Kaj kažejo meritve</h2>
+  <div class="table-scroll">
+  <table>
+    <tr><th>Metrika</th><th>Uvod (28:30)</th><th>Sredina (1:09:25)</th><th>Ocena</th></tr>
+    <tr><td>Mediana višine glasu</td><td>114 Hz</td><td>121 Hz</td><td class="ok">tipičen moški glas</td></tr>
+    <tr><td>Variacija višine (SD)</td><td>2,95 ST</td><td>2,74 ST</td><td class="ok">solidna, NI monotona</td></tr>
+    <tr><td>Razpon višine (10.–90. perc.)</td><td>7,3 ST</td><td>7,1 ST</td><td class="ok">stabilen</td></tr>
+    <tr><td>Veliki poudarki (2.–98. perc.)</td><td>12,7 ST</td><td>10,7 ST</td><td class="bad">v pogovoru jih zmanjka</td></tr>
+    <tr><td>Delež pavz</td><td>36 %</td><td>31 %</td><td class="bad">veliko, pretežno nenamernih</td></tr>
+    <tr><td>Hitrost artikulacije</td><td>5,6 zl/s</td><td>5,2 zl/s</td><td class="bad">zgornji rob, hitro</td></tr>
+    <tr><td>Glasnost po odsekih</td><td>44–60 dB</td><td>39–49 dB</td><td class="bad">padci sredi povedi</td></tr>
+  </table>
+  </div>
+  <p style="font-size:0.85rem;color:var(--muted);">Reference so orientacijske vrednosti iz fonetične literature; izmerjene vrednosti so objektivne. Monotono = pod 1,5–2 ST; izrazito živahno = 3–5+ ST.</p>
+</section>
+
+<section>
+  <h2>2 · Diagnoza: veriga kvačkanja</h2>
+  <p>Melodija <strong>ni</strong> tvoj problem. Problem je, da misel še ni oblikovana, ko jo že govoriš:</p>
+  <div class="chain">
+    <div class="step"><strong>1. Razmišljaš med govorjenjem</strong>misel nastaja sproti ("kvačkanje" iz artikulacija.md)</div>
+    <div class="step"><strong>2. Energija uhaja</strong>glas pade na 38–41 dB, konci povedi "ugasnejo"</div>
+    <div class="step"><strong>3. Poslušalec sliši</strong>pojemanje in neodločnost = občutek "dolgočasno"</div>
+  </div>
+  <p>Rešitev: razmišljanje premakni v <strong>tišino za piko</strong>. Pavza je delovni prostor za misli, govor pa gre vedno s polno energijo do zadnje besede.</p>
+</section>
+
+<section>
+  <h2>3 · Vaja pred snemanjem: drill "pika = moč" (20 min)</h2>
+  <div class="drill">
+    <div class="when">3 × 60 sekund, telefon snema</div>
+    <ol>
+      <li>Izberi temo današnjega gosta. Timer na 60 s.</li>
+      <li>Vsaka poved: <strong>ena misel, kratka</strong>. Če imaš vejico, razmisli, ali je bolje pika.</li>
+      <li><strong>Zadnjo besedo povedi "vrzi" sogovorniku</strong>: izgovori jo najmočneje v povedi, ne najšibkeje. Gesta roke pomaga.</li>
+      <li>Po piki: tišina 1–2 s. V tišini oblikuješ naslednjo misel. Nič "iiin", nič "torej".</li>
+      <li>Poslušaj posnetek nazaj in preštej povedi, ki so "ugasnile". Cilj: vsak posnetek manj.</li>
+    </ol>
+  </div>
+  <div class="note">Poslušanje posnetka je 80 % učinka (tvoje lastno pravilo iz artikulacija.md).</div>
+</section>
+
+<section>
+  <h2>4 · Signposti: zemljevid pogovora (15 min priprave)</h2>
+  <p>Namen: odpraviti sprotno odločanje "kam zdaj", ki ti med govorjenjem krade glavo in energijo. Na en list (ali v notes) napiši <strong>5 vrstic, samo iztočnice po 2–5 besed</strong>, ne celih stavkov, da ne bereš:</p>
+  <ol>
+    <li><strong>Uvod</strong> – delno bran; vadi ga 1× na glas in označi 2 namerni pavzi.</li>
+    <li><strong>Most 1</strong> – prehod v prvi vsebinski blok (npr. "zgodba gosta").</li>
+    <li><strong>Most 2</strong> – prehod v drugi blok (npr. "praksa / primeri").</li>
+    <li><strong>Most 3</strong> – prehod v tretji blok (npr. "nasveti poslušalcem").</li>
+    <li><strong>Zaključek</strong> – en stavek povzetka + zahvala.</li>
+  </ol>
+  <p>Med snemanjem list leži pred tabo. Ko se blok izteka, pogledaš naslednjo iztočnico. Nikoli ne "iščeš" smeri, zato je glava prosta za formulacijo trenutne povedi.</p>
+</section>
+
+<section>
+  <h2>5 · Ogrevanje (10 min, ob 14:40)</h2>
+  <p>Po obstoječi rutini iz appa / artikulacija.md: lip trills, ustnice, jezik, <strong>siren</strong> (drsenje "ooo" od najnižjega do najvišjega tona, 5×), Pa-Ta-Ka, en odstavek z over-artikulacijo.</p>
+  <div class="note">Izmerjen razlog: tvoj glas prvih minut šele "vžge" (106 → 122 Hz skozi uvod). Z ogrevanjem začneš uvod že ogret, ne zadržan.</div>
+</section>
+
+<section>
+  <h2>6 · Med snemanjem: dve sidri</h2>
+  <h3>Sidro 1: listek ob zaslonu</h3>
+  <p>"MISLI V TIŠINI. ZADNJA BESEDA NAJMOČNEJŠA." (kartica na vrhu te strani; pusti jo odprto ali natisni)</p>
+  <h3>Sidro 2: sidrni stavek, ko se zapleteš</h3>
+  <p>Ko sredi povedi opaziš, da se zapletaš (poved raste, krpaš jo, energija pada), je <strong>ne rešuj</strong>. Izgovori enega od naučenih sidrnih stavkov in povej bistvo v enem kratkem stavku:</p>
+  <div class="sidra">
+    <span>"Poanta je …"</span>
+    <span>"Naj poenostavim …"</span>
+    <span>"Ključno je to …"</span>
+  </div>
+  <p style="margin-top:10px;">Sidrni stavek je avtomatski (zanj ne razmišljaš), kupi ti sekundo, resetira ritem in zveni kot suverenost, ne kot rešitev iz zagate.</p>
+</section>
+
+<section>
+  <h2>7 · Dolgoročne prioritete (za trening s Katjo in z AI trenerjem)</h2>
+  <ol>
+    <li><strong>Nosilnost glasu do konca povedi</strong> (dih, projekcija) – ne pustiti, da poved energijsko ugasne. ← glavna izmerjena šibkost</li>
+    <li><strong>Veliki melodični poudarki</strong> na ključnih besedah (razpon čez 12+ ST), zavestno nekajkrat na minuto – v pogovoru jih zmanjka.</li>
+    <li><strong>Namerne pavze</strong> za poudarkom namesto razmišljevalnih pavz sredi stavka – manj pavz, a daljše in postavljene.</li>
+  </ol>
+  <p>Ne popravljaj vsega hkrati: <em>one thing at a time</em> (Vinhovo pravilo iz tvojega plana). Danes samo konec povedi.</p>
+  <h3>Merilni krog</h3>
+  <p>Po vsakem podcastu: en 2–4 min odsek → akustična meritev → primerjava s temi vrednostmi. Napredek se meri v številkah, ne v občutku.</p>
+</section>
+
+<footer>
+  Viri: akustična analiza S1E13 (trenerji-govora/akusticna-analiza-uvod-S1E13.md) · artikulacija.md · Stage Academy Module 2
+</footer>
+
+</div>
+</body>
+</html>
