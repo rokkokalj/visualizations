@@ -65,6 +65,19 @@
   .note { background: #fdf6ea; border: 1px solid #ecd9b0; border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; margin: 12px 0; }
   .sidra { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   .sidra span { background: #1c1c1c; color: #fff; border-radius: 20px; padding: 6px 14px; font-size: 0.9rem; }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 14px 0; }
+  .kpi { background: #f3ede2; border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .kpi .v { font-size: 1.35rem; font-weight: 700; color: var(--accent-dark); }
+  .kpi .k { font-size: 0.85rem; color: var(--muted); }
+  .kpi.bad-k .v { color: var(--warn); }
+  .kpi.ok-k .v { color: var(--good); }
+  .bars { margin: 10px 0; }
+  .bar { display: flex; align-items: center; gap: 10px; margin: 6px 0; font-size: 0.9rem; }
+  .bar .lbl { flex: 0 0 90px; color: var(--muted); }
+  .bar .track { flex: 1 1 auto; height: 14px; background: #f0ebe1; border-radius: 7px; overflow: hidden; min-width: 0; }
+  .bar .fill { display: block; height: 100%; background: var(--warn); border-radius: 7px; }
+  .bar .fill.good { background: var(--good); }
+  .bar .val { flex: 0 0 42px; text-align: right; font-weight: 600; }
   footer { color: var(--muted); font-size: 0.82rem; margin-top: 30px; text-align: center; }
   @media print {
     body { background: #fff; padding: 0; }
@@ -78,7 +91,7 @@
 
 <header>
   <h1>Vokalna analiza in vaje</h1>
-  <p>Rok · izmerjeno na S1E13 (16. 9. 2026) · analiza 21.–22. 9. 2026 · Praat/parselmouth</p>
+  <p>Rok · S1E13 (16. 9. 2026, dva odseka) + <strong>S1E14 (24. 9. 2026, celotna epizoda, ločen mikrofon)</strong> · posodobljeno 25. 9. 2026 · Praat/parselmouth</p>
 </header>
 
 <div class="anchor-card">
@@ -88,7 +101,48 @@
 </div>
 
 <section>
-  <h2>1 · Kaj kažejo meritve</h2>
+  <h2>0 · Novo: celotna epizoda S1E14 (Metka Zver)</h2>
+  <p>Tvoj govor je izoliran po mikrofonu (snemalnik, Track 7). Govoriš <strong>25,7 min</strong>, gostja 54,8 min; 276 od 316 tvojih replik je krajših od 10 s.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">12,2 ST</div><div class="k">veliki poudarki v uvodu</div></div>
+    <div class="kpi bad-k"><div class="v">~9 ST</div><div class="k">veliki poudarki v pogovoru</div></div>
+    <div class="kpi bad-k"><div class="v">25–33 %</div><div class="k">fraz ugasne v 1. uri</div></div>
+    <div class="kpi ok-k"><div class="v">6–8 %</div><div class="k">fraz ugasne v zadnjih 40 min</div></div>
+  </div>
+
+  <h3>Uvod proti pogovoru</h3>
+  <div class="table-scroll">
+  <table>
+    <tr><th>Metrika</th><th>S1E13 uvod</th><th>S1E13 sredina</th><th>S1E14 uvod</th><th>S1E14 pogovor</th></tr>
+    <tr><td>Variacija višine (SD)</td><td>2,95 ST</td><td>2,74 ST</td><td class="ok">2,98 ST</td><td class="bad">~2,3 ST</td></tr>
+    <tr><td>Veliki poudarki (2.–98. perc.)</td><td>12,7 ST</td><td>10,7 ST</td><td class="ok">12,2 ST</td><td class="bad">~9,3 ST</td></tr>
+    <tr><td>Delež pavz</td><td>36 %</td><td>31 %</td><td class="ok">22 %</td><td class="ok">~24 %</td></tr>
+    <tr><td>Hitrost artikulacije</td><td>5,6 zl/s</td><td>5,2 zl/s</td><td>5,2 zl/s</td><td class="ok">~4,9 zl/s</td></tr>
+  </table>
+  </div>
+
+  <h3>Fraze, ki ugasnejo (padec &gt; 6 dB na koncu), skozi epizodo</h3>
+  <div class="bars">
+    <div class="bar"><span class="lbl">40–60 min</span><span class="track"><span class="fill" style="width:25%"></span></span><span class="val">25 %</span></div>
+    <div class="bar"><span class="lbl">60–80 min</span><span class="track"><span class="fill" style="width:29%"></span></span><span class="val">29 %</span></div>
+    <div class="bar"><span class="lbl">80–100 min</span><span class="track"><span class="fill" style="width:33%"></span></span><span class="val">33 %</span></div>
+    <div class="bar"><span class="lbl">100–120 min</span><span class="track"><span class="fill good" style="width:0%"></span></span><span class="val">0 %</span></div>
+    <div class="bar"><span class="lbl">120–140 min</span><span class="track"><span class="fill good" style="width:6%"></span></span><span class="val">6 %</span></div>
+    <div class="bar"><span class="lbl">140–160 min</span><span class="track"><span class="fill good" style="width:8%"></span></span><span class="val">8 %</span></div>
+  </div>
+  <p style="font-size:0.85rem;color:var(--muted);">Čas sledi snemalnika (pogovor teče od ~39. min). Na blok je 8 do 28 fraz, zato je trend zmerno zanesljiv.</p>
+
+  <h3>Kaj to pomeni</h3>
+  <ol>
+    <li><strong>Uvod znaš.</strong> Uvod S1E14 ima skoraj enake vrednosti kot S1E13 (SD ~3,0 ST, razpon ~12 ST). Le prva poved (39:04) je zadržana: 42 % pavz, razpon 7,5 ST.</li>
+    <li><strong>Monotonost je v pogovoru, ne v nagovoru.</strong> Ko se pogovarjaš, veliki poudarki padejo z ~12 na ~9 ST.</li>
+    <li><strong>Prva ura je šibkejša.</strong> Pojemanje proti koncu fraze je izrazito prvo uro, nato skoraj izgine. Verjetna razlaga je ogrevanje ali sprostitev, dokazana pa ni.</li>
+    <li><strong>Ritem je bolj tekoč kot v S1E13</strong> (manj pavz, umirjena artikulacija). Metodi se nekoliko razlikujeta, zato to jemlji kot nakazan napredek.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>1 · Izhodišče S1E13 (dva odseka)</h2>
   <div class="table-scroll">
   <table>
     <tr><th>Metrika</th><th>Uvod (28:30)</th><th>Sredina (1:09:25)</th><th>Ocena</th></tr>
@@ -106,7 +160,7 @@
 
 <section>
   <h2>2 · Diagnoza: veriga kvačkanja</h2>
-  <p>Melodija <strong>ni</strong> tvoj problem. Problem je, da misel še ni oblikovana, ko jo že govoriš:</p>
+  <p>V nagovoru melodija <strong>ni</strong> tvoj problem. V pogovoru pade, ker misel še ni oblikovana, ko jo že govoriš:</p>
   <div class="chain">
     <div class="step"><strong>1. Razmišljaš med govorjenjem</strong>misel nastaja sproti ("kvačkanje" iz artikulacija.md)</div>
     <div class="step"><strong>2. Energija uhaja</strong>glas pade na 38–41 dB, konci povedi "ugasnejo"</div>
@@ -134,19 +188,19 @@
   <h2>4 · Signposti: zemljevid pogovora (15 min priprave)</h2>
   <p>Namen: odpraviti sprotno odločanje "kam zdaj", ki ti med govorjenjem krade glavo in energijo. Na en list (ali v notes) napiši <strong>5 vrstic, samo iztočnice po 2–5 besed</strong>, ne celih stavkov, da ne bereš:</p>
   <ol>
-    <li><strong>Uvod</strong> – delno bran; vadi ga 1× na glas in označi 2 namerni pavzi.</li>
-    <li><strong>Most 1</strong> – prehod v prvi vsebinski blok (npr. "zgodba gosta").</li>
-    <li><strong>Most 2</strong> – prehod v drugi blok (npr. "praksa / primeri").</li>
-    <li><strong>Most 3</strong> – prehod v tretji blok (npr. "nasveti poslušalcem").</li>
-    <li><strong>Zaključek</strong> – en stavek povzetka + zahvala.</li>
+    <li><strong>Uvod:</strong> delno bran; vadi ga 1× na glas in označi 2 namerni pavzi.</li>
+    <li><strong>Most 1:</strong> prehod v prvi vsebinski blok (npr. "zgodba gosta").</li>
+    <li><strong>Most 2:</strong> prehod v drugi blok (npr. "praksa / primeri").</li>
+    <li><strong>Most 3:</strong> prehod v tretji blok (npr. "nasveti poslušalcem").</li>
+    <li><strong>Zaključek:</strong> en stavek povzetka + zahvala.</li>
   </ol>
   <p>Med snemanjem list leži pred tabo. Ko se blok izteka, pogledaš naslednjo iztočnico. Nikoli ne "iščeš" smeri, zato je glava prosta za formulacijo trenutne povedi.</p>
 </section>
 
 <section>
-  <h2>5 · Ogrevanje (10 min, ob 14:40)</h2>
+  <h2>5 · Ogrevanje (10 min, tik pred snemanjem)</h2>
   <p>Po obstoječi rutini iz appa / artikulacija.md: lip trills, ustnice, jezik, <strong>siren</strong> (drsenje "ooo" od najnižjega do najvišjega tona, 5×), Pa-Ta-Ka, en odstavek z over-artikulacijo.</p>
-  <div class="note">Izmerjen razlog: tvoj glas prvih minut šele "vžge" (106 → 122 Hz skozi uvod). Z ogrevanjem začneš uvod že ogret, ne zadržan.</div>
+  <div class="note">Izmerjen razlog: v S1E13 je glas šele "vžgal" skozi uvod (106 → 122 Hz), v S1E14 je prva poved zadržana (42 % pavz) in v prvi uri ugasne 25–33 % fraz, v zadnjih 40 min pa le 6–8 %. Z ogrevanjem prineseš "zadnjo uro" na začetek.</div>
 </section>
 
 <section>
@@ -164,19 +218,19 @@
 </section>
 
 <section>
-  <h2>7 · Dolgoročne prioritete (za trening s Katjo in z AI trenerjem)</h2>
+  <h2>7 · Dolgoročne prioritete (za trening s trenerjem in z AI trenerjem)</h2>
   <ol>
-    <li><strong>Nosilnost glasu do konca povedi</strong> (dih, projekcija) – ne pustiti, da poved energijsko ugasne. ← glavna izmerjena šibkost</li>
-    <li><strong>Veliki melodični poudarki</strong> na ključnih besedah (razpon čez 12+ ST), zavestno nekajkrat na minuto – v pogovoru jih zmanjka.</li>
-    <li><strong>Namerne pavze</strong> za poudarkom namesto razmišljevalnih pavz sredi stavka – manj pavz, a daljše in postavljene.</li>
+    <li><strong>Veliki melodični poudarki v pogovoru</strong> na ključnih besedah, zavestno nekajkrat na minuto. Cilj: razpon ≥ 11 ST tudi v pogovornih replikah (zdaj ~9 ST, v uvodu 12 ST).</li>
+    <li><strong>Nosilnost glasu do konca povedi že v prvi uri</strong> (dih, projekcija, ogrevanje). Cilj: pod 15 % ugaslih fraz v prvih 60 min (zdaj 25–33 %).</li>
+    <li><strong>Namerne pavze</strong> za poudarkom namesto razmišljevalnih pavz sredi stavka. Tu je S1E14 že boljši od S1E13.</li>
   </ol>
-  <p>Ne popravljaj vsega hkrati: <em>one thing at a time</em> (Vinhovo pravilo iz tvojega plana). Danes samo konec povedi.</p>
+  <p>Ne popravljaj vsega hkrati: <em>one thing at a time</em> (Vinhovo pravilo iz tvojega plana). Naslednja epizoda: ogrevanje + zadnja beseda najmočnejša.</p>
   <h3>Merilni krog</h3>
-  <p>Po vsakem podcastu: en 2–4 min odsek → akustična meritev → primerjava s temi vrednostmi. Napredek se meri v številkah, ne v občutku.</p>
+  <p>Po vsakem podcastu: celotna epizoda iz ločene sledi snemalnika (tvoj mikrofon) → akustična meritev (~5 min) → primerjava s temi vrednostmi. Napredek se meri v številkah, ne v občutku.</p>
 </section>
 
 <footer>
-  Viri: akustična analiza S1E13 (trenerji-govora/akusticna-analiza-uvod-S1E13.md) · artikulacija.md · Stage Academy Module 2
+  Viri: akustična analiza S1E13 (trenerji-govora/akusticna-analiza-uvod-S1E13.md) · akustična analiza S1E14 (trenerji-govora/akusticna-analiza-S1E14.md) · artikulacija.md · Stage Academy Module 2
 </footer>
 
 </div>
