@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Influence, Cialdini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: hero s tezo "klik-vrrr", pas sedmih orožij, nato po en list na načelo (bistvo, poskus, zloraba, obramba) in kartica za hitri pregled. */
+:root {
+  color-scheme: light;
+  --bg: #eef1f6;
+  --surface: #ffffff;
+  --fg: #141b2d;
+  --muted: #56607a;
+  --line: #d4d9e4;
+  --accent: #2741c4;
+  --accent-soft: #e2e7fb;
+  --guard: #9a6a00;
+  --guard-soft: #fbf1d8;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1320; --surface: #171c2c; --fg: #e5e8f1; --muted: #9aa3bb; --line: #2a3147;
+    --accent: #8ea0ff; --accent-soft: #212a4d; --guard: #f0c25a; --guard-soft: #2f2817;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1320; --surface: #171c2c; --fg: #e5e8f1; --muted: #9aa3bb; --line: #2a3147;
+  --accent: #8ea0ff; --accent-soft: #212a4d; --guard: #f0c25a; --guard-soft: #2f2817;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.back { display: inline-block; font-family: var(--mono); font-size: 13px; text-decoration: none; margin-bottom: 28px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; align-items: end; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+.hero h1 { font-size: clamp(44px, 8vw, 88px); font-weight: 800; letter-spacing: -.02em; margin-top: 10px; }
+.hero h1 span { display: block; font-size: .38em; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-top: 10px; }
+.thesis { font-size: 19px; max-width: 34em; }
+.thesis b { font-weight: 600; }
+.click { font-family: var(--display); font-weight: 800; font-size: clamp(30px, 5vw, 46px); color: var(--accent); line-height: 1; }
+.click small { display: block; font-family: var(--mono); font-weight: 400; font-size: 12px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-top: 10px; }
+.hero-side { display: grid; gap: 18px; }
+
+/* nav */
+nav.chips { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); display: flex; flex-wrap: wrap; gap: 8px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+nav.chips a { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--fg); padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+nav.chips a:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding-top: 56px; scroll-margin-top: 70px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 22px; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; }
+.lede { color: var(--muted); max-width: 40em; }
+
+/* shortcuts (chapter 1) */
+.shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.sc { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 8px; align-content: start; }
+.sc h3 { font-size: 19px; font-weight: 700; }
+.sc p { font-size: 16px; }
+
+/* overview strip */
+.strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.strip a { text-decoration: none; color: var(--fg); padding: 16px 12px 18px; border-right: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.strip a:last-child { border-right: 0; }
+.strip a:hover { background: var(--accent-soft); }
+.strip .ch { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+.strip .nm { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.15; }
+.strip .tr { font-size: 14px; color: var(--muted); line-height: 1.35; }
+.strip .new { font-family: var(--mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; }
+
+/* principle sheet */
+.p-sheet { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding-top: 28px; border-top: 2px solid var(--fg); }
+.p-side { display: grid; gap: 10px; align-content: start; }
+.p-side .num { font-family: var(--display); font-weight: 800; font-size: 72px; line-height: .9; color: var(--accent); }
+.p-side h2 { font-size: 30px; font-weight: 800; }
+.p-side .en { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.rule { font-size: 20px; line-height: 1.45; max-width: 36em; }
+.rule b { font-weight: 600; }
+.p-main { display: grid; gap: 22px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.box h3 { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.box ul { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; font-size: 16px; }
+.box.guard { background: var(--guard-soft); border-color: transparent; }
+.box.guard h3 { color: var(--guard); }
+.box.guard p { font-size: 16px; }
+.study { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.study .fig { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+.study .who { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.study p { font-size: 16px; grid-column: 2; }
+.quote { font-style: italic; color: var(--muted); border-left: 2px solid var(--line); padding-left: 14px; font-size: 16px; }
+
+/* chart */
+.chart-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; }
+.chart-wrap svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart-wrap text { font-family: var(--mono); fill: var(--fg); }
+.chart-wrap .lbl { font-family: var(--body); font-size: 14px; }
+.chart-wrap .sub { fill: var(--muted); font-size: 11px; }
+.chart-wrap .grid line { stroke: var(--line); }
+.bar-base { fill: var(--line); }
+.bar-hi { fill: var(--accent); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -2px; margin-right: 6px; }
+
+/* summary table */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-family: var(--display); font-weight: 700; white-space: nowrap; }
+.foot { margin-top: 48px; font-size: 14px; color: var(--muted); max-width: 46em; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip a { border-bottom: 1px solid var(--line); }
+  .p-sheet { grid-template-columns: 1fr; gap: 18px; }
+  .p-side .num { font-size: 52px; }
+  .shortcuts, .grid2 { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="./">← Knjižnica</a>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow">Robert B. Cialdini · razširjena izdaja 2021 (prva 1984)</p>
+    <h1>Influence<span>Psihologija prepričevanja</span></h1>
+  </div>
+  <div class="hero-side">
+    <div class="click">klik, vrrr<small>avtomatski odziv na sprožilec</small></div>
+    <p class="thesis">Ljudje se večino odločitev odločamo po bližnjicah. <b>En sam sprožilec</b> lahko zažene cel vzorec vedenja, ne da bi o njem razmislili. Strokovnjaki za pridobivanje privolitve (prodajalci, oglaševalci, zbiralci donacij) te sprožilce poznajo in jih uporabljajo. Knjiga opisuje sedem takšnih načel in kako se jim ubraniti.</p>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Poglavja">
+  <a href="#bliznjice">Bližnjice</a>
+  <a href="#vzajemnost">Vzajemnost</a>
+  <a href="#vsecnost">Všečnost</a>
+  <a href="#socialni-dokaz">Socialni dokaz</a>
+  <a href="#avtoriteta">Avtoriteta</a>
+  <a href="#redkost">Redkost</a>
+  <a href="#zavezanost">Zavezanost</a>
+  <a href="#enotnost">Enotnost</a>
+  <a href="#stevilke">Številke</a>
+  <a href="#kartica">Kartica</a>
+</nav>
+
+<section id="bliznjice">
+  <div class="sec-head">
+    <p class="eyebrow">Poglavje 1 · Orožja vpliva</p>
+    <h2>Zakaj bližnjice delujejo</h2>
+    <p class="lede">Bližnjice so večinoma koristne, ker nam prihranijo razmislek. Nevarne postanejo, ko jih nekdo namerno sproži v svojo korist.</p>
+  </div>
+  <div class="shortcuts">
+    <div class="sc">
+      <h3>Puranja mati</h3>
+      <p>Puranka skrbi za vsako stvar, ki oddaja zvok »čip-čip«, tudi za nagačenega dihurja s skritim predvajalnikom. Brez zvoka napade lastnega piščanca. Odziv ne sledi vsebini, ampak sprožilcu.</p>
+    </div>
+    <div class="sc">
+      <h3>Beseda »ker«</h3>
+      <p>Langerjev poskus pri fotokopirnem stroju: prošnja z razlogom uspe skoraj vedno, tudi če je razlog prazen (»ker moram narediti kopije«). Šteje že sama oblika razloga.</p>
+    </div>
+    <div class="sc">
+      <h3>Načelo kontrasta</h3>
+      <p>Isto stvar ocenimo drugače glede na to, kaj smo videli pred njo. Prodajalec najprej proda drago obleko, nato se pulover zdi poceni. Nepremičninar najprej pokaže slabe hiše.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pregled" aria-label="Pregled načel">
+  <div class="sec-head">
+    <p class="eyebrow">Sedem orožij vpliva</p>
+    <h2>Pregled na en pogled</h2>
+  </div>
+  <div class="strip">
+    <a href="#vzajemnost"><span class="ch">POGL. 2</span><span class="nm">Vzajemnost</span><span class="tr">Vrnemo, kar smo dobili.</span></a>
+    <a href="#vsecnost"><span class="ch">POGL. 3</span><span class="nm">Všečnost</span><span class="tr">Rečemo da ljudem, ki so nam všeč.</span></a>
+    <a href="#socialni-dokaz"><span class="ch">POGL. 4</span><span class="nm">Socialni dokaz</span><span class="tr">Delamo, kar delajo drugi.</span></a>
+    <a href="#avtoriteta"><span class="ch">POGL. 5</span><span class="nm">Avtoriteta</span><span class="tr">Ubogamo strokovnjake in simbole.</span></a>
+    <a href="#redkost"><span class="ch">POGL. 6</span><span class="nm">Redkost</span><span class="tr">Hočemo, kar izginja.</span></a>
+    <a href="#zavezanost"><span class="ch">POGL. 7</span><span class="nm">Zavezanost in doslednost</span><span class="tr">Ostanemo zvesti prejšnji odločitvi.</span></a>
+    <a href="#enotnost"><span class="ch">POGL. 8</span><span class="new">novo 2021</span><span class="nm">Enotnost</span><span class="tr">Ugodimo »našim«.</span></a>
+  </div>
+</section>
+
+<!-- 2 VZAJEMNOST -->
+<section id="vzajemnost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">2</span>
+      <h2>Vzajemnost</h2>
+      <span class="en">Reciprocation</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Čutimo dolžnost, da <b>vrnemo uslugo, darilo ali popuščanje</b>, tudi če ga nismo želeli in tudi če nam človek ni všeč.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Ključni poskus</h3>
+          <div class="study"><span class="fig">2×</span><span class="who">Regan, 1971</span><p>Ko je pomočnik »Joe« udeležencu nepričakovano prinesel kokakolo, je ta pozneje kupil dvakrat več njegovih srečk, ne glede na to, ali mu je bil Joe všeč.</p></div>
+        </div>
+        <div class="box">
+          <h3>Kako ga izkoriščajo</h3>
+          <ul>
+            <li>Brezplačni vzorci, darilca in »samo za vas« ponudbe.</li>
+            <li>Hare Krišne so ljudem najprej podarile rožo, nato prosile za prispevek.</li>
+            <li><b>Zavrnitev, nato umik</b>: najprej velika prošnja, po zavrnitvi manjša. Popuščanje druge strani vrnemo s privolitvijo.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Zavrnitev, nato umik v praksi</h3>
+        <div class="study"><span class="fig">17→50 %</span><span class="who">Cialdini in sod., 1975</span><p>Študente so prosili, naj dve uri spremljajo mladoletne prestopnike v živalski vrt. Privolilo jih je 17 %. Če so jih prej prosili za dve leti tedenskega svetovanja (in so zavrnili), je za živalski vrt privolilo 50 %.</p></div>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Ne zavrnimo vsake usluge. Prvo darilo sprejmemo v dobri veri, a ko se izkaže za prodajni trik, ga v mislih preimenujemo v trik. Triku ne dolgujemo ničesar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 VSEČNOST -->
+<section id="vsecnost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">3</span>
+      <h2>Všečnost</h2>
+      <span class="en">Liking</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Raje privolimo prošnjam ljudi, <b>ki jih poznamo in so nam všeč</b>. Kdor zna biti všeč, lažje prodaja.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Kaj poveča všečnost</h3>
+          <ul>
+            <li><b>Privlačnost</b>: učinek halo, lepim ljudem pripišemo tudi pamet in poštenost.</li>
+            <li><b>Podobnost</b>: enaka oblačila, poreklo, interesi.</li>
+            <li><b>Pohvale</b>: delujejo tudi, ko vemo, da niso iskrene.</li>
+            <li><b>Stik in sodelovanje</b>: skupni cilji (poskus Robbers Cave, učilnica »jigsaw«).</li>
+            <li><b>Povezovanje</b>: smo všeč skupaj z dobrimi novicami in sovražni s slabimi.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Primeri iz knjige</h3>
+          <ul>
+            <li>Tupperware zabave: prodaja prijateljica, ne podjetje.</li>
+            <li>Joe Girard, rekorder v prodaji avtomobilov, je strankam vsak mesec poslal voščilnico z napisom »Všeč ste mi«.</li>
+            <li>Vremenarjem grozijo zaradi slabega vremena. Navijači rečejo »zmagali smo« in »izgubili so«.</li>
+            <li>Dobri in slabi policaj.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Ne preverjamo vzrokov všečnosti, ampak učinek. Ko opazimo, da nam je nekdo v kratkem času bolj všeč, kot bi pričakovali, ločimo prodajalca od ponudbe in presodimo samo ponudbo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 SOCIALNI DOKAZ -->
+<section id="socialni-dokaz">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">4</span>
+      <h2>Socialni dokaz</h2>
+      <span class="en">Social Proof</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Pravilno vedenje presojamo po tem, <b>kaj počnejo drugi</b>. Najmočneje deluje v negotovosti in kadar so drugi nam podobni.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Primeri</h3>
+          <ul>
+            <li>Posnet smeh v humorističnih serijah: smejemo se bolj, čeprav ga vsi sovražijo.</li>
+            <li>»Najbolje prodajano«, »milijoni zadovoljnih«, natakarji, ki si sami napolnijo kozarec za napitnine.</li>
+            <li><b>Wertherjev učinek</b> (Phillips): po odmevnih samomorih v medijih število samomorov in prometnih nesreč poskoči, najbolj med podobnimi ljudmi.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Nevarnost množice</h3>
+          <ul>
+            <li><b>Pluralistična nevednost</b>: v nujnem primeru vsak gleda druge, vsi so mirni, zato nihče ne pomaga.</li>
+            <li>Primer Kitty Genovese (1964) je postal simbol tega pojava. Kasnejše preiskave so pokazale, da so poročila o 38 pasivnih pričah pretirana.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Uporabno: kako dobiti pomoč</h3>
+        <p class="quote">»Vi, v modri jakni. Potrebujem pomoč. Pokličite rešilca.«</p>
+        <p style="font-size:16px">V nesreči izberi eno osebo, jo nagovori neposredno in ji daj konkretno nalogo. Tako odpraviš negotovost in razpršeno odgovornost.</p>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Bodi pozoren na ponarejene dokaze (posnet smeh, plačani »naključni« pričevalci v oglasih). Občasno dvigni pogled od tega, kar delajo drugi, in preveri dejstva sam.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 AVTORITETA -->
+<section id="avtoriteta">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">5</span>
+      <h2>Avtoriteta</h2>
+      <span class="en">Authority</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Globoko smo naučeni <b>ubogati avtoriteto</b>. Odzovemo se že na njene simbole, ne le na dejansko strokovnost.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Ključna poskusa</h3>
+          <div class="study"><span class="fig">65 %</span><span class="who">Milgram, 1963</span><p>Udeležencev je na ukaz raziskovalca v belem plašču dalo »učencu« najmočnejši električni šok (450 V).</p></div>
+          <div class="study"><span class="fig">95 %</span><span class="who">Hofling, 1966</span><p>Medicinskih sester je bilo pripravljenih dati pacientu dvojni največji odmerek neodobrenega zdravila, ker je to po telefonu naročil neznan »zdravnik«.</p></div>
+        </div>
+        <div class="box">
+          <h3>Simboli, ki delujejo</h3>
+          <ul>
+            <li><b>Nazivi</b>: »dr.«, »profesor«. Igralec, ki je na TV igral zdravnika, je uspešno oglaševal kavo.</li>
+            <li><b>Oblačila</b>: uniforma ali obleka poveča poslušnost neznancem.</li>
+            <li><b>Statusni predmeti</b>: dragemu avtomobilu na semaforju trobimo manj in kasneje.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Postavi si dve vprašanji. <b>Je ta oseba res strokovnjak</b> na tem področju? <b>Kako iskren je verjetno do mene?</b> Pozor na prodajalca, ki prizna majhno slabost, da bi bil bolj verodostojen pri glavni trditvi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 REDKOST -->
+<section id="redkost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">6</span>
+      <h2>Redkost</h2>
+      <span class="en">Scarcity</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Priložnosti se zdijo <b>bolj dragocene, ko jih je malo</b>. Še bolj hočemo stvar, ki nam jo nekdo poskuša vzeti.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Ključni poskus</h3>
+          <div class="study"><span class="fig">2 vs 10</span><span class="who">Worchel, 1975</span><p>Enaki piškoti so bili ocenjeni kot boljši, ko sta bila v kozarcu le dva. Najvišjo oceno so dobili, ko se je kozarec pred očmi izpraznil, posebej če zaradi povpraševanja drugih.</p></div>
+        </div>
+        <div class="box">
+          <h3>Taktike</h3>
+          <ul>
+            <li>»Samo še nekaj kosov«, omejena izdaja.</li>
+            <li>Rok: »ponudba velja samo danes«.</li>
+            <li>Tekmovanje: »za ta avto se zanima še en kupec«.</li>
+            <li>Cenzura: prepovedana informacija se zdi bolj resnična in zaželena.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Zakaj deluje</h3>
+        <p style="font-size:16px"><b>Psihološka reaktanca</b>: ko nam nekdo omeji svobodo, si jo želimo še bolj (dvoletniki, najstniki, učinek Romea in Julije). Najmočnejša je redkost, ki je <b>nova</b> (stvari je bilo veliko, zdaj jih je malo) in za katero <b>tekmujemo</b> z drugimi.</p>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Vznemirjenje in naval želje sta znak, da se ustavimo. Vprašamo se, zakaj stvar hočemo: če jo hočemo <b>uporabljati</b>, je redka ne bo naredila boljše. Redkost poveča le željo po posedovanju.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 ZAVEZANOST -->
+<section id="zavezanost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">7</span>
+      <h2>Zavezanost in doslednost</h2>
+      <span class="en">Commitment &amp; Consistency</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ko se enkrat odločimo ali zavzamemo stališče, <b>hočemo biti in videti dosledni</b>. Pritisk doslednosti nas vodi v naslednja dejanja.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Ključni poskus</h3>
+          <div class="study"><span class="fig">17→76 %</span><span class="who">Freedman in Fraser, 1966</span><p>Velik, grd pano »Vozi previdno« na vrtu je sprejelo 17 % lastnikov. Med tistimi, ki so dva tedna prej v okno dali majhno nalepko, jih je privolilo 76 %. To je tehnika <b>noge v vratih</b>.</p></div>
+        </div>
+        <div class="box">
+          <h3>Kdaj zaveza najbolj veže</h3>
+          <ul>
+            <li><b>Aktivna</b>: napisana z lastno roko.</li>
+            <li><b>Javna</b>: drugi so jo videli.</li>
+            <li><b>Naporna</b>: plačana s trudom (iniciacijski obredi).</li>
+            <li><b>Lastna izbira</b>: brez velike zunanje nagrade ali grožnje.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Taktike</h3>
+        <ul>
+          <li>Kitajska taborišča za vojne ujetnike v Koreji: majhne izjave in eseji, ki so postopno spremenili samopodobo ujetnikov.</li>
+          <li><b>Nizka ponudba</b> (lowball): prodajalec avtomobilov ponudi odlično ceno, kupec se odloči, nato prednost »izgine«. Odločitev pa ostane, ker si je kupec zanjo že našel nove razloge.</li>
+          <li>Prodajne pogodbe, ki jih izpolni kupec sam. Stavniki so bolj prepričani v konja, ko je stava že vplačana.</li>
+        </ul>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Dva signala. <b>Želodec</b>: občutek, da te nekdo vleče v nekaj, česar ne želiš. <b>Srce</b>: vprašanje »Če bi lahko šel nazaj, z vsem, kar vem zdaj, bi se spet odločil enako?« Prvi odgovor, ki ga začutiš, je pravi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 ENOTNOST -->
+<section id="enotnost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">8</span>
+      <h2>Enotnost</h2>
+      <span class="en">Unity · novo v izdaji 2021</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ljudem, ki jih doživljamo kot <b>»enega izmed nas«</b>, bolj zaupamo, jim bolj pomagamo in jih lažje ubogamo. Ne gre za podobnost, ampak za skupno identiteto.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Biti skupaj</h3>
+          <ul>
+            <li><b>Sorodstvo</b>: družina in jezik družine (»bratje«, »naša družina«).</li>
+            <li><b>Kraj</b>: isti dom, soseska, regija, domovina.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Delovati skupaj</h3>
+          <ul>
+            <li><b>Usklajeno gibanje</b>: skupno petje, ples, korakanje, ritem ustvarijo občutek »mi«.</li>
+            <li><b>Soustvarjanje</b>: kdor da <b>nasvet</b>, se počuti partnerja. Kdor da <b>mnenje</b>, ostane ocenjevalec.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box guard">
+        <h3>Obramba</h3>
+        <p>Ko nekdo poudarja »smo eni izmed nas«, preveri, ali je skupna identiteta resnična in ali ima z zadevo res kaj opraviti, ali je le vstopnica za prošnjo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ŠTEVILKE -->
+<section id="stevilke">
+  <div class="sec-head">
+    <p class="eyebrow">Ključni poskusi</p>
+    <h2>Številke, ki si jih zapomniš</h2>
+    <p class="lede">Delež ljudi, ki so privolili, brez sprožilca in s sprožilcem. Vse vrednosti so iz poskusov, navedenih v knjigi.</p>
+  </div>
+  <div class="chart-wrap">
+    <div class="legend"><span><i style="background:var(--line)"></i>brez sprožilca</span><span><i style="background:var(--accent)"></i>s sprožilcem</span></div>
+    <svg viewBox="0 0 760 300" role="img" aria-label="Primerjava deležev privolitve v treh poskusih">
+      <!-- scale: x from 250 to 730 = 0..100% (4.8px per %) -->
+      <g class="grid">
+        <line x1="250" y1="10" x2="250" y2="270"/><line x1="370" y1="10" x2="370" y2="270"/><line x1="490" y1="10" x2="490" y2="270"/><line x1="610" y1="10" x2="610" y2="270"/><line x1="730" y1="10" x2="730" y2="270"/>
+      </g>
+      <text x="250" y="290" text-anchor="middle" font-size="11" class="sub">0 %</text>
+      <text x="370" y="290" text-anchor="middle" font-size="11" class="sub">25 %</text>
+      <text x="490" y="290" text-anchor="middle" font-size="11" class="sub">50 %</text>
+      <text x="610" y="290" text-anchor="middle" font-size="11" class="sub">75 %</text>
+      <text x="730" y="290" text-anchor="middle" font-size="11" class="sub">100 %</text>
+
+      <!-- Langer: 60 -> 93 (placebo "ker moram kopirati") -->
+      <text x="0" y="36" class="lbl">Beseda »ker«</text>
+      <text x="0" y="54" class="sub">Langer 1978 · prazen razlog</text>
+      <rect x="250" y="22" width="288" height="18" class="bar-base"/>
+      <text x="544" y="36" font-size="12">60 %</text>
+      <rect x="250" y="44" width="446.4" height="18" class="bar-hi"/>
+      <text x="702" y="58" font-size="12">93 %</text>
+
+      <!-- Freedman & Fraser: 17 -> 76 -->
+      <text x="0" y="118" class="lbl">Noga v vratih</text>
+      <text x="0" y="136" class="sub">Freedman in Fraser 1966</text>
+      <rect x="250" y="104" width="81.6" height="18" class="bar-base"/>
+      <text x="337.6" y="118" font-size="12">17 %</text>
+      <rect x="250" y="126" width="364.8" height="18" class="bar-hi"/>
+      <text x="620.8" y="140" font-size="12">76 %</text>
+
+      <!-- Cialdini zoo: 17 -> 50 -->
+      <text x="0" y="200" class="lbl">Zavrnitev, nato umik</text>
+      <text x="0" y="218" class="sub">Cialdini in sod. 1975</text>
+      <rect x="250" y="186" width="81.6" height="18" class="bar-base"/>
+      <text x="337.6" y="200" font-size="12">17 %</text>
+      <rect x="250" y="208" width="240" height="18" class="bar-hi"/>
+      <text x="496" y="222" font-size="12">50 %</text>
+    </svg>
+  </div>
+</section>
+
+<!-- KARTICA -->
+<section id="kartica">
+  <div class="sec-head">
+    <p class="eyebrow">Za hitri pregled</p>
+    <h2>Kartica orožij vpliva</h2>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Načelo</th><th>Pravilo v eni vrstici</th><th>Tipičen sprožilec</th><th>Vprašanje za obrambo</th></tr></thead>
+      <tbody>
+        <tr><td>Vzajemnost</td><td>Vrnemo, kar smo dobili.</td><td>Darilo, vzorec, popuščanje</td><td>Je bilo to darilo ali prodajni trik?</td></tr>
+        <tr><td>Všečnost</td><td>Ugodimo tistim, ki so nam všeč.</td><td>Pohvala, podobnost, privlačnost</td><td>Bi ponudbo sprejel tudi od neznanca?</td></tr>
+        <tr><td>Socialni dokaz</td><td>Delamo, kar delajo drugi.</td><td>»Vsi to kupujejo«</td><td>So dokazi resnični in ali so ti ljudje res kot jaz?</td></tr>
+        <tr><td>Avtoriteta</td><td>Ubogamo strokovnjake in simbole.</td><td>Naziv, uniforma, status</td><td>Je res strokovnjak in kako iskren je?</td></tr>
+        <tr><td>Redkost</td><td>Hočemo, kar izginja.</td><td>»Samo danes«, »zadnji kos«</td><td>Hočem stvar uporabljati ali samo imeti?</td></tr>
+        <tr><td>Zavezanost</td><td>Ostanemo dosledni prejšnji odločitvi.</td><td>Majhna prva prošnja, pisna zaveza</td><td>Bi se z današnjim znanjem odločil enako?</td></tr>
+        <tr><td>Enotnost</td><td>Ugodimo »našim«.</td><td>»Smo ena družina«</td><td>Je skupna identiteta resnična in pomembna za to?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">Povzetek je pripravljen po vsebini knjige <i>Influence: The Psychology of Persuasion</i> (razširjena izdaja, Harper Business, 2021). Namenjen je hitremu pregledu tiskanega izvoda in ne nadomešča branja.</p>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Zero to One, Thiel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: hero 0→1 proti 1→n, pas štirinajstih poglavij, nato po en list na glavno idejo (bistvo, številke, primeri, lekcija), sedem vprašanj in kartica za hitri pregled. */
+:root {
+  --bg: #f4f1ec;
+  --surface: #ffffff;
+  --fg: #1c1a17;
+  --muted: #625c53;
+  --line: #ddd6cb;
+  --accent: #b5381a;
+  --accent-soft: #f8e4dc;
+  --key: #1f6b5c;
+  --key-soft: #dff0eb;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15130f; --surface: #1f1c17; --fg: #ece6dc; --muted: #a59d90; --line: #353028;
+    --accent: #ff8a65; --accent-soft: #3a2219; --key: #6fd3bc; --key-soft: #17302a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15130f; --surface: #1f1c17; --fg: #ece6dc; --muted: #a59d90; --line: #353028;
+  --accent: #ff8a65; --accent-soft: #3a2219; --key: #6fd3bc; --key-soft: #17302a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 80px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.back { display: inline-block; font-family: var(--mono); font-size: 13px; text-decoration: none; margin-bottom: 28px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: end; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+.hero h1 { font-size: clamp(44px, 8vw, 88px); font-weight: 800; letter-spacing: -.02em; margin-top: 10px; }
+.hero h1 span { display: block; font-size: .36em; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-top: 10px; }
+.hero-side { display: grid; gap: 18px; }
+.thesis { font-size: 19px; max-width: 34em; }
+.thesis b { font-weight: 600; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.vs div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; }
+.vs .big { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; }
+.vs .one .big { color: var(--accent); }
+.vs .n .big { color: var(--muted); }
+.vs small { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.vs p { font-size: 15px; line-height: 1.4; }
+
+/* nav */
+nav.chips { position: sticky; top: 0; z-index: 5; background: var(--bg); display: flex; flex-wrap: wrap; gap: 8px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+nav.chips a { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--fg); padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+nav.chips a:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding-top: 56px; scroll-margin-top: 70px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 22px; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; }
+.lede { color: var(--muted); max-width: 40em; }
+
+/* strip */
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.strip a { text-decoration: none; color: var(--fg); padding: 14px 14px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+.strip a:nth-child(4n) { border-right: 0; }
+.strip a:hover { background: var(--accent-soft); }
+.strip .ch { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+.strip .nm { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.15; }
+.strip .tr { font-size: 14px; color: var(--muted); line-height: 1.35; }
+
+/* sheet */
+.p-sheet { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding-top: 28px; border-top: 2px solid var(--fg); }
+.p-side { display: grid; gap: 10px; align-content: start; }
+.p-side .num { font-family: var(--display); font-weight: 800; font-size: 72px; line-height: .9; color: var(--accent); }
+.p-side h2 { font-size: 30px; font-weight: 800; }
+.p-side .en { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.rule { font-size: 20px; line-height: 1.45; max-width: 36em; }
+.rule b { font-weight: 600; }
+.p-main { display: grid; gap: 22px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.box h3 { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.box h4 { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 0; line-height: 1.2; }
+.box ul, .box ol { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; font-size: 16px; }
+.box p { font-size: 16px; }
+.box.key { background: var(--key-soft); border-color: transparent; }
+.box.key h3 { color: var(--key); }
+.stat { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.stat .fig { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+.stat .who { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.stat p { font-size: 16px; grid-column: 2; }
+.quote { font-style: italic; color: var(--muted); border-left: 2px solid var(--line); padding-left: 14px; font-size: 16px; }
+
+/* paired list (dogma vs truth) */
+.pairs { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.pairs .row { display: grid; grid-template-columns: 1fr 1fr; }
+.pairs .row > div { padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: 16px; }
+.pairs .row:last-child > div { border-bottom: 0; }
+.pairs .row > div:first-child { border-right: 1px solid var(--line); color: var(--muted); }
+.pairs .row > div:last-child { font-weight: 600; }
+.pairs .hd > div { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--muted) !important; }
+
+/* quadrant */
+.quad { display: grid; grid-template-columns: 34px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 10px; }
+.quad .ax { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.quad .ax.v { writing-mode: vertical-rl; transform: rotate(180deg); }
+.quad .cell { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.quad .cell h4 { font-family: var(--display); font-size: 19px; margin: 0; }
+.quad .cell .ex { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.quad .cell p { font-size: 15px; line-height: 1.45; }
+.quad .cell.hi { border: 2px solid var(--accent); }
+
+/* charts */
+.chart-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; }
+.chart-wrap svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart-wrap text { font-family: var(--mono); fill: var(--fg); }
+.chart-wrap .lbl { font-family: var(--body); font-size: 14px; }
+.chart-wrap .sub { fill: var(--muted); font-size: 11px; }
+.chart-wrap .grid line { stroke: var(--line); }
+.bar-base { fill: var(--line); }
+.bar-hi { fill: var(--accent); }
+.band { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+.band.dead { fill: none; stroke: var(--muted); stroke-dasharray: 4 3; }
+.axis { stroke: var(--muted); stroke-width: 1; }
+.note { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 10px; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -2px; margin-right: 6px; }
+
+/* spectrum */
+.spectrum { display: grid; gap: 8px; }
+.spectrum .bar { height: 10px; border-radius: 999px; background: linear-gradient(90deg, var(--muted), var(--accent) 50%, var(--muted)); opacity: .55; position: relative; }
+.spectrum .ends { display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: 15px; }
+.spectrum .ends span:nth-child(2) { text-align: center; color: var(--accent); font-weight: 600; }
+.spectrum .ends span:nth-child(3) { text-align: right; }
+
+/* questions */
+.qs { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.qs div { padding: 14px 12px 16px; border-right: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.qs div:last-child { border-right: 0; }
+.qs .n { font-family: var(--display); font-weight: 800; font-size: 28px; color: var(--accent); line-height: 1; }
+.qs .t { font-family: var(--display); font-weight: 700; font-size: 16px; line-height: 1.15; }
+.qs .q { font-size: 14px; color: var(--muted); line-height: 1.35; }
+
+/* table */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-family: var(--display); font-weight: 700; white-space: nowrap; }
+.foot { margin-top: 48px; font-size: 14px; color: var(--muted); max-width: 46em; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip a:nth-child(4n) { border-right: 1px solid var(--line); }
+  .strip a:nth-child(2n) { border-right: 0; }
+  .p-sheet { grid-template-columns: 1fr; gap: 18px; }
+  .p-side .num { font-size: 52px; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qs { grid-template-columns: 1fr; }
+  .qs div { border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: 40px 1fr; }
+  .qs div .q { grid-column: 2; }
+  .qs div:last-child { border-bottom: 0; }
+  .pairs .row { grid-template-columns: 1fr; }
+  .pairs .row > div:first-child { border-right: 0; border-bottom: 0; padding-bottom: 2px; }
+  .pairs .hd { display: none; }
+  nav.chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+  nav.chips a { flex: none; }
+}
+@media (max-width: 520px) {
+  .vs { grid-template-columns: 1fr; }
+  .grid4 { grid-template-columns: 1fr; }
+  .quad { grid-template-columns: 1fr; }
+  .quad .ax { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="./">← Knjižnica</a>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow">Peter Thiel z Blakom Mastersom · 2014</p>
+    <h1>Zero to One<span>Zapiski o startupih ali kako zgraditi prihodnost</span></h1>
+  </div>
+  <div class="hero-side">
+    <div class="vs">
+      <div class="one"><small>vertikalni napredek</small><span class="big">0 → 1</span><p>Narediti nekaj novega. To je <b>tehnologija</b>.</p></div>
+      <div class="n"><small>horizontalni napredek</small><span class="big">1 → n</span><p>Kopirati, kar že deluje. To je <b>globalizacija</b>.</p></div>
+    </div>
+    <p class="thesis">Vsak trenutek v poslu se zgodi le enkrat. Naslednji Bill Gates ne bo naredil operacijskega sistema. Vrednost nastane, ko ustvariš nekaj novega in <b>pobegneš konkurenci</b>: zgradiš monopol na majhnem trgu in ga načrtno širiš.</p>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Poglavja">
+  <a href="#vprasanje">Vprašanje</a>
+  <a href="#1999">1999</a>
+  <a href="#monopol">Monopol</a>
+  <a href="#konkurenca">Konkurenca</a>
+  <a href="#zadnji">Zadnji igralec</a>
+  <a href="#nacrt">Načrt</a>
+  <a href="#potencni">Potenčni zakon</a>
+  <a href="#skrivnosti">Skrivnosti</a>
+  <a href="#temelji">Temelji</a>
+  <a href="#mafija">Kultura</a>
+  <a href="#prodaja">Prodaja</a>
+  <a href="#stroj">Človek in stroj</a>
+  <a href="#sedem">7 vprašanj</a>
+  <a href="#ustanovitelj">Ustanovitelj</a>
+  <a href="#kartica">Kartica</a>
+</nav>
+
+<!-- PREGLED -->
+<section id="pregled" aria-label="Pregled poglavij">
+  <div class="sec-head">
+    <p class="eyebrow">14 poglavij in sklep</p>
+    <h2>Knjiga na en pogled</h2>
+  </div>
+  <div class="strip">
+    <a href="#vprasanje"><span class="ch">POGL. 1</span><span class="nm">Izziv prihodnosti</span><span class="tr">Katero resnico vidiš le ti?</span></a>
+    <a href="#1999"><span class="ch">POGL. 2</span><span class="nm">Zabava kot leta 1999</span><span class="tr">Lekcije poka so napačne.</span></a>
+    <a href="#monopol"><span class="ch">POGL. 3</span><span class="nm">Srečna podjetja so različna</span><span class="tr">Uspeh je monopol.</span></a>
+    <a href="#konkurenca"><span class="ch">POGL. 4</span><span class="nm">Ideologija konkurence</span><span class="tr">Tekmovanje uničuje dobiček.</span></a>
+    <a href="#zadnji"><span class="ch">POGL. 5</span><span class="nm">Prednost zadnjega</span><span class="tr">Trajnost šteje, ne prvenstvo.</span></a>
+    <a href="#nacrt"><span class="ch">POGL. 6</span><span class="nm">Nisi srečka</span><span class="tr">Načrt premaga naključje.</span></a>
+    <a href="#potencni"><span class="ch">POGL. 7</span><span class="nm">Sledi denarju</span><span class="tr">Svet sledi potenčnemu zakonu.</span></a>
+    <a href="#skrivnosti"><span class="ch">POGL. 8</span><span class="nm">Skrivnosti</span><span class="tr">Ostaja še veliko neodkritega.</span></a>
+    <a href="#temelji"><span class="ch">POGL. 9</span><span class="nm">Temelji</span><span class="tr">Slab začetek se ne da popraviti.</span></a>
+    <a href="#mafija"><span class="ch">POGL. 10</span><span class="nm">Mehanika mafije</span><span class="tr">Ekipa kot zarota.</span></a>
+    <a href="#prodaja"><span class="ch">POGL. 11</span><span class="nm">Bodo prišli, če zgradiš?</span><span class="tr">Distribucija je pol posla.</span></a>
+    <a href="#stroj"><span class="ch">POGL. 12</span><span class="nm">Človek in stroj</span><span class="tr">Računalnik dopolnjuje.</span></a>
+    <a href="#sedem"><span class="ch">POGL. 13</span><span class="nm">Videti zeleno</span><span class="tr">Sedem vprašanj za vsak posel.</span></a>
+    <a href="#ustanovitelj"><span class="ch">POGL. 14</span><span class="nm">Paradoks ustanovitelja</span><span class="tr">Potrebujemo nenavadne ljudi.</span></a>
+    <a href="#sklep"><span class="ch">SKLEP</span><span class="nm">Stagnacija ali singularnost?</span><span class="tr">Prihodnost moramo ustvariti.</span></a>
+    <a href="#kartica"><span class="ch">ZA PREGLED</span><span class="nm">Kartica</span><span class="tr">Vse v eni tabeli.</span></a>
+  </div>
+</section>
+
+<!-- 1 VPRAŠANJE -->
+<section id="vprasanje">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">1</span>
+      <h2>Izziv prihodnosti</h2>
+      <span class="en">The Challenge of the Future</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Thielovo vprašanje na vsakem razgovoru: <b>»Katero pomembno resnico vidiš, s katero se le malokdo strinja?«</b> Dober odgovor ima obliko: »Večina verjame X, resnica pa je nasprotje X.«</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Dve vrsti napredka</h3>
+          <ul>
+            <li><b>Horizontalni (1 → n)</b>: iz enega pisalnega stroja jih narediš sto. Na ravni sveta je to globalizacija, Kitajska kot vzorčni primer.</li>
+            <li><b>Vertikalni (0 → 1)</b>: iz pisalnega stroja narediš urejevalnik besedil. To je tehnologija, vsak nov in boljši način početja.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Obdobja</h3>
+          <ul>
+            <li><b>1815–1914</b>: hitra tehnologija in hitra globalizacija.</li>
+            <li><b>1914–1971</b>: hitra tehnologija, malo globalizacije.</li>
+            <li><b>Od 1971</b>: hitra globalizacija, tehnologija omejena večinoma na IT.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Thielov odgovor na lastno vprašanje</h3>
+        <p class="quote">Večina misli, da bo prihodnost sveta določila globalizacija. Resnica je, da je tehnologija pomembnejša.</p>
+        <p>Globalizacija brez nove tehnologije v svetu omejenih virov ni vzdržna: če Kitajska podvoji proizvodnjo energije s sedanjimi orodji, podvoji tudi onesnaženje.</p>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Startup je <b>največja skupina ljudi, ki jih lahko prepričaš v načrt za drugačno prihodnost</b>. Njegova glavna moč ni hitrost, ampak prostor za novo razmišljanje.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 1999 -->
+<section id="1999">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">2</span>
+      <h2>Zabava kot leta 1999</h2>
+      <span class="en">Party Like It’s 1999</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Po poku internetnega balona (NASDAQ s <b>5.048</b> marca 2000 na <b>1.114</b> oktobra 2002) se je Silicijeva dolina naučila štirih lekcij. Thiel trdi, da so <b>nasprotna načela verjetno bolj pravilna</b>.</p>
+      <div class="pairs">
+        <div class="row hd"><div>Dogma po poku</div><div>Bolj pravilno</div></div>
+        <div class="row"><div>Delaj majhne, postopne korake.</div><div>Bolje tvegati drznost kot trivialnost.</div></div>
+        <div class="row"><div>Ostani vitek in prilagodljiv, ne načrtuj.</div><div>Slab načrt je boljši kot noben načrt.</div></div>
+        <div class="row"><div>Izboljšaj obstoječo konkurenco.</div><div>Konkurenčni trgi uničijo dobiček.</div></div>
+        <div class="row"><div>Osredotoči se na izdelek, ne na prodajo.</div><div>Prodaja je enako pomembna kot izdelek.</div></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>PayPal v maniji</h3>
+          <ul>
+            <li>Novim uporabnikom so plačali 10 $ ob registraciji in 10 $ za vsakega priporočenega prijatelja.</li>
+            <li>Marca 2000 so zbrali 100 milijonov $, tik preden je balon počil.</li>
+          </ul>
+        </div>
+        <div class="box key">
+          <h3>Lekcija</h3>
+          <p>Ne zavrni slepo vsega, kar je veljalo leta 1999. Najbolj kontrarno ni nasprotovati množici, ampak <b>misliti s svojo glavo</b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 MONOPOL -->
+<section id="monopol">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">3</span>
+      <h2>Vsa srečna podjetja so različna</h2>
+      <span class="en">All Happy Companies Are Different</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ustvariti vrednost ni dovolj, del nje moraš tudi <b>zadržati</b>. Kapitalizem in konkurenca sta nasprotji: pri popolni konkurenci dobiček izgine. <b>Monopol je pogoj vsakega uspešnega podjetja.</b></p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>letalske družbe ZDA</span><span><i style="background:var(--accent)"></i>Google</span></div>
+        <svg viewBox="0 0 760 210" role="img" aria-label="Letalske družbe in Google leta 2012: prihodki in delež dobička">
+          <!-- prihodki: 0..160 mrd na 250..730 (3 px na mrd) -->
+          <text x="0" y="30" class="lbl">Prihodki 2012</text>
+          <text x="0" y="48" class="sub">milijard $</text>
+          <rect x="250" y="16" width="480" height="18" class="bar-base"/>
+          <text x="722" y="30" font-size="12" text-anchor="end">160</text>
+          <rect x="250" y="38" width="150" height="18" class="bar-hi"/>
+          <text x="406" y="52" font-size="12">50</text>
+          <!-- marža: 0..25 % na 250..730 (19.2 px na %) -->
+          <text x="0" y="120" class="lbl">Delež dobička</text>
+          <text x="0" y="138" class="sub">čisti dobiček / prihodki</text>
+          <rect x="250" y="106" width="4" height="18" class="bar-base"/>
+          <text x="262" y="120" font-size="12">≈ 0,2 % (37 centov na let s povprečno ceno 178 $)</text>
+          <rect x="250" y="128" width="403" height="18" class="bar-hi"/>
+          <text x="659" y="142" font-size="12">21 %</text>
+          <text x="0" y="190" class="sub">Google ustvari manj vrednosti kot letalske družbe, a obdrži več kot 100-krat večji delež. Vreden je trikrat več kot vse letalske družbe ZDA skupaj.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Laži monopolistov: unija</h3>
+          <p>Monopolist trg opiše kot <b>unijo</b> velikih trgov, da bi bil videti majhen: iskalnik ∪ telefoni ∪ nosljiva elektronika ∪ samovozeči avtomobili.</p>
+          <div class="stat"><span class="fig">68 %</span><span class="who">iskanje, 2014</span><p>Googlov delež trga iskalnikov.</p></div>
+          <div class="stat"><span class="fig">3,4 %</span><span class="who">svetovno oglaševanje</span><p>Delež, tudi če bi imel ves oglasni trg iskalnikov ZDA.</p></div>
+          <div class="stat"><span class="fig">0,24 %</span><span class="who">potrošniška tehnologija</span><p>Kot »še eno tehnološko podjetje« je skoraj neviden.</p></div>
+        </div>
+        <div class="box">
+          <h3>Laži nemonopolistov: presek</h3>
+          <p>Konkurent trg opiše kot <b>presek</b> majhnih trgov, da bi bil videti edinstven:</p>
+          <ul>
+            <li>britanska hrana ∩ restavracija ∩ Palo Alto</li>
+            <li>raper ∩ hekerji ∩ morski psi</li>
+          </ul>
+          <p>Trg, ki ga obvladaš po definiciji, morda sploh ne obstaja. Restavracije na Castro Streetu so imele več zaposlenih kot PayPal, a je bil PayPal vreden več kot vse skupaj.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Tolstoj obrnjen: <b>vsa srečna podjetja so različna</b>, vsako si prisluži monopol z rešitvijo edinstvenega problema. Vsa propadla podjetja so enaka: niso ušla konkurenci. Ustvarjalni monopoli dodajo svetu nove kategorije obilja in poganjajo napredek.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 KONKURENCA -->
+<section id="konkurenca">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">4</span>
+      <h2>Ideologija konkurence</h2>
+      <span class="en">The Ideology of Competition</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Konkurenca ni le ekonomski pojem, je <b>ideologija</b>, ki jo vcepijo šole in kariere. Bolj ko tekmujemo, manj pridobimo.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Marx ali Shakespeare?</h3>
+          <p><b>Marx</b>: ljudje se borijo, ker so različni. <b>Shakespeare</b>: »dve hiši, enako ugledni«, borijo se, ker so si podobni, in postajajo vse bolj podobni. V poslu ima prav Shakespeare.</p>
+          <div class="stat"><span class="fig">500 vs 467</span><span class="who">januar 2013, mrd $</span><p>Microsoft in Google sta se zapletla v vojno (Bing proti Google, Office proti Docs). Medtem ju je prehitel Apple, vreden več kot oba skupaj.</p></div>
+        </div>
+        <div class="box">
+          <h3>Primeri iz knjige</h3>
+          <ul>
+            <li>Square naredi kvadratni čitalnik kartic, tekmeci odgovorijo s polmesecem, valjem in trikotnikom.</li>
+            <li>Pets.com proti PetStore.com: ob propadu je izginilo 300 milijonov $.</li>
+            <li>Ellison in Siebel, Oracle in Informix: osebne vojne z jumbo plakati.</li>
+            <li>Thielov zgrešeni cilj: delo na vrhovnem sodišču. Danes je vesel, da ga ni dobil.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Če tekmeca ne moreš premagati, se <b>združi</b> (PayPal in Muskov X.com, 50:50 marca 2000). Če se moraš boriti, udari močno in hitro končaj. Kdor vidi konkurenco kot uničujočo silo in ne kot znak vrednosti, je bolj priseben od večine.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 ZADNJI -->
+<section id="zadnji">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">5</span>
+      <h2>Prednost zadnjega igralca</h2>
+      <span class="en">Last Mover Advantage</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Vrednost podjetja danes je <b>vsota vsega denarja, ki ga bo zaslužilo v prihodnosti</b>. Pri tehnoloških podjetjih pride večina vrednosti čez 10 do 15 let. Trajnost je pomembnejša od hitre rasti.</p>
+      <div class="grid2">
+        <div class="box">
+          <div class="stat"><span class="fig">12×</span><span class="who">Twitter proti New York Timesu, 2013</span><p>Twitter je bil ob vstopu na borzo vreden 24 mrd $, več kot 12-krat več od Timesa, čeprav je izgubljal denar. Vlagatelji so plačali za prihodnje denarne tokove.</p></div>
+        </div>
+        <div class="box">
+          <div class="stat"><span class="fig">75 %</span><span class="who">PayPal, 2001</span><p>Sedanje vrednosti PayPala naj bi prišlo iz dobičkov leta 2011 in pozneje. Podjetje je bilo staro šele 27 mesecev.</p></div>
+        </div>
+      </div>
+      <div class="sec-head" style="margin:4px 0 -6px"><p class="eyebrow">Štiri značilnosti monopola</p></div>
+      <div class="grid4">
+        <div class="box"><h4>Lastna tehnologija</h4><p>Vsaj <b>10× boljša</b> od najbližjega nadomestka. PayPal pri eBayu, Amazon z 10× več knjigami, iPad.</p></div>
+        <div class="box"><h4>Omrežni učinki</h4><p>Izdelek je več vreden, ko ga uporablja več ljudi. A mora biti koristen že prvim uporabnikom: Facebook je začel na Harvardu.</p></div>
+        <div class="box"><h4>Ekonomija obsega</h4><p>Fiksni stroški se porazdelijo na vse več prodaje. Programska oprema skoraj nima mejnih stroškov, studio joge jih ima.</p></div>
+        <div class="box"><h4>Blagovna znamka</h4><p>Apple deluje, ker ima pod znamko tehnologijo, obseg in omrežje. Sama znamka (Yahoo pod Mayer) ne zadošča.</p></div>
+      </div>
+      <div class="grid3">
+        <div class="box"><h3>1 · Začni majhno</h3><p>Popoln začetni trg: majhna skupina ljudi na enem mestu, brez konkurence. PayPal je v treh mesecih osvojil 25 % eBayevih »PowerSellerjev«. Rdeča zastavica: »1 % trga, vrednega 100 mrd $«.</p></div>
+        <div class="box"><h3>2 · Postopno širi</h3><p>Amazon: knjige, nato CD-ji, video, programi in na koncu vse. eBay: od Beanie Babies do vseh hobijev.</p></div>
+        <div class="box"><h3>3 · Ne »moti«</h3><p>Kdor se definira proti obstoječim, ni povsem nov. Napster je izzval glasbeno industrijo in končal v stečaju. PayPal je Visi prinesel več posla, kot ga je vzel.</p></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Prvi na trgu je taktika, ne cilj. Bolje je biti <b>zadnji</b>: narediti zadnji veliki razvoj na trgu in uživati desetletja monopolnih dobičkov. Capablanca: »Najprej preuči končnico.«</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 NAČRT -->
+<section id="nacrt">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">6</span>
+      <h2>Nisi srečka</h2>
+      <span class="en">You Are Not a Lottery Ticket</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Je uspeh sreča ali načrt? Serijski podjetniki kažejo na načrt. Prihodnost lahko vidimo kot <b>določeno</b> (lahko jo oblikujemo) ali <b>nedoločeno</b> (vladata naključje in razpršenost).</p>
+      <div class="quad" role="figure" aria-label="Štirje pogledi na prihodnost">
+        <div></div>
+        <div class="ax">Določena prihodnost</div>
+        <div class="ax">Nedoločena prihodnost</div>
+        <div class="ax v">Optimizem</div>
+        <div class="cell hi">
+          <h4>Določeni optimizem</h4>
+          <span class="ex">ZDA 1950–60</span>
+          <p>Prihodnost bo boljša, ker jo načrtujemo. Empire State, Golden Gate, projekt Apollo, avtoceste. Thielov ideal.</p>
+        </div>
+        <div class="cell">
+          <h4>Nedoločeni optimizem</h4>
+          <span class="ex">ZDA od 1982</span>
+          <p>Bo bolje, a ne vemo kako. Finance, pravo, svetovanje, »ohranjaj možnosti odprte«. Vitki startup in iteracija.</p>
+        </div>
+        <div class="ax v">Pesimizem</div>
+        <div class="cell">
+          <h4>Določeni pesimizem</h4>
+          <span class="ex">Kitajska</span>
+          <p>Prihodnost je znana in mračna, zato se pripravimo. Kopiramo, kar deluje na Zahodu, in varčujemo.</p>
+        </div>
+        <div class="cell">
+          <h4>Nedoločeni pesimizem</h4>
+          <span class="ex">Evropa od 1970</span>
+          <p>Bo slabše, a ne vemo, kaj storiti. Birokratsko odlašanje in »jejmo, pijmo, veselimo se«.</p>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Simptomi nedoločenosti</h3>
+          <ul>
+            <li>Življenjepis poln dejavnosti brez ene globoke veščine.</li>
+            <li>Denar, ki ne ve, kam: ustanovitelj, banka, sklad, delnice, odkup delnic.</li>
+            <li>Politika po anketah, država kot zavarovalnica.</li>
+            <li>Biotehnologija naključnega iskanja. Eroomov zakon: novih zdravil na milijardo $ je vsakih 9 let pol manj.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Moč načrta</h3>
+          <ul>
+            <li>Jobs je iPod (2001) načrtoval kot prvega v vrsti naprav po PC-ju.</li>
+            <li>Leta 2006 je Yahoo ponudil 1 mrd $ za Facebook. Zuckerberg: »To je formalnost, ne bomo prodali.«</li>
+            <li>Vitkost je metoda, ne cilj. Majhni popravki vodijo do lokalnega, ne globalnega maksimuma.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Startup je največji podvig, ki ga lahko <b>določeno obvladaš</b>. Bodi »monopol enega«: določi najboljšo stvar in jo naredi. Nisi srečka.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 POTENČNI ZAKON -->
+<section id="potencni">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">7</span>
+      <h2>Sledi denarju</h2>
+      <span class="en">Follow the Money · Power Law</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ne živimo v normalnem svetu, ampak pod <b>potenčnim zakonom</b>: peščica izidov preseže vse ostale skupaj. Pareto, potresi, mesta in tvegani kapital.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>kar vlagatelji pričakujejo</span><span><i style="background:var(--accent)"></i>kar se zgodi</span></div>
+        <svg viewBox="0 0 760 250" role="img" aria-label="Ponazoritev: pričakovana normalna porazdelitev donosov proti potenčni porazdelitvi">
+          <line x1="20" y1="200" x2="360" y2="200" class="axis"/>
+          <line x1="400" y1="200" x2="740" y2="200" class="axis"/>
+          <!-- pričakovano: podobni donosi -->
+          <rect x="30" y="170" width="24" height="30" class="bar-base"/>
+          <rect x="62" y="160" width="24" height="40" class="bar-base"/>
+          <rect x="94" y="150" width="24" height="50" class="bar-base"/>
+          <rect x="126" y="140" width="24" height="60" class="bar-base"/>
+          <rect x="158" y="135" width="24" height="65" class="bar-base"/>
+          <rect x="190" y="135" width="24" height="65" class="bar-base"/>
+          <rect x="222" y="140" width="24" height="60" class="bar-base"/>
+          <rect x="254" y="150" width="24" height="50" class="bar-base"/>
+          <rect x="286" y="160" width="24" height="40" class="bar-base"/>
+          <rect x="318" y="170" width="24" height="30" class="bar-base"/>
+          <!-- potenčni zakon -->
+          <rect x="410" y="20" width="24" height="180" class="bar-hi"/>
+          <rect x="442" y="120" width="24" height="80" class="bar-hi"/>
+          <rect x="474" y="172" width="24" height="28" class="bar-hi"/>
+          <rect x="506" y="186" width="24" height="14" class="bar-hi"/>
+          <rect x="538" y="192" width="24" height="8" class="bar-hi"/>
+          <rect x="570" y="195" width="24" height="5" class="bar-hi"/>
+          <rect x="602" y="197" width="24" height="3" class="bar-hi"/>
+          <rect x="634" y="198" width="24" height="2" class="bar-hi"/>
+          <rect x="666" y="199" width="24" height="1" class="bar-hi"/>
+          <rect x="698" y="199" width="24" height="1" class="bar-hi"/>
+          <text x="440" y="16" font-size="12">Facebook</text>
+          <text x="472" y="116" font-size="12">Palantir</text>
+          <text x="20" y="225" class="sub">Normalna porazdelitev: zmagovalci izravnajo poražence</text>
+          <text x="400" y="225" class="sub">Potenčni zakon: ena naložba prinese več kot vse ostale</text>
+        </svg>
+        <p class="note">Ponazoritev oblike, ne podatki. Dejstvo iz knjige: Facebook je v skladu Founders Fund iz leta 2005 prinesel več kot vse druge naložbe skupaj, Palantir več kot vse ostale razen Facebooka.</p>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Dve pravili za vlagatelje</h3>
+          <ol>
+            <li>Vlagaj samo v podjetja, ki lahko vrnejo <b>celoten sklad</b>.</li>
+            <li>Ker je prvo pravilo tako strogo, drugih pravil ni.</li>
+          </ol>
+          <div class="stat"><span class="fig">312×</span><span class="who">Andreessen Horowitz, Instagram</span><p>250.000 $ je postalo 78 mio $. Pri skladu 1,5 mrd $ bi potrebovali 19 Instagramov, da bi bili na ničli.</p></div>
+        </div>
+        <div class="box">
+          <h3>Skrit v vidnem polju</h3>
+          <div class="stat"><span class="fig">&lt;1 %</span><span class="who">novih podjetij v ZDA</span><p>dobi tvegani kapital, ta je manj kot 0,2 % BDP.</p></div>
+          <div class="stat"><span class="fig">11 %</span><span class="who">delovnih mest</span><p>v zasebnem sektorju ustvarijo ta podjetja, njihovi prihodki znašajo 21 % BDP.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Življenje ni portfelj. Ne razpršuj se med desetine možnosti, ampak premisli, <b>kaj bo čez desetletja vredno</b>, in se temu posveti. Razlike med podjetji so večje od razlik med vlogami v njih: 0,01 % Googla je bilo vrednih več kot 35 mio $.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 SKRIVNOSTI -->
+<section id="skrivnosti">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">8</span>
+      <h2>Skrivnosti</h2>
+      <span class="en">Secrets</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Vsak pravilen odgovor na vprašanje »katero vredno podjetje nihče ne gradi?« je <b>skrivnost</b>: nekaj pomembnega in neznanega, kar je težko, a izvedljivo.</p>
+      <div class="grid3">
+        <div class="box"><h3>Lahko</h3><p>Zna vsak, tudi otrok. To je <b>konvencija</b>.</p></div>
+        <div class="box" style="border:2px solid var(--accent)"><h3 style="color:var(--accent)">Težko, a izvedljivo</h3><p>Tu so <b>skrivnosti</b>. Večina ljudi se obnaša, kot da tega območja ni več.</p></div>
+        <div class="box"><h3>Nemogoče</h3><p>Tega ne zmore nihče. To je <b>misterij</b>.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Štirje razlogi, da jih nehamo iskati</h3>
+          <ul>
+            <li><b>Postopnost</b>: šola nagrajuje majhne korake, ne odkritij.</li>
+            <li><b>Strah pred tveganjem</b>: biti sam in v zmoti je neznosno.</li>
+            <li><b>Samozadovoljstvo</b>: elite raje pobirajo rento.</li>
+            <li><b>»Ploskost« sveta</b>: če bi bilo mogoče, bi to že kdo odkril.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Kje jih iskati</h3>
+          <ul>
+            <li><b>Skrivnosti narave</b>: kaj nam narava ne pove?</li>
+            <li><b>Skrivnosti o ljudeh</b>: kaj ljudje ne povedo? O čem se ne sme govoriti?</li>
+            <li>Kjer nihče ne išče: področja, ki so pomembna, a niso institucionalizirana (npr. prehrana).</li>
+            <li>Airbnb, Uber in Lyft so videli neizkoriščeno kapaciteto, ki je bila pred očmi vseh.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Ko podjetje neha verjeti v skrivnosti</h3>
+        <div class="stat"><span class="fig">9 → 135 → 23</span><span class="who">Hewlett-Packard, mrd $</span><p>Desetletje izumov (DeskJet, OfficeJet) je HP iz 9 mrd $ (1990) dvignilo na 135 mrd $ (2000). Nato je nehal izumljati, se združil s Compaqom in se zapletel v prisluškovalni škandal uprave. Konec 2012 je bil vreden 23 mrd $.</p></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Skrivnosti se odkrijejo le vztrajnim iskalcem (Wiles je Fermatov izrek dokazal po 358 letih). Ko jo najdeš, jo povej le tistim, ki jih potrebuješ. <b>Veliko podjetje je zarota za spremembo sveta.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 TEMELJI -->
+<section id="temelji">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">9</span>
+      <h2>Temelji</h2>
+      <span class="en">Foundations</span>
+    </div>
+    <div class="p-main">
+      <p class="rule"><b>Thielov zakon</b>: startupa, ki je pokvarjen v temeljih, ni mogoče popraviti. Prva in najpomembnejša odločitev je, s kom ga začneš.</p>
+      <div class="grid3">
+        <div class="box"><h3>Lastništvo</h3><p>Kdo ima delnice? Ustanovitelji, zaposleni, vlagatelji.</p></div>
+        <div class="box"><h3>Posest</h3><p>Kdo dejansko vodi podjetje vsak dan? Vodstvo in zaposleni.</p></div>
+        <div class="box"><h3>Nadzor</h3><p>Kdo formalno upravlja? Upravni odbor.</p></div>
+      </div>
+      <p class="lede">Neusklajenost med temi tremi je vir konfliktov. Skrajni primer je urad za vozniška dovoljenja, kjer »lastniki« (državljani) nimajo nobene moči.</p>
+      <div class="grid4">
+        <div class="box"><div class="stat"><span class="fig">3</span><span class="who">člani uprave</span></div><p>Idealno. Nikoli več kot 5, razen pri javnih podjetjih.</p></div>
+        <div class="box"><div class="stat"><span class="fig">150k $</span><span class="who">plača direktorja</span></div><p>Največ na leto v zgodnjem startupu. Nižja plača pomeni boljše podjetje.</p></div>
+        <div class="box"><h4>Na avtobusu ali ne</h4><p>Vsi polni čas. Svetovalci, delni delovni čas in delo na daljavo vodijo v neusklajenost.</p></div>
+        <div class="box"><h4>Lastniški delež</h4><p>Edino plačilo, ki usmerja v prihodnost. Kdor raje vzame delež kot gotovino, kaže zavezanost.</p></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Soustanovitelji morajo imeti <b>skupno preteklost</b>, sicer mečejo kocke. Ustanovitveni trenutek traja, dokler podjetje ustvarja nove stvari, in se konča, ko ustvarjanje preneha.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 MAFIJA -->
+<section id="mafija">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">10</span>
+      <h2>Mehanika mafije</h2>
+      <span class="en">The Mechanics of Mafia</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Podjetje nima kulture, <b>podjetje je kultura</b>. Ugodnosti brez vsebine ne delujejo. Ekipa PayPala, »PayPal mafija«, je kasneje ustanovila sedem podjetij, vrednih več kot milijardo.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Zakaj bi se pridružil 20. zaposleni?</h3>
+          <p>Slabi odgovori: »opcije bodo vredne več«, »najpametnejši ljudje«, »najtežji problemi«. To trdijo vsi.</p>
+          <p>Dobri odgovori so le specifični: <b>poslanstvo</b> (delaš nekaj pomembnega, česar nihče drug ne bo) in <b>ekipa</b> (zakaj so to pravi ljudje zate). Ne tekmuj v ugodnostih.</p>
+        </div>
+        <div class="box">
+          <h3>Pravila notranje kulture</h3>
+          <ul>
+            <li><b>Navzven</b>: vsi različni na enak način. Pleme podobno mislečih, kot majice z logotipom podjetja.</li>
+            <li><b>Navznoter</b>: vsak naj dela <b>eno stvar</b> in se ocenjuje le po njej. Jasne vloge zmanjšajo notranje boje.</li>
+            <li>Notranji konflikt je kot avtoimunska bolezen: pravi vzrok smrti ostane skrit.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Spekter kultur</h3>
+        <div class="spectrum">
+          <div class="bar" aria-hidden="true"></div>
+          <div class="ends"><span>Kult<br><small style="color:var(--muted)">fanatično v zmoti</small></span><span>Uspešen startup<br><small>fanatično prav glede nečesa, kar drugi spregledajo</small></span><span>Svetovalno podjetje<br><small style="color:var(--muted)">brez lastnega poslanstva</small></span></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Zaposlovanje je ključna kompetenca, ki je ne prepustiš drugim. Bolje, da te imajo za kult ali mafijo, kot za zbirko plačancev.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 PRODAJA -->
+<section id="prodaja">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">11</span>
+      <h2>Bodo prišli, če zgradiš?</h2>
+      <span class="en">If You Build It, Will They Come?</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ne bodo. Inženirji podcenjujejo prodajo, ker je <b>skrita</b>. Če nisi izumil učinkovitega načina prodaje, imaš slab posel, ne glede na izdelek. Pogoj: <b>življenjska vrednost kupca (CLV) &gt; strošek pridobitve kupca (CAC)</b>.</p>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 760 230" role="img" aria-label="Načini distribucije glede na velikost posla">
+          <!-- log os: 10 $ (x=40) do 100 mio $ (x=720), 7 dekad, ~97 px na dekado -->
+          <line x1="40" y1="150" x2="720" y2="150" class="axis"/>
+          <g class="grid">
+            <line x1="40" y1="145" x2="40" y2="155"/><line x1="137" y1="145" x2="137" y2="155"/><line x1="234" y1="145" x2="234" y2="155"/><line x1="331" y1="145" x2="331" y2="155"/><line x1="429" y1="145" x2="429" y2="155"/><line x1="526" y1="145" x2="526" y2="155"/><line x1="623" y1="145" x2="623" y2="155"/><line x1="720" y1="145" x2="720" y2="155"/>
+          </g>
+          <text x="40" y="172" text-anchor="middle" class="sub">10 $</text>
+          <text x="137" y="172" text-anchor="middle" class="sub">100 $</text>
+          <text x="234" y="172" text-anchor="middle" class="sub">1.000 $</text>
+          <text x="331" y="172" text-anchor="middle" class="sub">10.000 $</text>
+          <text x="429" y="172" text-anchor="middle" class="sub">100.000 $</text>
+          <text x="526" y="172" text-anchor="middle" class="sub">1 mio $</text>
+          <text x="623" y="172" text-anchor="middle" class="sub">10 mio $</text>
+          <text x="720" y="172" text-anchor="middle" class="sub">100 mio $</text>
+          <text x="380" y="198" text-anchor="middle" class="sub">povprečna vrednost posla (logaritemska lestvica)</text>
+
+          <rect x="20" y="96" width="80" height="34" rx="6" class="band"/>
+          <text x="60" y="117" text-anchor="middle" font-size="12">viralno</text>
+          <rect x="104" y="96" width="100" height="34" rx="6" class="band"/>
+          <text x="154" y="117" text-anchor="middle" font-size="12">oglaševanje</text>
+          <rect x="208" y="96" width="108" height="34" rx="6" class="band dead"/>
+          <text x="263" y="117" text-anchor="middle" font-size="12" style="fill:var(--muted)">mrtva cona</text>
+          <rect x="322" y="96" width="116" height="34" rx="6" class="band"/>
+          <text x="380" y="117" text-anchor="middle" font-size="12">osebna prodaja</text>
+          <rect x="526" y="96" width="194" height="34" rx="6" class="band"/>
+          <text x="623" y="117" text-anchor="middle" font-size="12">kompleksna prodaja</text>
+
+          <text x="60" y="80" text-anchor="middle" class="sub">PayPal</text>
+          <text x="154" y="80" text-anchor="middle" class="sub">Warby Parker</text>
+          <text x="263" y="64" text-anchor="middle" class="sub">programi za trgovine</text>
+          <text x="380" y="80" text-anchor="middle" class="sub">Box, ZocDoc</text>
+          <text x="623" y="80" text-anchor="middle" class="sub">Palantir, SpaceX</text>
+          <text x="20" y="20" class="lbl">Višja ko je cena, več smeš porabiti za prodajo.</text>
+          <text x="20" y="38" class="sub">Med osebno prodajo in oglaševanjem je mrtva cona: izdelek za ~1.000 $ nima kanala, ki bi se izplačal.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Viralna rast PayPala</h3>
+          <div class="stat"><span class="fig">7 %</span><span class="who">rast na dan</span><p>Uporabnikov se je podvojilo vsakih 10 dni. Začeli so s 24 uporabniki (vsi zaposleni), strošek je bil 20 $ na kupca. Prvi segment: 20.000 eBayevih »PowerSellerjev«.</p></div>
+        </div>
+        <div class="box">
+          <h3>Kompleksna prodaja</h3>
+          <div class="stat"><span class="fig">25 dni</span><span class="who">na mesec</span><p>na poti je direktor Palantirja Alex Karp. Posli so vredni od 1 do 100 mio $, zato kupci hočejo direktorja, ne prodajalca. Dobra rast je 50 do 100 % na leto, deset let.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Tudi distribucija sledi potenčnemu zakonu: <b>en kanal</b> običajno prevlada nad vsemi. Če ti en kanal deluje, imaš odličen posel. Prodajati moraš tudi zaposlenim, vlagateljem in medijem. Če okrog sebe ne vidiš prodajalca, si prodajalec ti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 ČLOVEK IN STROJ -->
+<section id="stroj">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">12</span>
+      <h2>Človek in stroj</h2>
+      <span class="en">Man and Machine</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Računalniki <b>dopolnjujejo</b> ljudi, ne nadomeščajo jih. Ljudje tekmujejo za delo in vire, računalniki za nič od tega. Najbolj dragocena podjetja bodo ljudi opolnomočila.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Globalizacija = nadomeščanje</h3>
+          <p>Ljudje se lahko nadomestijo med seboj in hočejo iste vire: hrano, stanovanje, bencin.</p>
+        </div>
+        <div class="box">
+          <h3>Tehnologija = dopolnjevanje</h3>
+          <p>Ljudje imajo namen in presojo, računalniki obdelajo ogromno podatkov. Googlov superračunalnik s 16.000 procesorji je po 10 milijonih sličic mačko prepoznal v 75 %, štiriletnik jo prepozna vedno.</p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Primer: Igor pri PayPalu</h3>
+        <div class="stat"><span class="fig">10 mio $</span><span class="who">izguba zaradi goljufij na mesec, 2000</span><p>Samodejni algoritmi niso dohajali goljufov, ki so se prilagajali. Hibrid je deloval: računalnik označi sumljive transakcije, človek odloči. Prvi četrtletni dobiček v začetku 2002, leto prej izguba 29,3 mio $. Ista ideja je postala Palantir.</p></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Ne sprašuj, katere probleme lahko reši računalnik sam. Vprašaj: <b>kako lahko računalnik pomaga človeku rešiti težke probleme?</b> »Veliki podatki« so pogosto neumni podatki brez človeškega analitika.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 SEDEM VPRAŠANJ -->
+<section id="sedem">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">13</span>
+      <h2>Videti zeleno</h2>
+      <span class="en">Seeing Green · 7 Questions</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">V zeleno tehnologijo je šlo več kot <b>50 mrd $</b>, samo leta 2012 je propadlo več kot 40 proizvajalcev sončnih celic. Padli so, ker niso odgovorili na <b>sedem vprašanj, ki jih mora rešiti vsak posel</b>.</p>
+      <div class="qs">
+        <div><span class="n">1</span><span class="t">Inženirstvo</span><span class="q">Je tehnologija preboj, ne le izboljšava?</span></div>
+        <div><span class="n">2</span><span class="t">Čas</span><span class="q">Je zdaj pravi trenutek?</span></div>
+        <div><span class="n">3</span><span class="t">Monopol</span><span class="q">Začenjaš z velikim deležem majhnega trga?</span></div>
+        <div><span class="n">4</span><span class="t">Ljudje</span><span class="q">Imaš pravo ekipo?</span></div>
+        <div><span class="n">5</span><span class="t">Distribucija</span><span class="q">Znaš izdelek ne le narediti, ampak tudi dostaviti?</span></div>
+        <div><span class="n">6</span><span class="t">Trajnost</span><span class="q">Bo položaj ubranljiv čez 10 in 20 let?</span></div>
+        <div><span class="n">7</span><span class="t">Skrivnost</span><span class="q">Vidiš priložnost, ki je drugi ne?</span></div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Vprašanje</th><th>Kje so padli</th><th>Tesla, 7 od 7</th></tr></thead>
+          <tbody>
+            <tr><td>Inženirstvo</td><td>Solyndrine valjaste celice so le 1/π tako učinkovite kot ploščate.</td><td>Baterije in pogon kupujejo Daimler, Mercedes in Toyota. Model S je najbolje ocenjen avto.</td></tr>
+            <tr><td>Čas</td><td>Sončne celice so od 1954 napredovale počasi in linearno, s 6 % na manj kot 25 % učinkovitosti.</td><td>Januarja 2010 posojilo 465 mio $ od ministrstva za energijo, enkratna priložnost.</td></tr>
+            <tr><td>Monopol</td><td>Isto podjetje ima 10,5 % sončnega trga ZDA ali 0,02 % obnovljive energije, odvisno od definicije.</td><td>Začela z majhnim trgom: ~3.000 Roadsterjev po 109.000 $, nato luksuzne limuzine.</td></tr>
+            <tr><td>Ljudje</td><td>Netehnične ekipe v oblekah. Pravilo Founders Fund: ne vlagaj v direktorja s kravato.</td><td>Musk je hkrati inženir in prodajalec, ekipa kot »specialne enote«.</td></tr>
+            <tr><td>Distribucija</td><td>Better Place je porabil 800 mio $ in prodal 1.000 avtomobilov.</td><td>Lastne trgovine in servis, nadzor nad izkušnjo kupca.</td></tr>
+            <tr><td>Trajnost</td><td>Niso predvideli kitajske konkurence in plina iz skrilavca (1,7 % leta 2000, 34 % leta 2013).</td><td>Prednost in najhitrejši tempo, ustanovitelj še vedno vodi.</td></tr>
+            <tr><td>Skrivnost</td><td>Vsi so ponavljali isto konvencijo o čistejšem svetu.</td><td>Zelena tehnologija je družbeni pojav: naredili so avto, s katerim si kul.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Nobena panoga ni tako pomembna, da bi bilo dovolj le sodelovati v njej. Makro vpogled pomaga le, če se načrt začne na mikro ravni. Za energijo 2.0 je izziv <b>misliti majhno</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 USTANOVITELJ -->
+<section id="ustanovitelj">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">14</span>
+      <h2>Paradoks ustanovitelja</h2>
+      <span class="en">The Founder’s Paradox</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ustanovitelji imajo hkrati <b>nasprotujoče si skrajne lastnosti</b>: revni v gotovini in bogati na papirju, notranji in zunanji, slavni in razvpiti. Od šestih ustanoviteljev PayPala so štirje v srednji šoli izdelovali bombe.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>običajni ljudje</span><span><i style="background:var(--accent)"></i>ustanovitelji</span></div>
+        <svg viewBox="0 0 760 220" role="img" aria-label="Ponazoritev: normalna porazdelitev lastnosti in obrnjena porazdelitev pri ustanoviteljih">
+          <line x1="20" y1="170" x2="360" y2="170" class="axis"/>
+          <line x1="400" y1="170" x2="740" y2="170" class="axis"/>
+          <path d="M20 168 C 110 166, 140 30, 190 30 S 270 166, 360 168" fill="none" stroke="var(--muted)" stroke-width="3"/>
+          <path d="M400 30 C 470 36, 500 166, 570 166 S 670 36, 740 30" fill="none" stroke="var(--accent)" stroke-width="3"/>
+          <text x="20" y="192" class="sub">šibak</text><text x="360" y="192" class="sub" text-anchor="end">močan</text>
+          <text x="400" y="192" class="sub">zunanji</text><text x="740" y="192" class="sub" text-anchor="end">notranji</text>
+          <text x="190" y="210" class="sub" text-anchor="middle">večina v sredini</text>
+          <text x="570" y="210" class="sub" text-anchor="middle">obe skrajnosti hkrati</text>
+        </svg>
+        <p class="note">Ponazoritev oblike po knjigi, ne podatki.</p>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Kralj in grešni kozel</h3>
+          <p>Arhaične družbe so krivdo za nesreče zvalile na enega človeka. Grešni kozel je hkrati najšibkejši in najmočnejši. Vsak kralj je bil živi bog in vsak bog umorjeni kralj. Tako danes častimo in rušimo zvezdnike in ustanovitelje: Howard Hughes, Bill Gates.</p>
+        </div>
+        <div class="box">
+          <h3>Vrnitev kralja</h3>
+          <p>Apple je Jobsa 1985 odslovil. Ob vrnitvi 1997 je bilo podjetje blizu stečaja, Dell je rekel, da bi ga zaprl. Sledili so iPod, iPhone in iPad, leta 2012 je bil Apple najvrednejše podjetje na svetu.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Potrebujemo ustanovitelje in moramo biti strpnejši do nenavadnih. A ustanovitelj ne sme <b>verjeti lastnemu mitu</b>: pomemben je, ker iz drugih izvleče njihovo najboljše delo. Galtove soteske ni.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKLEP -->
+<section id="sklep">
+  <div class="sec-head">
+    <p class="eyebrow">Sklep · Stagnacija ali singularnost?</p>
+    <h2>Štiri možne prihodnosti (po Bostromu)</h2>
+    <p class="lede">Ponavljajoči se propad je malo verjeten, plato pa ne more trajati, ker tekmovanje za omejene vire vodi v konflikt. Izbira je med <b>ničem in nečim</b>.</p>
+  </div>
+  <div class="grid4">
+    <div class="box"><h4>Ponavljajoči se propad</h4><p>Večno izmenjevanje blaginje in poloma, kot so mislili antični ljudje.</p></div>
+    <div class="box"><h4>Plato</h4><p>Ves svet se zbliža k ravni bogatih držav. Konvencionalno pričakovanje.</p></div>
+    <div class="box"><h4>Izumrtje</h4><p>Konflikt v svetovnem merilu, v katerega stagnacija preide.</p></div>
+    <div class="box" style="border:2px solid var(--accent)"><h4>Vzlet</h4><p>Nova tehnologija za veliko boljšo prihodnost. Ne bo se zgodila sama od sebe.</p></div>
+  </div>
+  <div class="box key" style="margin-top:16px">
+    <h3>Zadnja misel</h3>
+    <p>Vse pomembno je edinstveno: vesolje, planet, država, tvoje podjetje, tvoje življenje in ta trenutek. Prvi korak od 0 do 1 je <b>misliti s svojo glavo</b>.</p>
+  </div>
+</section>
+
+<!-- KARTICA -->
+<section id="kartica">
+  <div class="sec-head">
+    <p class="eyebrow">Za hitri pregled</p>
+    <h2>Kartica Zero to One</h2>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Poglavje</th><th>Ideja v eni vrstici</th><th>Primer, ki si ga zapomniš</th><th>Vprašanje zase</th></tr></thead>
+      <tbody>
+        <tr><td>1 Prihodnost</td><td>Tehnologija (0→1) je pomembnejša od globalizacije (1→n).</td><td>Pisalni stroj proti urejevalniku besedil</td><td>Katero resnico vidim le jaz?</td></tr>
+        <tr><td>2 Leto 1999</td><td>Lekcije po poku so dogme, ki zavirajo.</td><td>PayPal: 10 $ za vsakega novega uporabnika</td><td>Kaj vem le zaradi strahu pred starimi napakami?</td></tr>
+        <tr><td>3 Monopol</td><td>Uspeh je pobeg od konkurence.</td><td>Google 21 % marža, letalske družbe 0,2 %</td><td>Kako široko je moj trg v resnici?</td></tr>
+        <tr><td>4 Konkurenca</td><td>Tekmovanje je ideologija, ki uničuje.</td><td>Microsoft proti Googlu, zmagal Apple</td><td>Se borim za nekaj, kar je vredno boja?</td></tr>
+        <tr><td>5 Zadnji igralec</td><td>Šteje denar čez 10 let. Začni majhno, širi postopno.</td><td>Amazon: knjige, nato vse</td><td>Bo ta posel obstajal čez desetletje?</td></tr>
+        <tr><td>6 Načrt</td><td>Določeni optimizem premaga naključje.</td><td>Zuckerberg zavrne 1 mrd $</td><td>Imam konkreten načrt ali le možnosti?</td></tr>
+        <tr><td>7 Potenčni zakon</td><td>Ena stvar prinese več kot vse ostale skupaj.</td><td>Facebook v skladu Founders Fund</td><td>Kje na krivulji bo to, kar delam?</td></tr>
+        <tr><td>8 Skrivnosti</td><td>Težko, a izvedljivo, ostaja še veliko.</td><td>Airbnb, Uber, padec HP</td><td>Česa narava ali ljudje ne povedo?</td></tr>
+        <tr><td>9 Temelji</td><td>Slab začetek se ne da popraviti.</td><td>Uprava s 3 člani, plača do 150k $</td><td>Imam s soustanoviteljem skupno preteklost?</td></tr>
+        <tr><td>10 Kultura</td><td>Vsi različni na enak način, vsak dela eno stvar.</td><td>PayPal mafija</td><td>Zakaj bi se pridružil 20. zaposleni?</td></tr>
+        <tr><td>11 Prodaja</td><td>Distribucija je pol izdelka. En kanal prevlada.</td><td>PayPal 7 % rasti na dan</td><td>Ali je CLV večji od CAC?</td></tr>
+        <tr><td>12 Človek in stroj</td><td>Računalnik dopolnjuje človeka.</td><td>Igor proti goljufom</td><td>Kako lahko tehnologija okrepi ljudi?</td></tr>
+        <tr><td>13 Sedem vprašanj</td><td>Vsak posel mora odgovoriti na vseh sedem.</td><td>Tesla 7 od 7, zelena tehnologija 0 od 7</td><td>Na katero vprašanje nimam odgovora?</td></tr>
+        <tr><td>14 Ustanovitelj</td><td>Potrebujemo nenavadne vodje, ki ne verjamejo svojemu mitu.</td><td>Jobsova vrnitev v Apple</td><td>Iz drugih izvlečem najboljše ali se le častim?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">Povzetek je pripravljen po vsebini knjige <i>Zero to One: Notes on Startups, or How to Build the Future</i> (Peter Thiel, Blake Masters, Crown Business, 2014). Številke so iz knjige in veljajo za čas njenega izida. Namenjen je hitremu pregledu tiskanega izvoda in ne nadomešča branja.</p>
+</section>
+
+</div>
+</body>
+</html>
