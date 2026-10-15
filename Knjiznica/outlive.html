@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Outlive, Attia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: hero z dvema krivuljama (dolžina in kakovost življenja), pas sedemnajstih poglavij, po en list na poglavje (bistvo, številke, lekcija), tedenski načrt in kartica za hitri pregled. */
+:root {
+  --bg: #f3f2f0;
+  --surface: #ffffff;
+  --fg: #1c1a17;
+  --muted: #625c53;
+  --line: #ddd6cb;
+  --accent: #6b3fa0;
+  --accent-soft: #eee5f8;
+  --key: #1f6b5c;
+  --key-soft: #dff0eb;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15130f; --surface: #1f1c17; --fg: #ece6dc; --muted: #a59d90; --line: #353028;
+    --accent: #c3a2f5; --accent-soft: #2a2138; --key: #6fd3bc; --key-soft: #17302a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15130f; --surface: #1f1c17; --fg: #ece6dc; --muted: #a59d90; --line: #353028;
+  --accent: #c3a2f5; --accent-soft: #2a2138; --key: #6fd3bc; --key-soft: #17302a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 80px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.back { display: inline-block; font-family: var(--mono); font-size: 13px; text-decoration: none; margin-bottom: 28px; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: end; padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+.hero h1 { font-size: clamp(44px, 8vw, 88px); font-weight: 800; letter-spacing: -.02em; margin-top: 10px; }
+.hero h1 span { display: block; font-size: .36em; font-weight: 500; letter-spacing: 0; color: var(--muted); margin-top: 10px; }
+.hero-side { display: grid; gap: 18px; }
+.thesis { font-size: 19px; max-width: 34em; }
+.thesis b { font-weight: 600; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.vs div { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; }
+.vs .big { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; }
+.vs .one .big { color: var(--accent); }
+.vs .n .big { color: var(--muted); }
+.vs small { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.vs p { font-size: 15px; line-height: 1.4; }
+
+/* nav */
+nav.chips { position: sticky; top: 0; z-index: 5; background: var(--bg); display: flex; flex-wrap: wrap; gap: 8px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+nav.chips a { font-family: var(--mono); font-size: 13px; text-decoration: none; color: var(--fg); padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+nav.chips a:hover { border-color: var(--accent); color: var(--accent); }
+
+section { padding-top: 56px; scroll-margin-top: 70px; }
+.sec-head { display: grid; gap: 8px; margin-bottom: 22px; }
+.sec-head h2 { font-size: clamp(28px, 4vw, 38px); font-weight: 700; }
+.lede { color: var(--muted); max-width: 40em; }
+
+/* strip */
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.strip a { text-decoration: none; color: var(--fg); padding: 14px 14px 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+.strip a:nth-child(4n) { border-right: 0; }
+.strip a:hover { background: var(--accent-soft); }
+.strip .ch { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; }
+.strip .nm { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.15; }
+.strip .tr { font-size: 14px; color: var(--muted); line-height: 1.35; }
+
+/* sheet */
+.p-sheet { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; padding-top: 28px; border-top: 2px solid var(--fg); }
+.p-side { display: grid; gap: 10px; align-content: start; }
+.p-side .num { font-family: var(--display); font-weight: 800; font-size: 72px; line-height: .9; color: var(--accent); }
+.p-side h2 { font-size: 30px; font-weight: 800; }
+.p-side .en { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.rule { font-size: 20px; line-height: 1.45; max-width: 36em; }
+.rule b { font-weight: 600; }
+.p-main { display: grid; gap: 22px; min-width: 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.box h3 { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.box h4 { font-family: var(--display); font-size: 19px; font-weight: 700; margin: 0; line-height: 1.2; }
+.box ul, .box ol { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; font-size: 16px; }
+.box p { font-size: 16px; }
+.box.key { background: var(--key-soft); border-color: transparent; }
+.box.key h3 { color: var(--key); }
+.stat { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: baseline; }
+.stat .fig { font-family: var(--display); font-weight: 800; font-size: 34px; color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1; }
+.stat .who { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.stat p { font-size: 16px; grid-column: 2; }
+.quote { font-style: italic; color: var(--muted); border-left: 2px solid var(--line); padding-left: 14px; font-size: 16px; }
+
+/* paired list (dogma vs truth) */
+.pairs { display: grid; gap: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.pairs .row { display: grid; grid-template-columns: 1fr 1fr; }
+.pairs .row > div { padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: 16px; }
+.pairs .row:last-child > div { border-bottom: 0; }
+.pairs .row > div:first-child { border-right: 1px solid var(--line); color: var(--muted); }
+.pairs .row > div:last-child { font-weight: 600; }
+.pairs .hd > div { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--muted) !important; }
+
+/* quadrant */
+.quad { display: grid; grid-template-columns: 34px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 10px; }
+.quad .ax { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); display: flex; align-items: center; justify-content: center; }
+.quad .ax.v { writing-mode: vertical-rl; transform: rotate(180deg); }
+.quad .cell { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.quad .cell h4 { font-family: var(--display); font-size: 19px; margin: 0; }
+.quad .cell .ex { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+.quad .cell p { font-size: 15px; line-height: 1.45; }
+.quad .cell.hi { border: 2px solid var(--accent); }
+
+/* charts */
+.chart-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; }
+.chart-wrap svg { display: block; width: 100%; min-width: 560px; height: auto; }
+.chart-wrap text { font-family: var(--mono); fill: var(--fg); }
+.chart-wrap .lbl { font-family: var(--body); font-size: 14px; }
+.chart-wrap .sub { fill: var(--muted); font-size: 11px; }
+.chart-wrap .grid line { stroke: var(--line); }
+.bar-base { fill: var(--line); }
+.bar-hi { fill: var(--accent); }
+.band { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+.band.dead { fill: none; stroke: var(--muted); stroke-dasharray: 4 3; }
+.axis { stroke: var(--muted); stroke-width: 1; }
+.note { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 10px; }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; vertical-align: -2px; margin-right: 6px; }
+
+/* spectrum */
+.spectrum { display: grid; gap: 8px; }
+.spectrum .bar { height: 10px; border-radius: 999px; background: linear-gradient(90deg, var(--muted), var(--accent) 50%, var(--muted)); opacity: .55; position: relative; }
+.spectrum .ends { display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: 15px; }
+.spectrum .ends span:nth-child(2) { text-align: center; color: var(--accent); font-weight: 600; }
+.spectrum .ends span:nth-child(3) { text-align: right; }
+
+/* questions */
+.qs { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.qs div { padding: 14px 12px 16px; border-right: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.qs div:last-child { border-right: 0; }
+.qs .n { font-family: var(--display); font-weight: 800; font-size: 28px; color: var(--accent); line-height: 1; }
+.qs .t { font-family: var(--display); font-weight: 700; font-size: 16px; line-height: 1.15; }
+.qs .q { font-size: 14px; color: var(--muted); line-height: 1.35; }
+
+/* table */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 15px; }
+th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-family: var(--display); font-weight: 700; white-space: nowrap; }
+.foot { margin-top: 48px; font-size: 14px; color: var(--muted); max-width: 46em; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; gap: 24px; }
+  .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip a:nth-child(4n) { border-right: 1px solid var(--line); }
+  .strip a:nth-child(2n) { border-right: 0; }
+  .p-sheet { grid-template-columns: 1fr; gap: 18px; }
+  .p-side .num { font-size: 52px; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qs { grid-template-columns: 1fr; }
+  .qs div { border-right: 0; border-bottom: 1px solid var(--line); grid-template-columns: 40px 1fr; }
+  .qs div .q { grid-column: 2; }
+  .qs div:last-child { border-bottom: 0; }
+  .pairs .row { grid-template-columns: 1fr; }
+  .pairs .row > div:first-child { border-right: 0; border-bottom: 0; padding-bottom: 2px; }
+  .pairs .hd { display: none; }
+  nav.chips { flex-wrap: nowrap; overflow-x: auto; margin-inline: -20px; padding-inline: 20px; scrollbar-width: none; }
+  nav.chips a { flex: none; }
+}
+@media (max-width: 520px) {
+  .vs { grid-template-columns: 1fr; }
+  .grid4 { grid-template-columns: 1fr; }
+  .quad { grid-template-columns: 1fr; }
+  .quad .ax { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+/* Outlive dodatki */
+.part { padding-top: 64px; scroll-margin-top: 70px; }
+.part .eyebrow { color: var(--accent); }
+.part h2 { font-family: var(--display); font-size: clamp(30px, 5vw, 46px); font-weight: 800; margin-top: 6px; }
+.part p.lede { margin-top: 8px; }
+.horse { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.horse div { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--accent); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.horse b { font-family: var(--display); font-size: 18px; line-height: 1.15; }
+.horse span { font-size: 14px; color: var(--muted); line-height: 1.35; }
+.curve { fill: none; stroke-width: 3; }
+.curve.c1 { stroke: var(--muted); stroke-dasharray: 6 4; }
+.curve.c2 { stroke: var(--muted); }
+.curve.c3 { stroke: var(--accent); }
+.thr { stroke: var(--key); stroke-width: 1.5; stroke-dasharray: 5 4; }
+.thr-t { fill: var(--key) !important; font-size: 11px; }
+.dot-base { fill: var(--muted); }
+.dot-hi { fill: var(--accent); }
+.link { stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+.bar-key { fill: var(--key); }
+.chart-wrap text.on-hi { fill: var(--surface); }
+.bar-soft { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+.week { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.qs.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.week .box .fig { font-family: var(--display); font-weight: 800; font-size: 30px; color: var(--accent); line-height: 1; }
+@media (max-width: 860px) {
+  .horse, .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qs.six { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .horse, .week { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<a class="back" href="./">← Knjižnica</a>
+
+<header class="hero">
+  <div>
+    <p class="eyebrow">Peter Attia z Billom Giffordom · 2023</p>
+    <h1>Outlive<span>Znanost in umetnost dolgoživosti</span></h1>
+  </div>
+  <div class="hero-side">
+    <div class="vs">
+      <div class="n"><small>življenjska doba</small><span class="big">koliko</span><p>Kako dolgo živiš. Za to skrbi večina medicine.</p></div>
+      <div class="one"><small>zdrava doba</small><span class="big">kako</span><p>Kako dobro živiš: telo, um in čustva. To je <b>pomembnejše</b>.</p></div>
+    </div>
+    <p class="thesis">Danes ne umiramo več hitro (nesreče, okužbe), ampak <b>počasi</b>, za kroničnimi boleznimi, ki se razvijajo desetletja. Medicina posreduje prepozno. Dolgoživost je v rokah tistega, ki začne zgodaj: z <b>vadbo</b>, prehrano, spanjem in čustvenim zdravjem.</p>
+  </div>
+</header>
+
+<nav class="chips" aria-label="Poglavja">
+  <a href="#dolga-igra">Dolga igra</a>
+  <a href="#medicina">Medicina 3.0</a>
+  <a href="#cilj">Cilj</a>
+  <a href="#stoletniki">Stoletniki</a>
+  <a href="#jej-manj">Jej manj</a>
+  <a href="#obilje">Metabolizem</a>
+  <a href="#srce">Srce</a>
+  <a href="#rak">Rak</a>
+  <a href="#spomin">Alzheimer</a>
+  <a href="#taktike">Taktike</a>
+  <a href="#vadba">Vadba</a>
+  <a href="#trening">Trening 101</a>
+  <a href="#stabilnost">Stabilnost</a>
+  <a href="#prehrana">Prehrana</a>
+  <a href="#praksa">Prehrana v praksi</a>
+  <a href="#spanje">Spanje</a>
+  <a href="#custva">Čustva</a>
+  <a href="#teden">Teden</a>
+  <a href="#kartica">Kartica</a>
+</nav>
+
+<!-- PREGLED -->
+<section id="pregled" aria-label="Pregled poglavij">
+  <div class="sec-head">
+    <p class="eyebrow">3 deli · 17 poglavij · epilog</p>
+    <h2>Knjiga na en pogled</h2>
+  </div>
+  <div class="strip">
+    <a href="#dolga-igra"><span class="ch">POGL. 1</span><span class="nm">Dolga igra</span><span class="tr">Od hitre k počasni smrti.</span></a>
+    <a href="#medicina"><span class="ch">POGL. 2</span><span class="nm">Medicina 3.0</span><span class="tr">Preventiva pred zdravljenjem.</span></a>
+    <a href="#cilj"><span class="ch">POGL. 3</span><span class="nm">Cilj, strategija, taktika</span><span class="tr">Kvadratna krivulja življenja.</span></a>
+    <a href="#stoletniki"><span class="ch">POGL. 4</span><span class="nm">Stoletniki</span><span class="tr">Bolezni zamaknejo za desetletja.</span></a>
+    <a href="#jej-manj"><span class="ch">POGL. 5</span><span class="nm">Jej manj, živi dlje?</span><span class="tr">mTOR, rapamicin, avtofagija.</span></a>
+    <a href="#obilje"><span class="ch">POGL. 6</span><span class="nm">Kriza obilja</span><span class="tr">Inzulin je prvi alarm.</span></a>
+    <a href="#srce"><span class="ch">POGL. 7</span><span class="nm">Srce</span><span class="tr">apoB čim nižje, čim prej.</span></a>
+    <a href="#rak"><span class="ch">POGL. 8</span><span class="nm">Rak</span><span class="tr">Ne zboli, in odkrij zgodaj.</span></a>
+    <a href="#spomin"><span class="ch">POGL. 9</span><span class="nm">Lov na spomin</span><span class="tr">Alzheimer: le preventiva.</span></a>
+    <a href="#taktike"><span class="ch">POGL. 10</span><span class="nm">Taktično razmišljanje</span><span class="tr">Pet področij ukrepanja.</span></a>
+    <a href="#vadba"><span class="ch">POGL. 11</span><span class="nm">Vadba</span><span class="tr">Najmočnejše »zdravilo«.</span></a>
+    <a href="#trening"><span class="ch">POGL. 12</span><span class="nm">Trening 101</span><span class="tr">Cona 2, VO2 max, moč.</span></a>
+    <a href="#stabilnost"><span class="ch">POGL. 13</span><span class="nm">Evangelij stabilnosti</span><span class="tr">Najprej si ne škodi.</span></a>
+    <a href="#prehrana"><span class="ch">POGL. 14</span><span class="nm">Prehrana 3.0</span><span class="tr">Konec vojne diet.</span></a>
+    <a href="#praksa"><span class="ch">POGL. 15</span><span class="nm">Prehrana v praksi</span><span class="tr">Trije vzvodi, veliko beljakovin.</span></a>
+    <a href="#spanje"><span class="ch">POGL. 16</span><span class="nm">Prebujenje</span><span class="tr">Spanje je čudežno zdravilo.</span></a>
+    <a href="#custva"><span class="ch">POGL. 17</span><span class="nm">Delo v teku</span><span class="tr">Cena zanemarjenih čustev.</span></a>
+    <a href="#epilog"><span class="ch">EPILOG</span><span class="nm">Zakaj?</span><span class="tr">Za koga želiš živeti dlje.</span></a>
+    <a href="#teden"><span class="ch">ZA PRAKSO</span><span class="nm">Tedenski načrt</span><span class="tr">Vse številke na enem mestu.</span></a>
+    <a href="#kartica"><span class="ch">ZA PREGLED</span><span class="nm">Kartica</span><span class="tr">Vse v eni tabeli.</span></a>
+  </div>
+</section>
+
+<section class="part" id="del1" aria-label="I. del">
+  <p class="eyebrow">I. del</p>
+  <h2>Nova miselnost</h2>
+  <p class="lede">Zakaj sodobna medicina izgublja proti kroničnim boleznim in kako postaviti cilj, ki se ga splača zasledovati.</p>
+</section>
+
+<!-- 1 DOLGA IGRA -->
+<section id="dolga-igra">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">1</span>
+      <h2>Dolga igra</h2>
+      <span class="en">The Long Game: From Fast Death to Slow Death</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Leta 1900 je pričakovana življenjska doba znašala manj kot 50 let, ljudje so umirali <b>hitro</b>. Danes večina umre v 70. ali 80. letih, skoraj vsi <b>počasi</b>, zaradi ene od štirih kroničnih bolezni.</p>
+      <div class="horse" role="list" aria-label="Štirje jezdeci">
+        <div role="listitem"><b>Srčno-žilne bolezni</b><span>Ateroskleroza, infarkt, kap. Vodilni ubijalec.</span></div>
+        <div role="listitem"><b>Rak</b><span>Smrtnost se v 50 letih »vojne proti raku« skoraj ni premaknila.</span></div>
+        <div role="listitem"><b>Nevrodegeneracija</b><span>Alzheimer, Parkinson, demenca z Lewyjevimi telesci.</span></div>
+        <div role="listitem"><b>Sladkorna tip 2</b><span>In celotna presnovna disfunkcija, ki hrani ostale tri.</span></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Attia, 8. september 2009</h3>
+          <p>36 let, 95 kg (23 kg nad boksarsko težo), testosteron pod 5. percentilom, inzulinsko odporen. Pravkar je preplaval 34 km odprtega oceana do otoka Catalina. Trije stričevi so umrli za infarktom, dva pred 50. letom.</p>
+        </div>
+        <div class="box">
+          <h3>Bolezen je zvezna, ne binarna</h3>
+          <p>Pri HbA1c 6,5 % je diagnoza sladkorna. Pri 6,4 % je »preddiabetes« in čakamo. Infarkt, ki je »nenaden«, se razvija <b>približno dve desetletji</b>. Mit o Titonu: večno življenje brez večne mladosti.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Dolgoživost = <b>dolžina + kakovost</b> življenja. Ne čakaj na diagnostični prag. Cilj je morda desetletje več življenja in dve desetletji več zdravja: delovati kot nekdo, ki je 20 let mlajši.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 MEDICINA 3.0 -->
+<section id="medicina">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">2</span>
+      <h2>Medicina 3.0</h2>
+      <span class="en">Rethinking Medicine for the Age of Chronic Disease</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Medicina 2.0 je premagala okužbe in akutne bolezni, proti počasnim boleznim pa je nemočna, ker ukrepa po diagnozi. <b>Medicina 3.0 je sprememba miselnosti</b>, ne tehnologije.</p>
+      <div class="grid3">
+        <div class="box"><h3>Medicina 1.0</h3><p>Hipokrat, okoli 2.000 let. Opazovanje in ugibanje (štirje sokovi). Velik uvid: bolezen pride iz narave, ne od bogov.</p></div>
+        <div class="box"><h3>Medicina 2.0</h3><p>Od sredine 19. stoletja. Teorija mikrobov, znanstvena metoda, antibiotiki, cepiva. Polio, črne koze, HIV, hepatitis C.</p></div>
+        <div class="box" style="border:2px solid var(--accent)"><h3 style="color:var(--accent)">Medicina 3.0</h3><p>Preventiva, posameznik, iskrena ocena tveganja in zdrava doba. Pacient je kapitan, zdravnik navigator.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Štirje premiki</h3>
+          <ol>
+            <li><b>Preventiva pred zdravljenjem.</b> Noe je zgradil barko pred dežjem.</li>
+            <li><b>Posameznik</b>: na dokazih utemeljeno, ne zgolj po povprečju.</li>
+            <li><b>Iskreno tveganje</b>, tudi tveganje, da ne narediš ničesar.</li>
+            <li><b>Zdrava doba</b>, ne le dolžina življenja.</li>
+          </ol>
+        </div>
+        <div class="box">
+          <h3>Relativno proti absolutnemu</h3>
+          <div class="stat"><span class="fig">24 % → 0,1</span><span class="who">WHI 2002, hormonsko nadomeščanje</span><p>»24 % več raka dojke« je pomenilo porast s približno 4 na 5 primerov na 1.000 žensk, torej 0,1 odstotne točke. Strah je mnogim ženskam vzel zdravljenje.</p></div>
+          <div class="stat"><span class="fig">10 let</span><span class="who">najdaljše okno ocene tveganja</span><p>40-letnica bi morala razmišljati o tveganju v naslednjih 30 do 40 letih.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>»Najprej ne škodi« ni Hipokratov stavek, in nedelovanje je pogosto <b>najbolj tvegana izbira</b>. Streho popravi, ko sije sonce. Na ladji nisi več potnik, ampak kapitan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 CILJ -->
+<section id="cilj">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">3</span>
+      <h2>Cilj, strategija, taktika</h2>
+      <span class="en">Objective, Strategy, Tactics</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Cilj: živeti dlje in bolje. Krivuljo delovanja <b>»kvadratiti«</b>: ostati blizu polne zmogljivosti do pozne starosti, nato hiter in kratek konec. Zadnje <b>mejno desetletje</b> spremeniti v <b>bonus desetletje</b>.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--muted);opacity:.5"></i>naravni potek</span><span><i style="background:var(--muted)"></i>Medicina 2.0</span><span><i style="background:var(--accent)"></i>Medicina 3.0</span></div>
+        <svg viewBox="0 0 760 260" role="img" aria-label="Ponazoritev: telesna in kognitivna zmogljivost skozi življenje pri treh pristopih">
+          <g class="grid">
+            <line x1="60" y1="20" x2="740" y2="20"/><line x1="60" y1="210" x2="740" y2="210"/>
+          </g>
+          <line x1="60" y1="115" x2="740" y2="115" class="thr"/>
+          <text x="64" y="110" class="thr-t">50 %: pod tem vsakdanja opravila niso več lahka</text>
+          <rect x="550" y="115" width="74" height="95" class="band dead"/>
+          <text x="587" y="236" class="sub" text-anchor="middle">mejno desetletje</text>
+          <path class="curve c1" d="M60 20 L366 20 C 430 30, 490 120, 536 210"/>
+          <path class="curve c2" d="M60 20 L366 20 C 430 40, 500 100, 550 115 C 580 130, 600 150, 618 165 L624 210"/>
+          <path class="curve c3" d="M60 20 L560 22 C 610 28, 640 40, 660 90 L686 210"/>
+          <text x="600" y="46" font-size="12" text-anchor="end" style="fill:var(--accent)">bonus desetletje →</text>
+          <text x="52" y="24" font-size="11" text-anchor="end">100 %</text>
+          <text x="52" y="214" font-size="11" text-anchor="end">0</text>
+          <text x="60" y="226" class="sub">0</text><text x="196" y="226" class="sub">20</text><text x="332" y="226" class="sub">40</text><text x="468" y="226" class="sub">60</text><text x="604" y="226" class="sub" text-anchor="end">80</text><text x="740" y="226" class="sub" text-anchor="end">100 let</text>
+        </svg>
+        <p class="note">Ponazoritev oblike po sliki 2 v knjigi, ne podatki.</p>
+      </div>
+      <div class="grid3">
+        <div class="box"><h3>Kognitivni vektor</h3><p>Hitrost obdelave, spomin, izvršilne funkcije.</p></div>
+        <div class="box"><h3>Telesni vektor</h3><p>Mišice, kosti, vzdržljivost, stabilnost, ravnotežje, bolečina.</p></div>
+        <div class="box"><h3>Čustveni vektor</h3><p>Večinoma neodvisen od starosti. Sreča je najnižja pri 47 letih.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Pet taktičnih področij</h3>
+          <ul>
+            <li><b>Vadba</b>: moč, stabilnost, aerobna učinkovitost, VO2 max.</li>
+            <li><b>Prehrana</b>: najprej koliko, šele nato kaj.</li>
+            <li><b>Spanje</b>.</li>
+            <li><b>Čustveno zdravje</b>.</li>
+            <li><b>Zunanje molekule</b>: zdravila, hormoni, dodatki.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Pet virov dokazov</h3>
+          <p>Dolgih randomiziranih študij ni (za vse življenje bi rabili 100.000 dojenčkov in stoletje). Zato triangulacija:</p>
+          <ol>
+            <li>stoletniki</li><li>živalski modeli</li><li>študije štirih jezdecev</li><li>mehanizmi staranja</li><li>mendelska randomizacija</li>
+          </ol>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Sun Tzu: »Taktika brez strategije je hrup pred porazom.« Najprej si zamisli, kaj želiš početi pri 80 in 90 letih, šele nato izberi taktike. <b>Ciljaj na zdravo dobo, dolžina pride zraven.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="del2" aria-label="II. del">
+  <p class="eyebrow">II. del</p>
+  <h2>Znanost: staranje in štirje jezdeci</h2>
+  <p class="lede">Kaj nas naučijo stoletniki, presnova in vsaka od štirih velikih bolezni.</p>
+</section>
+
+<!-- 4 STOLETNIKI -->
+<section id="stoletniki">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">4</span>
+      <h2>Stoletniki</h2>
+      <span class="en">The Older You Get, the Healthier You Have Been</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Stoletniki umrejo za istimi boleznimi kot vsi, a <b>desetletja pozneje</b>. Celotno krivuljo zdravja imajo zamaknjeno v desno in bolezen stisnejo v kratek čas na koncu. Njihova supermoč je <b>odpornost</b>, ne viski in cigare.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--muted)"></i>splošna populacija</span><span><i style="background:var(--accent)"></i>stoletniki</span></div>
+        <svg viewBox="0 0 760 170" role="img" aria-label="Starost ob diagnozi: splošna populacija proti stoletnikom">
+          <g class="grid"><line x1="200" y1="20" x2="200" y2="120"/><line x1="315.6" y1="20" x2="315.6" y2="120"/><line x1="431.1" y1="20" x2="431.1" y2="120"/><line x1="546.7" y1="20" x2="546.7" y2="120"/><line x1="662.2" y1="20" x2="662.2" y2="120"/></g>
+          <text x="0" y="50" class="lbl">Rak</text><text x="0" y="66" class="sub">1 od 5 diagnosticiran</text>
+          <line x1="338.7" y1="50" x2="662.2" y2="50" class="link"/>
+          <circle cx="338.7" cy="50" r="8" class="dot-base"/><circle cx="662.2" cy="50" r="8" class="dot-hi"/>
+          <text x="338.7" y="34" font-size="12" text-anchor="middle">72</text><text x="662.2" y="34" font-size="12" text-anchor="middle">100</text>
+          <text x="0" y="100" class="lbl">Srčno-žilne</text><text x="0" y="116" class="sub">1 od 4 diagnosticiran</text>
+          <line x1="373.4" y1="100" x2="569.9" y2="100" class="link"/>
+          <circle cx="373.4" cy="100" r="8" class="dot-base"/><circle cx="569.9" cy="100" r="8" class="dot-hi"/>
+          <text x="373.4" y="84" font-size="12" text-anchor="middle">75</text><text x="569.9" y="84" font-size="12" text-anchor="middle">92</text>
+          <text x="200" y="145" class="sub" text-anchor="middle">60</text><text x="315.6" y="145" class="sub" text-anchor="middle">70</text><text x="431.1" y="145" class="sub" text-anchor="middle">80</text><text x="546.7" y="145" class="sub" text-anchor="middle">90</text><text x="662.2" y="145" class="sub" text-anchor="middle">100 let</text>
+        </svg>
+        <p class="note">Osteoporoza pri stoletnikih nastopi 16 let pozneje. Pri 60 letih imajo koronarne žile kot 35-letniki.</p>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Geni</h3>
+          <ul>
+            <li>Geni pojasnijo le <b>20–30 %</b> razlik v dolžini življenja, a več, čim starejši si.</li>
+            <li>Sestre stoletnikov dočakajo 100 let <b>8-krat</b> pogosteje, bratje <b>17-krat</b>.</li>
+            <li><b>APOE e2</b> (brez e4): +30 % verjetnost za izjemno starost. <b>e4/e4</b>: −81 %.</li>
+            <li><b>FOXO3</b>, celični »oddelek za vzdrževanje«, ga aktivirata blago stradanje in vadba.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Redki in krhki</h3>
+          <div class="stat"><span class="fig">1 : 3.333</span><span class="who">ZDA 2021</span><p>Skoraj 100.000 stoletnikov. Na vsakega superstoletnika (110+) je okoli 9 milijarderjev.</p></div>
+          <div class="stat"><span class="fig">36 %</span><span class="who">letna smrtnost po 100. letu</span><p>Jeanne Calment: 122 let, kolo do 100, kadila do 117.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Njihovih genov nimamo, lahko pa <b>posnemamo njihov fenotip</b>: z veliko majhnimi, kopičenimi navadami zamakniti začetek vseh kroničnih bolezni, ne podaljševati časa bolezni.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 JEJ MANJ -->
+<section id="jej-manj">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">5</span>
+      <h2>Jej manj, živi dlje?</h2>
+      <span class="en">The Science of Hunger and Health</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Rapamicin, odkrit v zemlji z Velikonočnega otoka, zavira <b>mTOR</b>, celični stikalni center za rast. Je prva molekula, ki je podaljšala življenje sesalcu. Skupaj z omejevanjem kalorij kaže, da je <b>zaznavanje hranil</b> ključ do staranja.</p>
+      <div class="grid3">
+        <div class="box"><h3>mTOR · »gradbinec«</h3><p>Ko je hrane dovolj, poganja rast. Ko je je malo, preklopi na recikliranje. Ohranjen od kvasovk do ljudi.</p></div>
+        <div class="box"><h3>AMPK · »lučka za gorivo«</h3><p>Prižge se ob pomanjkanju hranil in med vadbo. Spodbuja nove mitohondrije in zavira mTOR.</p></div>
+        <div class="box"><h3>Avtofagija · »samopožiranje«</h3><p>Celica reciklira odpadne beljakovine. S starostjo upada, sprožijo jo post, vadba in rapamicin. Nobelova nagrada 2016.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Rapamicin pri miših (Nature 2009)</h3>
+          <div class="stat"><span class="fig">+13 / +9 %</span><span class="who">samice / samci</span><p>Daljša povprečna življenjska doba. Tri neodvisni laboratoriji, 1.901 miš.</p></div>
+          <div class="stat"><span class="fig">+38 / +28 %</span><span class="who">dano pozno (≈ 60 let pri človeku)</span><p>Več preostalega življenja. »Kot tableta, s katero 60-letnica dočaka 95.«</p></div>
+        </div>
+        <div class="box">
+          <h3>Omejevanje kalorij</h3>
+          <p>25–30 % manj kalorij brez podhranjenosti podaljša življenje glodalcev za <b>15–45 %</b>. Attia ga <b>ne priporoča</b>: težko vzdržno, šibi imunost, poveča krhkost. Vrednost je v razumevanju mehanizma.</p>
+          <p>Resveratrol in NR v strogih testih nista podaljšala življenja miši.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Občasno pomanjkanje hranil in <b>vadba</b> sta vzvoda za celično staranje (AMPK, mTOR, avtofagija). Rapamicin je obetaven, pri ljudeh pa še ni dokazan. Attia ga jemlje ciklično in izven indikacije.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 OBILJE -->
+<section id="obilje">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">6</span>
+      <h2>Kriza obilja</h2>
+      <span class="en">Can Our Ancient Genes Cope with Our Modern Diet?</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Presnovna disfunkcija je zvezna pot: <b>hiperinzulinemija → zamaščena jetra (NAFLD, NASH) → preddiabetes → sladkorna tip 2</b>, ki je »zadnja postaja na progi«. Poganja vse ostale jezdece. Debelost je simptom, ne bolezen.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>zgodovina</span><span><i style="background:var(--accent)"></i>danes</span><span><i style="background:var(--accent-soft);border:1px solid var(--accent)"></i>preddiabetes</span></div>
+        <svg viewBox="0 0 760 210" role="img" aria-label="Delež odraslih s sladkorno boleznijo v ZDA skozi čas">
+          <text x="0" y="30" class="lbl">1940</text><rect x="220" y="16" width="4" height="18" class="bar-base"/><text x="232" y="30" font-size="12">1 od 300–400</text>
+          <text x="0" y="62" class="lbl">okoli 1970</text><rect x="220" y="48" width="25" height="18" class="bar-base"/><text x="253" y="62" font-size="12">2 % (1 od 50)</text>
+          <text x="0" y="94" class="lbl">danes</text><rect x="220" y="80" width="137.5" height="18" class="bar-hi"/><text x="365" y="94" font-size="12">11 % (1 od 9)</text>
+          <text x="0" y="126" class="lbl">danes, 65+</text><rect x="220" y="112" width="362.5" height="18" class="bar-hi"/><text x="590" y="126" font-size="12">29 %</text>
+          <text x="0" y="158" class="lbl">preddiabetes</text><rect x="220" y="144" width="475" height="18" class="bar-soft"/><text x="690" y="158" font-size="12" text-anchor="end">38 %</text>
+          <text x="0" y="196" class="sub">Skoraj polovica odraslih v ZDA je na poti k sladkorni tipa 2 ali že tam. Vir: Joslin, CDC 2022.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Metabolni sindrom: 3 od 5</h3>
+          <ul>
+            <li>krvni tlak nad 130/85</li>
+            <li>trigliceridi nad 150 mg/dL</li>
+            <li>HDL pod 40 (moški) ali 50 mg/dL (ženske)</li>
+            <li>obseg pasu nad 102 cm (moški) ali 89 cm (ženske)</li>
+            <li>glukoza na tešče nad 110 mg/dL</li>
+          </ul>
+          <p>Attia: <b>že en kazalnik je slab znak</b>. Okoli 90 % Američanov izpolni vsaj enega.</p>
+        </div>
+        <div class="box">
+          <h3>Debel ali bolan?</h3>
+          <div class="stat"><span class="fig">⅓</span><span class="who">debelih</span><p>je presnovno zdravih. 20–40 % nedebelih je presnovno bolnih.</p></div>
+          <div class="stat"><span class="fig">3×</span><span class="who">normalna teža, a bolan</span><p>več smrti ali srčno-žilnih dogodkov kot pri presnovno zdravih z normalno težo.</p></div>
+          <div class="stat"><span class="fig">12× · 6× · 5×</span><span class="who">inzulinska odpornost</span><p>tveganje za raka, srčno-žilno smrt, Alzheimerja.</p></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Kad, ki prekipi</h3>
+          <p>Podkožna maščoba je varno skladišče. Ko je polno (pri nekom vedro, pri drugem jacuzzi), se maščoba prelije v kri, jetra, mišice, trebušno slinavko in med organe. Le <b>2 kg visceralne maščobe</b> pri 90-kilogramskem moškem ga uvrsti med 5 % najbolj ogroženih.</p>
+        </div>
+        <div class="box">
+          <h3>Fruktoza in sečna kislina</h3>
+          <p>Fruktoza troši celični ATP in telesu sporoči »shranjuj maščobo, bodi lačen«. Celo sadje je v redu, <b>tekoča fruktoza</b> (sokovi, gazirane pijače, »zdravi« smutiji) pa preplavi jetra.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>»Normalno« v izvidih ni »zdravo«. Glej zgodnje kazalnike: <b>inzulin</b> (OGTT z inzulinom), trigliceridi/HDL pod 2:1, ALT, sečna kislina, visceralna maščoba (DEXA). Hiperinzulinemijo bi morali zdraviti kot samostojno bolezen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 SRCE -->
+<section id="srce">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">7</span>
+      <h2>Srce</h2>
+      <span class="en">The Ticker: Confronting Heart Disease</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Aterosklerozo povzročajo delci z <b>apoB</b>, ki se desetletja kopičijo v steni žil. Šteje <b>število delcev</b>, ne holesterol sam. »To bi moral biti deseti vzrok smrti, ne prvi.«</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>smernice (LDL-C)</span><span><i style="background:var(--accent)"></i>Attiev cilj (apoB)</span><span><i style="background:var(--key)"></i>fiziološka potreba (LDL-C)</span></div>
+        <svg viewBox="0 0 760 180" role="img" aria-label="Ciljne vrednosti: smernice proti Attievemu cilju in fiziološki potrebi">
+          <text x="0" y="30" class="lbl">Smernice, običajno tveganje</text><rect x="260" y="16" width="418" height="18" class="bar-base"/><text x="686" y="30" font-size="12">100</text>
+          <text x="0" y="66" class="lbl">Smernice, visoko tveganje</text><rect x="260" y="52" width="293" height="18" class="bar-base"/><text x="561" y="66" font-size="12">70</text>
+          <text x="0" y="102" class="lbl">Attiev cilj za apoB</text><rect x="260" y="88" width="125.4" height="18" class="bar-hi"/><text x="393" y="102" font-size="12">20–30, kot pri otroku</text>
+          <text x="0" y="138" class="lbl">Fiziološka potreba</text><rect x="260" y="124" width="83.6" height="18" class="bar-key"/><text x="351" y="138" font-size="12">10–20</text>
+          <text x="0" y="172" class="sub">mg/dL. Smernice merijo LDL-C, Attia cilja apoB. Ob takih vrednostih bi ateroskleroza postala »sirotna bolezen« (Libby, 2019).</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Številke</h3>
+          <div class="stat"><span class="fig">⅓</span><span class="who">prvi infarkt</span><p>je še vedno smrten.</p></div>
+          <div class="stat"><span class="fig">1:3 vs 1:30</span><span class="who">ženske</span><p>umrejo za aterosklerozo desetkrat pogosteje kot za rakom dojke.</p></div>
+          <div class="stat"><span class="fig">½</span><span class="who">dogodkov pri moških</span><p>se zgodi pred 65. letom, četrtina pred 54.</p></div>
+          <div class="stat"><span class="fig">+38 %</span><span class="who">za vsak SD apoB</span><p>več infarktov. Test stane 20–30 $.</p></div>
+        </div>
+        <div class="box">
+          <h3>Tri slepe pege Medicine 2.0</h3>
+          <ol>
+            <li><b>Preveč preprost pogled na lipide</b>: »dober« in »slab« holesterol, skupni holesterol je skoraj tako pomemben kot barva oči.</li>
+            <li><b>Lp(a)</b>: najpogostejši dedni dejavnik, povišan pri 20–30 % ljudi. Prehrana in vadba nanj ne vplivata. Izmeri ga <b>enkrat v življenju</b>.</li>
+            <li><b>Čas</b>: maščobne proge ima že tretjina 16- do 20-letnikov. Desetletno okno je prekratko, čez vse življenje <b>nihče ni nizko ogrožen</b>.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="box"><h3>Nujni pogoji</h3><p>apoB, oksidacija LDL in vnetje. Kajenje (kemično) in visok tlak (mehansko) poškodujeta žilno steno, zato sta <b>nepogajljiva</b>.</p></div>
+        <div class="box"><h3>Holesterol v hrani</h3><p>Večinoma ni pomemben. Nasičene maščobe pa pri tretjini do polovici ljudi močno dvignejo apoB. Več enkrat nenasičenih (oljčno olje, avokado).</p></div>
+        <div class="box"><h3>Testi in zdravila</h3><p>Raje CT-angiografija kot kalcijev indeks. Rosuvastatin, ezetimib, bempedojska kislina, zaviralci PCSK9.</p></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Poznaj svoj <b>apoB in Lp(a)</b>. apoB potisni na otroške vrednosti desetletja prej, kot bi tveganje v desetih letih naraslo. »Prej ko kači odsekaš glavo, manjša je verjetnost, da te piči.«</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 RAK -->
+<section id="rak">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">8</span>
+      <h2>Rak</h2>
+      <span class="en">The Runaway Cell</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Po več kot 50 letih in 100 milijardah dolarjev se smrtnost zaradi raka skoraj ni spremenila. Rak je genetsko kaotičen in ga najdemo prepozno. Ubija <b>metastaza</b>. Strategija ima tri dele: preventiva, boljša zdravljenja in predvsem <b>zgodnje odkrivanje</b>.</p>
+      <div class="grid3">
+        <div class="box"><h3>1 · Preventiva</h3><p>Ne kadi. Debelost povzroči <b>12–13 %</b> rakov in je za kajenjem drugi največji dejavnik. Rakave celice porabijo do 40× več glukoze (Warburgov učinek), inzulin jih hrani.</p></div>
+        <div class="box"><h3>2 · Boljša zdravljenja</h3><p>Presnova in imunost. Ketogena dieta + zaviralec PI3K pri miših. Imunoterapija (Keytruda, CAR-T): ko deluje, je remisija trajna, a pomaga le okoli 8 % smrti.</p></div>
+        <div class="box" style="border:2px solid var(--accent)"><h3 style="color:var(--accent)">3 · Zgodnje odkrivanje</h3><p>Manjši tumor ima manj mutacij in zdravila bolje delujejo. Največji vzvod.</p></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>metastatski</span><span><i style="background:var(--accent)"></i>odkrit zgodaj, operiran</span></div>
+        <svg viewBox="0 0 760 150" role="img" aria-label="Preživetje raka debelega črevesa: metastatski proti operiranemu stadiju III">
+          <text x="0" y="30" class="lbl">Rak črevesa, 10 let</text>
+          <rect x="260" y="16" width="4" height="18" class="bar-base"/><text x="272" y="30" font-size="12">skoraj 0 % (mediana 31,5 meseca)</text>
+          <rect x="260" y="40" width="301.5" height="18" class="bar-hi"/><text x="569" y="54" font-size="12">67 % (stadij III)</text>
+          <text x="0" y="100" class="lbl">HER2+ rak dojke</text>
+          <text x="0" y="116" class="sub">7 let brez bolezni</text>
+          <rect x="260" y="100" width="418.5" height="18" class="bar-hi"/><text x="686" y="114" font-size="12">93 %</text>
+          <text x="0" y="144" class="sub">Metastatski HER2+: mediana preživetja slabih 5 let. Majhen tumor (pod 3 cm), operiran in zdravljen z dvema zdraviloma: 93 %.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Attiev presejalni načrt</h3>
+          <ul>
+            <li><b>Kolonoskopija pri 40</b>, nato vsaki 2–3 leta. 70 % primerov pred 50. letom nima družinske anamneze.</li>
+            <li>Mamografija + ultrazvok + MR (zlaganje testov).</li>
+            <li>PSA z izpeljankami, test 4K, multiparametrična MR.</li>
+            <li>Nizkodozni CT pljuč tudi za nekadilce (15 % pljučnih rakov).</li>
+            <li>Celotelesna MR z difuzijo, tekočinska biopsija (Galleri, 99,5 % specifičnost).</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Asimetrično tveganje</h3>
+          <p>Presejanje ima ceno: denar, strah, lažno pozitivne izvide in posege. Ampak spregledan rak stane življenje.</p>
+          <p class="quote">Vsi polipi ne postanejo rak, vsi raki črevesa pa so nastali iz polipov.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Prvo pravilo raka: <b>ne zboli</b> (ne kadi, nizek inzulin). Drugo pravilo: <b>odkrij ga čim prej</b>. Presejaj zgodaj, pogosto in z več testi hkrati.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 SPOMIN -->
+<section id="spomin">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">9</span>
+      <h2>Lov na spomin</h2>
+      <span class="en">Understanding Alzheimer’s Disease</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ko se pojavijo simptomi, Alzheimerja ni mogoče zdraviti. Amiloidna hipoteza ni dala nobenega zdravila, ki bi izboljšalo spoznavanje. »Medicina 2.0 nam ne more pomagati. Sploh.« Ostane le <b>preventiva, desetletja prej</b>.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--key)"></i>zaščitni</span><span><i style="background:var(--line)"></i>izhodišče in primerjava</span><span><i style="background:var(--accent)"></i>največje tveganje</span></div>
+        <svg viewBox="0 0 760 200" role="img" aria-label="Relativno tveganje za Alzheimerjevo bolezen glede na genotip APOE">
+          <text x="0" y="30" class="lbl">e2/e2</text><rect x="200" y="16" width="34.7" height="18" class="bar-key"/><text x="242" y="30" font-size="12">≈ 0,8 (zaščita)</text>
+          <text x="0" y="62" class="lbl">e2/e3</text><rect x="200" y="48" width="39" height="18" class="bar-key"/><text x="247" y="62" font-size="12">≈ 0,9</text>
+          <text x="0" y="94" class="lbl">e3/e3</text><rect x="200" y="80" width="43.3" height="18" class="bar-base"/><text x="251" y="94" font-size="12">1 (izhodišče)</text>
+          <text x="0" y="126" class="lbl">sladkorna tip 2</text><rect x="200" y="112" width="130" height="18" class="bar-base"/><text x="338" y="126" font-size="12">2–3× (kot ena kopija e4)</text>
+          <text x="0" y="158" class="lbl">e4/e4</text><rect x="200" y="144" width="520" height="18" class="bar-hi"/><text x="712" y="158" font-size="12" text-anchor="end" class="on-hi">do 12×</text>
+          <text x="0" y="192" class="sub">e4/e4 ima 2–3 % ljudi. Ženska z eno kopijo e4 ima 4× večje tveganje kot moški z istim genotipom.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Štiri načela preventive</h3>
+          <ol>
+            <li>Kar je dobro za <b>srce</b>, je dobro za možgane (nizek apoB, malo vnetja).</li>
+            <li>Kar je dobro za <b>jetra</b>, je dobro za možgane (presnovno zdravje).</li>
+            <li><b>Čas</b>: začni zgodaj, prej in močneje, čim slabši so geni.</li>
+            <li><b>Vadba</b> je najmočnejše orodje.</li>
+          </ol>
+        </div>
+        <div class="box">
+          <h3>Možgani in energija</h3>
+          <ul>
+            <li>2 % telesne teže, 20 % energije. Alzheimer je tudi <b>žilna</b> in <b>presnovna</b> bolezen (energijska kriza nevronov).</li>
+            <li>Najšibkejša četrtina po moči stiska ima <b>72 %</b> več demence kot najmočnejša.</li>
+            <li>Savna 4× na teden po 20 min pri 82 °C: okoli 65 % manj Alzheimerja.</li>
+            <li>Kompleksni izzivi (ples, ne le hoja) gradijo kognitivno rezervo. Križanke te izboljšajo le v križankah.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Zdravje možganov je žilno in presnovno zdravje. Začni desetletja prej, posebno z e4. Temelj so <b>vadba, moč in spanje</b>. »Vadba je brez dvoma najboljše orodje za preprečevanje nevrodegeneracije.«</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="del3" aria-label="III. del">
+  <p class="eyebrow">III. del</p>
+  <h2>Taktike: kaj narediti</h2>
+  <p class="lede">Vadba, prehrana, spanje in čustveno zdravje. Od nejasnih ciljev k natančnim ukrepom z veliko vzvoda.</p>
+</section>
+
+<!-- 10 TAKTIKE -->
+<section id="taktike">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">10</span>
+      <h2>Taktično razmišljanje</h2>
+      <span class="en">Building a Framework of Principles</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Naši geni so se komaj spremenili, okolje pa popolnoma. Potrebujemo <b>natančne taktike</b>, ne nejasnih ciljev, kot je »jej bolje in več se gibaj«. Brez ideologije in etiket.</p>
+      <div class="grid3">
+        <div class="box"><h3>Vprašanje 1</h3><h4>Prehranjen preveč ali premalo?</h4></div>
+        <div class="box"><h3>Vprašanje 2</h3><h4>Premalo ali dovolj mišic?</h4></div>
+        <div class="box"><h3>Vprašanje 3</h3><h4>Presnovno zdrav ali ne?</h4></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Analogija prometne nesreče</h3>
+          <p>Poišči nevarno točko (križišče, udarec z leve) in tam ukrepaj (pogled levo, desno, spet levo). Majhen trud, veliko zmanjšanje tveganja.</p>
+        </div>
+        <div class="box">
+          <h3>Podatki namesto dogem</h3>
+          <p>Statični kazalniki (trigliceridi, jetra), dinamični (OGTT) in sestava telesa (visceralna maščoba, kosti, mišice). Attia je opustil dolge vodne poste, ker so vzeli preveč mišic.</p>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Večina pacientov je <b>preveč prehranjenih in ima premalo mišic</b>. Cilj ni hujšanje, ampak manj maščobe in več mišic, zato beljakovine ostanejo zaščitene.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 VADBA -->
+<section id="vadba">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">11</span>
+      <h2>Vadba</h2>
+      <span class="en">The Most Powerful Longevity Drug</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Vadba je najmočnejše »zdravilo« za dolgoživost. <b>VO2 max</b>, mišična masa in moč so vsak posebej močneje povezani z nižjo smrtnostjo kot kajenje ali drugi dejavniki. Kardio ali uteži? <b>Da in da.</b></p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--accent)"></i>kondicija (VO2 max)</span><span><i style="background:var(--line)"></i>kajenje, za primerjavo</span></div>
+        <svg viewBox="0 0 760 220" role="img" aria-label="Relativno tveganje smrti glede na kondicijo v primerjavi z zgornjo četrtino">
+          <g class="grid"><line x1="346.7" y1="10" x2="346.7" y2="180" style="stroke-dasharray:3 3"/></g>
+          <text x="0" y="30" class="lbl">Nizka (spodnjih 25 %)</text><rect x="240" y="16" width="426.7" height="18" class="bar-hi"/><text x="674" y="30" font-size="12">≈ 4×</text>
+          <text x="0" y="62" class="lbl">Pod povprečjem (25.–50.)</text><rect x="240" y="48" width="213.3" height="18" class="bar-hi"/><text x="461" y="62" font-size="12">2×</text>
+          <text x="0" y="94" class="lbl">Visoka (75.–97,6.)</text><rect x="240" y="80" width="106.7" height="18" class="bar-hi" opacity=".7"/><text x="354" y="94" font-size="12">1 (izhodišče)</text>
+          <text x="0" y="126" class="lbl">Elitna (zgornjih 2,3 %)</text><rect x="240" y="112" width="85.3" height="18" class="bar-hi" opacity=".5"/><text x="333" y="126" font-size="12">≈ 0,8</text>
+          <text x="0" y="166" class="lbl">Kajenje</text><rect x="240" y="152" width="149.4" height="18" class="bar-base"/><text x="397" y="166" font-size="12">1,4</text>
+          <text x="0" y="208" class="sub">JAMA 2018, več kot 120.000 ljudi. Elitna vrednost je izpeljana iz razmerij v knjigi.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Mišice so oklep</h3>
+          <div class="stat"><span class="fig">2×</span><span class="who">nizka moč</span><p>dvakratna smrtnost (10 let, 4.500 ljudi nad 50). Nizka masa: +40–50 %.</p></div>
+          <div class="stat"><span class="fig">8 vs 3–4 kg</span><span class="who">do 80. leta</span><p>izgubljenih mišic: povprečen človek proti aktivnemu.</p></div>
+          <div class="stat"><span class="fig">50 vs 20 %</span><span class="who">Čile, 12 let</span><p>umrlih v najnižji proti najvišji četrtini mišične mase.</p></div>
+        </div>
+        <div class="box">
+          <h3>Postopoma, nato nenadoma</h3>
+          <p>Mišice in aktivnost se držijo do srednjih let, nato strmo padejo po 65 in znova po 75. Padci so daleč najpogostejši vzrok nesrečne smrti po 65. letu.</p>
+          <div class="stat"><span class="fig">−14 %</span><span class="who">0 → 90 min/teden</span><p>smrtnosti. 77 % Američanov ne vadi.</p></div>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Desetoboj stoletnika: kaj želiš zmoči pri 90+?</h3>
+        <div class="grid2" style="gap:8px 24px">
+          <ol style="margin:0">
+            <li>prehoditi 2,4 km po hribovitem terenu</li>
+            <li>vstati s tal z največ eno roko</li>
+            <li>dvigniti otroka s tal</li>
+            <li>nositi dve vrečki po 2,3 kg pet ulic</li>
+            <li>dvigniti 9-kilogramski kovček v predal nad sedeži</li>
+          </ol>
+          <ol start="6" style="margin:0">
+            <li>30 s stati na eni nogi z odprtimi očmi</li>
+            <li>imeti spolne odnose</li>
+            <li>v 3 minutah prehoditi 4 nadstropja</li>
+            <li>odpreti kozarec</li>
+            <li>30 zaporednih preskokov kolebnice</li>
+          </ol>
+        </div>
+        <p>Moč upada <b>8–17 % na desetletje</b>. Da boš pri 80 dvignil 14-kilogramskega vnuka, moraš danes dvigniti 23–25 kg.</p>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Treniraj kot <b>deseterobojec</b>, ne kot specialist. Cilja na 100 let, kot lokostrelec, ki vadi na 100 metrov, da bo na 50 natančnejši. Postani »športnik življenja«.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 TRENING -->
+<section id="trening">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">12</span>
+      <h2>Trening 101</h2>
+      <span class="en">How to Prepare for the Centenarian Decathlon</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Kondicija ima tri razsežnosti: <b>aerobno</b> (cona 2 in VO2 max), <b>moč</b> in <b>stabilnost</b>. Vse s starostjo strmo upadajo, zato jih treniraj krepko nad tem, kar boš potreboval pozneje.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Cona 2 · temelj hiše</h3>
+          <ul>
+            <li>Najvišji napor brez kopičenja laktata (1,7–2,0 mmol). Govoriš v celih stavkih, <b>a komaj</b>.</li>
+            <li>Okoli 70–85 % dejanskega maksimalnega srčnega utripa.</li>
+            <li>Gradi mitohondrije in presnovno prožnost: kurjenje maščob in glukoze.</li>
+            <li>Profesionalec v coni 2: 300 W (4+ W/kg). Moški z metabolnim sindromom: 100 W (1 W/kg).</li>
+            <li><b>Okoli 3 ure na teden</b> (npr. 4 × 45 min).</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>VO2 max · vrhnja moč</h3>
+          <ul>
+            <li>Po 5–6 mesecih cone 2: <b>1 interval na teden</b>.</li>
+            <li>4 min najhitreje, kar zdržiš, nato 4 min lahkotno. Ponovi 4–6×.</li>
+            <li>Cilj: elita za tvojo starost in spol, nato elita za 20 let mlajše.</li>
+            <li>+6 ml/kg/min (≈ 25 %) je kot biti 12 let mlajši.</li>
+            <li>»To ni dvomesečni projekt, ampak dveletni.«</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--muted)"></i>povprečna 50-letnica</span><span><i style="background:var(--accent)"></i>trenirana 50-letnica</span><span><i style="background:var(--key)"></i>prag</span></div>
+        <svg viewBox="0 0 760 250" role="img" aria-label="Upad VO2 max od 50. do 80. leta, povprečna proti trenirani ženski">
+          <line x1="80" y1="120" x2="720" y2="120" class="thr"/><text x="716" y="136" class="thr-t" text-anchor="end">30: pohod v hribe</text>
+          <line x1="80" y1="195" x2="720" y2="195" class="thr"/><text x="84" y="189" class="thr-t">15: prag samostojnosti (ženske)</text>
+          <polyline points="80,110 293.3,130 506.7,147.5 720,163" class="curve c2"/>
+          <polyline points="80,35 293.3,64.5 506.7,90 720,112.5" class="curve c3"/>
+          <circle cx="80" cy="110" r="4" class="dot-base"/><circle cx="720" cy="163" r="4" class="dot-base"/>
+          <circle cx="80" cy="35" r="4" class="dot-hi"/><circle cx="720" cy="112.5" r="4" class="dot-hi"/>
+          <text x="90" y="104" font-size="12">32</text><text x="712" y="180" font-size="12" text-anchor="end">≈ 21</text>
+          <text x="90" y="30" font-size="12">45–49</text><text x="712" y="106" font-size="12" text-anchor="end">≈ 31</text>
+          <text x="80" y="236" class="sub">50 let</text><text x="293" y="236" class="sub" text-anchor="middle">60</text><text x="507" y="236" class="sub" text-anchor="middle">70</text><text x="720" y="236" class="sub" text-anchor="end">80 let</text>
+        </svg>
+        <p class="note">ml/kg/min. Primer iz knjige: VO2 max upada okoli 10 % na desetletje, po 50. letu do 15 %. Vmesne točke so izračunane.</p>
+      </div>
+      <div class="grid4">
+        <div class="box"><h4>Prijem</h4><p>Kmečka hoja: moški polovico telesne teže v vsaki roki vsaj 1 minuto. Ženske 75 % tega.</p></div>
+        <div class="box"><h4>Vis na drogu</h4><p>Pri 40 letih: moški vsaj 2 minuti, ženske vsaj 90 sekund.</p></div>
+        <div class="box"><h4>Ekscentrično</h4><p>Sestop s 45-centimetrske škatle v polnih 3 sekundah.</p></div>
+        <div class="box"><h4>Vleka in kolk</h4><p>Vleka pod vsemi koti, mrtvi dvig, počep, stopanje na škatlo, enonožne vaje.</p></div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <div class="stat"><span class="fig">2–3×</span><span class="who">hitrost izgube</span><p>Moč izginja 2–3× hitreje kot masa, eksplozivnost še 2–3× hitreje kot moč. Zato težka bremena.</p></div>
+        </div>
+        <div class="box">
+          <div class="stat"><span class="fig">15–36 %</span><span class="who">zlom kolka po 65</span><p>umre v enem letu. Kostno gostoto meri z DEXA, ne čakaj do 65 ali 70 let.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Okoli <b>3 ure cone 2</b>, <b>1 interval VO2 max</b> in <b>težka vadba moči</b> (prijem, nošenje, vleka, kolk, ekscentrika) na teden. Moč je »pokojninsko varčevanje«, nošenje pa »supermoč naše vrste«.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 STABILNOST -->
+<section id="stabilnost">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">13</span>
+      <h2>Evangelij stabilnosti</h2>
+      <span class="en">Relearning How to Move to Prevent Injury</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Poškodba je skriti razlog, da ljudje s starostjo nehajo vaditi. Stabilnost je <b>podzavestna sposobnost, da silo izkoristiš, upočasniš ali ustaviš</b>. Je temelj pod kardiom in močjo. Prva zapoved: <b>najprej si ne škodi</b>.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Dirkalnik</h3>
+          <p>Attiev cestni BMW M3 s 460+ KM je bil na krogu nekaj sekund počasnejši od dirkalnega 325i s 165 KM. Razlika: trša šasija in boljše gume. Brez stabilnosti sila »uhaja« v kolena, komolce, ramena in hrbtenico.</p>
+        </div>
+        <div class="box">
+          <h3>DNS: posodobitev programa</h3>
+          <p>Dinamična nevromišična stabilizacija (Praga, 1960-a) ponovno nauči gibe, ki jih znajo dojenčki. Malček počepne popolno, Attieva 14-letna hči ni znala.</p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Zaporedje</h3>
+        <div class="qs six">
+          <div><span class="n">1</span><span class="t">Dih</span><span class="q">Trebušni tlak, trup kot valj.</span></div>
+          <div><span class="n">2</span><span class="t">Stopala</span><span class="q">Kot gume: štirje vogali, joga prstov.</span></div>
+          <div><span class="n">3</span><span class="t">Ravnotežje</span><span class="q">Ena noga po 50. je povezana z dolgoživostjo.</span></div>
+          <div><span class="n">4</span><span class="t">Hrbtenica</span><span class="q">Počasna mačka in krava.</span></div>
+          <div><span class="n">5</span><span class="t">Ramena</span><span class="q">Kontrolirani krogi lopatic.</span></div>
+          <div><span class="n">6</span><span class="t">Posnemi se</span><span class="q">Kar misliš, da delaš, ni to, kar delaš.</span></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Barry, 81 let</h3>
+          <p>Po 50 letih na stolu v stalnih bolečinah. Z dihanjem, prsti, ravnotežjem, plesom in doskoki dela sklece bolje kot »dvajsetletniki v fitnesu«. <b>»Barryjev vstanek«</b> (vstati s tal z eno roko ali brez) je zdaj del vsakega pregleda.</p>
+        </div>
+        <div class="box">
+          <h3>Številke</h3>
+          <div class="stat"><span class="fig">27 %</span><span class="who">Američanov nad 45</span><p>poroča o kronični bolečini. Bolečine v hrbtu stanejo 635 milijard $ na leto.</p></div>
+          <div class="stat"><span class="fig">6 mes.</span><span class="who">osnovna stabilnost</span><p>preden pacienti začnejo s težkimi bremeni.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Preden obremeniš težko, obnovi nadzor nad dihom, stopali, hrbtenico in rameni. »Da greš hitreje, moraš iti počasneje.« Brez poškodb lahko treniraš desetletja.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 PREHRANA 3.0 -->
+<section id="prehrana">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">14</span>
+      <h2>Prehrana 3.0</h2>
+      <span class="en">You Say Potato, I Say “Nutritional Biochemistry”</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Ena popolna dieta za vse <b>ne obstaja</b>. Prehranska znanost je večinoma šibka epidemiologija in pomanjkljive študije. Namesto ideologije: <b>prehranska biokemija</b>, osebna in vodena s podatki.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>tipična prehranska študija</span><span><i style="background:var(--accent)"></i>kajenje in rak pljuč</span></div>
+        <svg viewBox="0 0 760 150" role="img" aria-label="Razmerje tveganja: rdeče meso proti kajenju">
+          <text x="0" y="30" class="lbl">Rdeče meso → rak črevesa</text><rect x="260" y="16" width="27" height="18" class="bar-base"/><text x="295" y="30" font-size="12">1,17</text>
+          <text x="0" y="62" class="lbl">Redko preseženo v prehrani</text><rect x="260" y="48" width="34.6" height="18" class="bar-base"/><text x="302" y="62" font-size="12">1,5</text>
+          <text x="0" y="94" class="lbl">Kajenje → rak pljuč</text><rect x="260" y="80" width="460" height="18" class="bar-hi"/><text x="712" y="94" font-size="12" text-anchor="end" class="on-hi">10–25×</text>
+          <text x="0" y="136" class="sub">Razmerje tveganja. Večina povezav v prehrani je premajhnih, da bi jim lahko zaupali. Ioannidis: »Prehranska epidemiologija je škandal.«</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Kaj vemo zagotovo</h3>
+          <ul>
+            <li>Ne preveč in ne premalo kalorij.</li>
+            <li>Dovolj beljakovin in esencialnih maščob.</li>
+            <li>Vitamini in minerali, brez strupov in patogenov.</li>
+            <li>Če hrane ne bi prepoznala prababica, je ne jej.</li>
+          </ul>
+          <p>»Onkraj tega vemo razmeroma malo.«</p>
+        </div>
+        <div class="box">
+          <h3>Dve veliki študiji</h3>
+          <div class="stat"><span class="fig">0</span><span class="who">WHI, 50.000 žensk</span><p>Manj maščob (28 proti 37 % kalorij) ni zmanjšalo raka, srčno-žilnih bolezni ne smrtnosti. 750 milijonov $.</p></div>
+          <div class="stat"><span class="fig">−31 / −28 %</span><span class="who">PREDIMED, 7.500 ljudi</span><p>kapi, infarktov in smrti z oljčnim oljem (1 l na teden) ali oreščki (30 g na dan).</p></div>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Analogija mavca</h3>
+        <p>Mavec pozdravi zlomljeno roko, zdravo pa oslabi. Stroga dieta ali post, ki popravi bolezen (debelost, zamaščena jetra, sladkorna), ni nujno načrt za vzdrževanje zdravja. Učinkovitost v študiji ni uspešnost v življenju: <b>vztrajnost je ključna</b>.</p>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Nehaj se prepirati o etiketah diet. Odgovori na tri vprašanja (preveč prehranjen, premalo mišic, presnovno zdrav) in bodi skeptičen do šibkih korelacij.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 PRAKSA -->
+<section id="praksa">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">15</span>
+      <h2>Prehrana v praksi</h2>
+      <span class="en">How to Find the Right Eating Pattern for You</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Vsaka dieta deluje prek enega od <b>treh vzvodov</b>, ki zmanjšajo vnos energije. Najboljši načrt je tisti, ki ga zdržiš in ki <b>ohrani beljakovine</b>. »Slaba prehrana nam lahko škodi bolj, kot nam dobra lahko pomaga.«</p>
+      <div class="grid3">
+        <div class="box" style="border:2px solid var(--accent)"><h3 style="color:var(--accent)">Kalorična omejitev (CR)</h3><p>Jej manj vsega. <b>Najučinkovitejša</b> in najbolj prožna, a zahteva natančno štetje in lakoto.</p></div>
+        <div class="box"><h3>Omejitev vrste hrane (DR)</h3><p>Izloči živilo ali skupino. Najpogostejša, a se da prenajesti tudi tako (Attia kot vegan: v 6 mesecih nič izgubljeno).</p></div>
+        <div class="box"><h3>Časovna omejitev (TR)</h3><p>Jej v oknu. Najlažja, a ljudje pogosto ne dosežejo beljakovin in izgubijo mišice, maščoba ostane.</p></div>
+      </div>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--line)"></i>uradno priporočilo</span><span><i style="background:var(--accent)"></i>Attia</span><span><i style="background:var(--key)"></i>varna zgornja meja</span></div>
+        <svg viewBox="0 0 760 190" role="img" aria-label="Beljakovine v gramih na kilogram telesne teže na dan">
+          <text x="0" y="30" class="lbl">RDA (»šala«)</text><rect x="240" y="16" width="96" height="18" class="bar-base"/><text x="344" y="30" font-size="12">0,8</text>
+          <text x="0" y="62" class="lbl">Attiev minimum</text><rect x="240" y="48" width="192" height="18" class="bar-hi" opacity=".7"/><text x="440" y="62" font-size="12">1,6</text>
+          <text x="0" y="94" class="lbl">Dober začetek (aktivni)</text><rect x="240" y="80" width="264" height="18" class="bar-hi"/><text x="512" y="94" font-size="12">2,2</text>
+          <text x="0" y="126" class="lbl">Varna zgornja meja</text><rect x="240" y="112" width="444" height="18" class="bar-key"/><text x="692" y="126" font-size="12">3,7</text>
+          <text x="0" y="166" class="sub">g/kg/dan. 82-kilogramska oseba: vsaj 130 g, idealno okoli 180 g na dan, razdeljeno na 4 obroke.</text>
+          <text x="0" y="182" class="sub">Rastlinske beljakovine so le 60–70 % izkoristljive.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Maščobe</h3>
+          <ul>
+            <li>Cilj: <b>50–55 % enkrat nenasičenih</b> (oljčno olje, avokado, oreščki), 15–20 % nasičenih, ostalo večkrat nenasičene.</li>
+            <li>Omega-3 (EPA + DHA): 8–12 % membrane rdečih krvničk. Večina potrebuje dodatek.</li>
+            <li>Toleranca za nasičene maščobe je osebna: preveri lipide.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Kaj je pokazal CGM</h3>
+          <ul>
+            <li>Cilj: povprečna glukoza ≤ 100 mg/dL, SD pod 15, malo skokov nad 160.</li>
+            <li>Riž in ovseni kosmiči so presenetljivo glikemični.</li>
+            <li>5–6 ur spanja dvigne vrhove za 10–20 mg/dL.</li>
+            <li>Beljakovine in maščobe skoraj ne vplivajo. Zelenjava ne.</li>
+            <li>Že spremljanje spremeni vedenje.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="box"><div class="stat"><span class="fig">28,5 vs 4 %</span><span class="who">sladkor v hrani opic</span><p>Wisconsin proti NIH. Kakovost je morda enako pomembna kot količina.</p></div></div>
+        <div class="box"><div class="stat"><span class="fig">&lt; 7</span><span class="who">pijač na teden</span><p>in največ 2 na dan. Alkohol: 7 kcal/g, rakotvoren, slab za spanje.</p></div></div>
+        <div class="box"><div class="stat"><span class="fig">−30 kg</span><span class="who">Tom Dayspring</span><p>En teden na mesec okoli 700 kcal na dan, ostalo okno 12–20 h.</p></div></div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Izberi mešanico CR, DR in TR, ki jo zdržiš, da se nehaš prenajedati. Beljakovine <b>1,6–2,2 g/kg</b> v 4 obrokih. Če bi Attia iz prehrane vseh odstranil eno stvar: <b>sladke pijače in sadne sokove</b>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 SPANJE -->
+<section id="spanje">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">16</span>
+      <h2>Prebujenje</h2>
+      <span class="en">How to Learn to Love Sleep</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Vsaka preučena žival spi. Kratko ali slabo spanje uniči presnovo, poveča srčno-žilno tveganje in poganja Alzheimerja, ker globoki spanec čisti amiloid in tau. Potrebuješ <b>7,5–8,5 ure</b>. Spanje je <b>čudežno zdravilo</b>, ki ga izboljšaš z okoljem in navadami, ne s tabletami.</p>
+      <div class="chart-wrap">
+        <div class="legend"><span><i style="background:var(--accent)"></i>večje tveganje ob kratkem ali slabem spanju</span></div>
+        <svg viewBox="0 0 760 190" role="img" aria-label="Povečanje tveganja ob kratkem ali slabem spanju">
+          <text x="0" y="30" class="lbl">Debelost</text><rect x="240" y="16" width="456" height="18" class="bar-hi"/><text x="704" y="30" font-size="12">+38 %</text>
+          <text x="0" y="62" class="lbl">Koronarna bolezen</text><rect x="240" y="48" width="312" height="18" class="bar-hi"/><text x="560" y="62" font-size="12">+26 %</text>
+          <text x="0" y="94" class="lbl">Infarkt (pod 6 h, MR)</text><rect x="240" y="80" width="240" height="18" class="bar-hi"/><text x="488" y="94" font-size="12">+20 %</text>
+          <text x="0" y="126" class="lbl">Visok krvni tlak</text><rect x="240" y="112" width="204" height="18" class="bar-hi"/><text x="452" y="126" font-size="12">+17 %</text>
+          <text x="0" y="158" class="lbl">Srčno-žilne bolezni</text><rect x="240" y="144" width="192" height="18" class="bar-hi"/><text x="440" y="158" font-size="12">+16 %</text>
+          <text x="0" y="186" class="sub">Tudi preveč škodi: 11+ ur spanja pomeni skoraj 50 % večjo smrtnost.</text>
+        </svg>
+      </div>
+      <div class="grid2">
+        <div class="box">
+          <h3>Kaj spanje naredi</h3>
+          <ul>
+            <li><b>Globoki spanec</b> (prva polovica noči): utrjevanje spomina in čiščenje možganov.</li>
+            <li><b>REM</b>: ustvarjalnost, gibalni spomin, predelava čustev.</li>
+            <li>4,5 ure štiri noči: inzulin kot pri debelem diabetiku, odstranjevanje glukoze −50 %.</li>
+            <li>4–5 ur: več grelina, manj leptina, naslednji dan okoli 300 kcal več.</li>
+            <li>Športniki pod 6 ur se poškodujejo 2,5× pogosteje.</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>10 nasvetov</h3>
+          <ol>
+            <li>Brez alkohola, največ en kozarec pred 18. uro.</li>
+            <li>Ne jej 3 ure pred spanjem.</li>
+            <li>2 uri brez zaslonov.</li>
+            <li>1 uro brez e-pošte in omrežij.</li>
+            <li>Savna ali topla kopel pred spanjem.</li>
+            <li>Hladna soba, okoli 18 °C.</li>
+            <li>Popolna tema ali maska.</li>
+            <li>Vsaj 8 ur v postelji, raje 9.</li>
+            <li>Vedno enaka ura vstajanja.</li>
+            <li>Ne obsedaj se: obrni uro, odmor od merilnika.</li>
+          </ol>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>»Svetloba je sovražnik spanja, pika.« Zaščiti 7,5–8,5 ure. Preveri apnejo (STOP-BANG), nespečnost zdravi s <b>kognitivno-vedenjsko terapijo</b>, ne s sedativi, ki zmanjšajo globoki spanec.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 ČUSTVA -->
+<section id="custva">
+  <div class="p-sheet">
+    <div class="p-side">
+      <span class="num">17</span>
+      <h2>Delo v teku</h2>
+      <span class="en">The High Price of Ignoring Emotional Health</span>
+    </div>
+    <div class="p-main">
+      <p class="rule">Čustveno zdravje je morda najpomembnejši del zdrave dobe. Esther Perel: <b>»Zakaj bi želel živeti dlje, če si tako nesrečen?«</b> Tudi tu velja Medicina 3.0: zgodaj, vsak dan, z veščinami. Hitre rešitve ni.</p>
+      <div class="grid2">
+        <div class="box">
+          <h3>Zgodba</h3>
+          <p>Julija 2017 je sin Ayrton prenehal dihati, oživila ga je Jill. Attia je bil v New Yorku in je prišel domov po desetih dneh. Malo pozneje se je skoraj stepel na parkirišču. Sledila sta dva tedna v The Bridge to Recovery in leta 2020 še 21 dni terapije. Med 47 afirmacijami: »Imam napake, nisem pa pokvarjen.«</p>
+        </div>
+        <div class="box">
+          <h3>Drevo travme</h3>
+          <p><b>Korenine</b>: zloraba, zanemarjanje, zapuščenost, prepletenost, priča tragediji. Travma je »trenutek zaznane nemoči«.</p>
+          <p><b>Veje</b>: odvisnosti (tudi od dela, vadbe, perfekcionizma), soodvisnost, naučene strategije preživetja (jeza), motnje navezanosti.</p>
+          <p class="quote">90 % moškega besa je nemoč, preoblečena v frustracijo. (Terrence Real)</p>
+        </div>
+      </div>
+      <div class="box">
+        <h3>Orodja DBT in druga</h3>
+        <div class="grid3" style="gap:12px">
+          <div><h4>Čuječnost</h4><p>Prostor med dražljajem in odzivom.</p></div>
+          <div><h4>Preokvirjanje</h4><p>Situacijo poglej z očmi drugega (»This Is Water«).</p></div>
+          <div><h4>Nasprotno dejanje</h4><p>Sprememba vedenja lahko spremeni razpoloženje.</p></div>
+          <div><h4>Dih 4 : 6</h4><p>4 s vdih, 6 s izdih. »Kamor gre dih, gre živčni sistem.«</p></div>
+          <div><h4>Ledena voda</h4><p>Na obraz ali hladna prha, prek vagusnega živca.</p></div>
+          <div><h4>Govori sebi kot prijatelju</h4><p>Glasovni zapiski namesto notranjega kritika.</p></div>
+        </div>
+      </div>
+      <div class="box key">
+        <h3>Lekcija</h3>
+        <p>Čustveno zdravje obravnavaj kot srčno-žilno preventivo: opazi zgodnje znake, pojdi na terapijo in vsak dan vadi veščine. Razlikuj <b>vrline za življenjepis</b> od <b>vrlin za posmrtni govor</b>. »Če se lahko spremenim jaz, se lahko tudi ti.«</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EPILOG -->
+<section id="epilog">
+  <div class="sec-head">
+    <p class="eyebrow">Epilog</p>
+    <h2>Zakaj sploh živeti dlje?</h2>
+    <p class="lede">Attia je dolgoživost nekoč obravnaval kot inženirski problem z ciljem 120 let. Pet let, dve bivanji na zdravljenju in skoraj izgubljena družina so ga naučili, da je <b>dolgoživost brez pomena, če je življenje zanič</b>.</p>
+  </div>
+  <div class="box key">
+    <h3>Zadnja misel</h3>
+    <p>Najpomembnejša sestavina je <b>zakaj</b>: za kaj in za koga želiš živeti dlje. Ric Elias, potnik na letalu, ki je pristalo na reki Hudson: »Ljudje se postarajo, ko nehajo razmišljati o prihodnosti.«</p>
+  </div>
+</section>
+
+<!-- TEDEN -->
+<section id="teden">
+  <div class="sec-head">
+    <p class="eyebrow">Za prakso</p>
+    <h2>Teden po Outlive</h2>
+    <p class="lede">Številke iz knjige, zbrane na enem mestu. Attia jih prilagaja vsakemu pacientu.</p>
+  </div>
+  <div class="week">
+    <div class="box"><h3>Cona 2</h3><span class="fig">≈ 3 h</span><p>na teden, npr. 4 × 45 min. Govoriš, a komaj.</p></div>
+    <div class="box"><h3>VO2 max</h3><span class="fig">1×</span><p>na teden: 4–6 × (4 min trdo + 4 min lahko).</p></div>
+    <div class="box"><h3>Moč</h3><span class="fig">3–4×</span><p>na teden. Attia dviguje težko 4×. Prijem, nošenje, vleka, kolk.</p></div>
+    <div class="box"><h3>Stabilnost</h3><span class="fig">2 × 60 min</span><p>plus 10–15 min ostale dni.</p></div>
+    <div class="box"><h3>Beljakovine</h3><span class="fig">1,6–2,2</span><p>g/kg na dan, v 4 obrokih.</p></div>
+    <div class="box"><h3>Spanje</h3><span class="fig">7,5–8,5 h</span><p>Fiksna ura vstajanja, tema, hlad.</p></div>
+    <div class="box"><h3>Alkohol</h3><span class="fig">&lt; 7</span><p>na teden, največ 2 na dan. Bolje nič.</p></div>
+    <div class="box"><h3>Meritve</h3><span class="fig">apoB, Lp(a)</span><p>Inzulin, DEXA, VO2 max, kolonoskopija pri 40.</p></div>
+  </div>
+</section>
+
+<!-- KARTICA -->
+<section id="kartica">
+  <div class="sec-head">
+    <p class="eyebrow">Za hitri pregled</p>
+    <h2>Kartica Outlive</h2>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Poglavje</th><th>Ideja v eni vrstici</th><th>Številka, ki si jo zapomniš</th><th>Vprašanje zase</th></tr></thead>
+      <tbody>
+        <tr><td>1 Dolga igra</td><td>Umiramo počasi, za štirimi jezdeci.</td><td>Infarkt se razvija ≈ 20 let</td><td>Kje na krivulji sem danes?</td></tr>
+        <tr><td>2 Medicina 3.0</td><td>Preventiva, posameznik, iskreno tveganje.</td><td>WHI: +24 % = 0,1 odstotne točke</td><td>Kaj me stane, če ne naredim ničesar?</td></tr>
+        <tr><td>3 Cilj</td><td>Kvadratna krivulja, bonus desetletje.</td><td>Pet taktičnih področij</td><td>Kaj želim početi pri 90?</td></tr>
+        <tr><td>4 Stoletniki</td><td>Iste bolezni, desetletja pozneje.</td><td>Rak pri 100 namesto pri 72</td><td>Katere njihove navade lahko posnemam?</td></tr>
+        <tr><td>5 Jej manj</td><td>mTOR, AMPK in avtofagija vodijo staranje.</td><td>Rapamicin pri miših +9–13 %</td><td>Kdaj sem nazadnje bil lačen?</td></tr>
+        <tr><td>6 Metabolizem</td><td>Inzulin je prvi alarm, debelost le simptom.</td><td>1 od 2 na poti k sladkorni</td><td>Poznam svoj inzulin in trigliceride/HDL?</td></tr>
+        <tr><td>7 Srce</td><td>apoB čim nižje, čim prej. Lp(a) enkrat.</td><td>Cilj apoB 20–30 mg/dL</td><td>Kakšen je moj apoB?</td></tr>
+        <tr><td>8 Rak</td><td>Ne zboli, nato odkrij zgodaj.</td><td>Kolonoskopija pri 40</td><td>Katere preglede odlašam?</td></tr>
+        <tr><td>9 Alzheimer</td><td>Žilna in presnovna bolezen, le preventiva.</td><td>e4/e4 do 12× tveganje</td><td>Poznam svoj APOE?</td></tr>
+        <tr><td>10 Taktike</td><td>Natančni ukrepi z velikim vzvodom.</td><td>Tri vprašanja o hrani in mišicah</td><td>Sem preveč prehranjen in premalo mišičast?</td></tr>
+        <tr><td>11 Vadba</td><td>Slaba kondicija je hujša od kajenja.</td><td>Spodnja četrtina: ≈ 4× smrtnost</td><td>Kateri desetoboj želim zmoči?</td></tr>
+        <tr><td>12 Trening</td><td>Cona 2, VO2 max, moč, nošenje.</td><td>≈ 3 h cone 2 na teden</td><td>Koliko časa visim na drogu?</td></tr>
+        <tr><td>13 Stabilnost</td><td>Najprej si ne škodi.</td><td>6 mesecev osnov pred težkim</td><td>Ali vstanem s tal z eno roko?</td></tr>
+        <tr><td>14 Prehrana 3.0</td><td>Ni ene diete za vse.</td><td>Rdeče meso 1,17 vs kajenje 10–25×</td><td>Kateri podatek bi spremenil moj jedilnik?</td></tr>
+        <tr><td>15 Praksa</td><td>CR, DR, TR in veliko beljakovin.</td><td>1,6–2,2 g/kg beljakovin</td><td>Koliko beljakovin pojem danes?</td></tr>
+        <tr><td>16 Spanje</td><td>7,5–8,5 ure, tema, hlad, brez alkohola.</td><td>Pod 6 h: +20 % infarktov</td><td>Ob kateri uri vstajam tudi ob vikendih?</td></tr>
+        <tr><td>17 Čustva</td><td>Brez sreče dolgoživost nima smisla.</td><td>90 % moškega besa je nemoč</td><td>Bi želel, da moj otrok doživi to, kar sem jaz?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="foot">Povzetek je pripravljen po vsebini knjige <i>Outlive: The Science and Art of Longevity</i> (Peter Attia, Bill Gifford, Harmony Books, 2023). Številke so iz knjige in veljajo za čas njenega izida. Ni zdravniški nasvet. Namenjen je hitremu pregledu tiskanega izvoda in ne nadomešča branja.</p>
+</section>
+
+</div>
+</body>
+</html>
