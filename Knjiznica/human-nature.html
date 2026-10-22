@@ -1,0 +1,2497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08060c">
+<title>Human Nature From First Principles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #08060c;
+  --bg-deep: #050308;
+  --card: #0f0d18;
+  --card-hover: #15131e;
+  --card-elevated: #181522;
+  --border: #1e1b2c;
+  --border-bright: #2d2940;
+  --text: #ece7f1;
+  --text-dim: #8a8298;
+  --text-very-dim: #5c576a;
+  --accent: #d4a056;
+  --accent-bright: #e8b56a;
+  --accent-glow: rgba(212, 160, 86, 0.12);
+  --accent-glow-strong: rgba(212, 160, 86, 0.22);
+  --green: #5fbf73;
+  --green-glow: rgba(95, 191, 115, 0.10);
+  --red: #d97070;
+  --red-glow: rgba(217, 112, 112, 0.10);
+  --blue: #7aa4d4;
+  --blue-glow: rgba(122, 164, 212, 0.10);
+  --purple: #a67ad4;
+  --purple-glow: rgba(166, 122, 212, 0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+* { scrollbar-color: var(--border-bright) var(--bg-deep); scrollbar-width: thin; }
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-narrow {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 100px 0;
+  position: relative;
+}
+
+section.tight {
+  padding: 70px 0;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 120px 24px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+}
+
+.hero-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 100px;
+  background: var(--accent-glow);
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 7vw, 96px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 28px;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-title em {
+  font-style: italic;
+}
+
+.hero-subtitle {
+  font-size: clamp(17px, 2vw, 22px);
+  color: var(--text-dim);
+  max-width: 760px;
+  margin: 0 auto 40px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+
+.hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-very-dim);
+}
+
+.hero-meta span { display: flex; align-items: center; gap: 8px; }
+.hero-meta .dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--text-very-dim);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: bob 2.5s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%, 100% { transform: translate(-50%, 0); opacity: 0.5; }
+  50% { transform: translate(-50%, 8px); opacity: 1; }
+}
+
+/* SECTION HEADERS */
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.015em;
+}
+
+.section-title em { font-style: italic; color: var(--accent); }
+
+.section-lead {
+  font-size: clamp(17px, 1.5vw, 20px);
+  color: var(--text-dim);
+  line-height: 1.55;
+  max-width: 760px;
+  margin-bottom: 56px;
+}
+
+.section-lead strong { color: var(--text); font-weight: 600; }
+
+/* THE MODEL CARD */
+.big-idea {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.big-idea::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-glow-strong) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.big-idea-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+.big-idea-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.2vw, 28px);
+  line-height: 1.5;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+
+.big-idea-text strong { color: var(--accent); font-style: normal; font-weight: 700; }
+
+/* CARD GRIDS */
+.card-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.card-grid.two { grid-template-columns: repeat(2, 1fr); }
+.card-grid.three { grid-template-columns: repeat(3, 1fr); }
+.card-grid.four { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 36px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--border-bright);
+  background: var(--card-hover);
+  transform: translateY(-3px);
+}
+
+.card-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 18px;
+  display: block;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.card-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.card-body strong { color: var(--text); font-weight: 600; }
+
+.card-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.tag-master { background: var(--accent-glow); color: var(--accent); }
+.tag-bio { background: var(--green-glow); color: var(--green); }
+.tag-social { background: var(--blue-glow); color: var(--blue); }
+.tag-mind { background: var(--purple-glow); color: var(--purple); }
+.tag-risk { background: var(--red-glow); color: var(--red); }
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  padding-left: 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 30px;
+  bottom: 30px;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--border-bright) 8%, var(--border-bright) 92%, transparent);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 80px;
+  padding-bottom: 50px;
+}
+
+.timeline-item:last-child { padding-bottom: 0; }
+
+.timeline-dot {
+  position: absolute;
+  left: 19px;
+  top: 6px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  z-index: 1;
+}
+
+.timeline-dot::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-dot::after {
+  inset: 2px;
+  box-shadow: 0 0 16px var(--accent);
+}
+
+.timeline-when {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.timeline-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.timeline-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+.timeline-body strong { color: var(--text); }
+
+/* QUOTE */
+.quote-block {
+  text-align: center;
+  padding: 80px 0;
+  position: relative;
+}
+
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 0.5;
+  opacity: 0.4;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 36px);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--text);
+  max-width: 900px;
+  margin: 0 auto 24px;
+}
+
+.quote-cite {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-very-dim);
+  font-weight: 600;
+}
+
+/* MISMATCH TABLE */
+.mismatch-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.mismatch-header {
+  background: var(--card-elevated);
+  padding: 18px 22px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.mismatch-header.header-domain { color: var(--accent); }
+.mismatch-header.header-ancient { color: var(--green); }
+.mismatch-header.header-modern { color: var(--red); }
+
+.mismatch-row-domain {
+  background: var(--card);
+  padding: 22px;
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+}
+
+.mismatch-cell {
+  background: var(--card);
+  padding: 22px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.mismatch-cell.ancient { border-left: 2px solid var(--green-glow); }
+.mismatch-cell.modern { border-left: 2px solid var(--red-glow); }
+
+/* SYSTEM DIAGRAM */
+.system-diagram {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 60px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.system-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.system-node {
+  background: var(--card-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: 14px;
+  padding: 22px 32px;
+  text-align: center;
+  min-width: 320px;
+  max-width: 540px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.system-node:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 32px var(--accent-glow);
+}
+
+.system-node-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.system-node-content {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.system-arrow {
+  color: var(--accent);
+  font-size: 24px;
+  line-height: 1;
+  font-weight: 300;
+}
+
+.system-loop-label {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-very-dim);
+  font-weight: 600;
+}
+
+/* BIG FIVE TABLE */
+.bigfive {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+.bigfive-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+
+.bigfive-row:last-child { border-bottom: none; }
+
+.bigfive-row.head { background: var(--card-elevated); }
+.bigfive-row.head > div { padding: 18px 22px; font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-dim); }
+.bigfive-row.head > div:first-child { color: var(--accent); }
+
+.bigfive-trait {
+  padding: 22px;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  border-right: 1px solid var(--border);
+}
+
+.bigfive-high, .bigfive-low {
+  padding: 22px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.bigfive-high { border-right: 1px solid var(--border); }
+
+/* UNIVERSALS */
+.universals {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.universal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.universal-card:hover {
+  background: var(--card-hover);
+  border-color: var(--accent);
+}
+
+.universal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.universal-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+/* ERRORS LIST */
+.errors-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+}
+
+.error-card {
+  background: var(--card);
+  border-left: 3px solid var(--red);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 14px 14px 0;
+  padding: 28px 32px;
+  transition: all 0.3s ease;
+}
+
+.error-card:hover { background: var(--card-hover); }
+
+.error-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+
+.error-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.error-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* COMPARISON CARDS */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: stretch;
+}
+
+.comparison-card {
+  border-radius: 18px;
+  padding: 36px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.comparison-card.bad {
+  background: var(--card);
+  border-color: rgba(217, 112, 112, 0.25);
+}
+
+.comparison-card.good {
+  background: var(--card);
+  border-color: rgba(95, 191, 115, 0.25);
+}
+
+.comparison-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.bad .comparison-label { color: var(--red); }
+.good .comparison-label { color: var(--green); }
+
+.comparison-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color: var(--text);
+}
+
+.comparison-body {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* PRESCRIPTIONS LIST */
+.protocol {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 48px;
+}
+
+.protocol-item {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.protocol-item:last-child { border-bottom: none; }
+
+.protocol-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.protocol-content { padding-top: 4px; }
+
+.protocol-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.protocol-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* CLOSING */
+.closing {
+  text-align: center;
+  padding: 140px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.closing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.closing-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.closing-pre {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 32px;
+}
+
+.closing-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.15;
+  margin-bottom: 40px;
+  background: linear-gradient(180deg, var(--text) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.closing-body {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.closing-attribution {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-very-dim);
+  font-weight: 600;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 50px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-very-dim);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.footer a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer a:hover { opacity: 0.7; }
+
+/* CALLOUT */
+.callout {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 14px 14px 0;
+  padding: 28px 36px;
+  margin: 36px 0;
+}
+
+.callout-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.callout-body {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* RESPONSIVE */
+@media (max-width: 980px) {
+  .card-grid.three { grid-template-columns: repeat(2, 1fr); }
+  .card-grid.four { grid-template-columns: repeat(2, 1fr); }
+  .universals { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  section { padding: 70px 0; }
+  section.tight { padding: 50px 0; }
+  .hero { min-height: auto; padding: 100px 24px 80px; }
+  .hero-scroll { display: none; }
+
+  .card-grid.two, .card-grid.three, .card-grid.four { grid-template-columns: 1fr; }
+  .universals { grid-template-columns: repeat(2, 1fr); }
+  .comparison { grid-template-columns: 1fr; }
+  .errors-grid { grid-template-columns: 1fr; }
+
+  .card:hover, .universal-card:hover, .timeline-item:hover .timeline-dot::after { transform: none; }
+
+  .big-idea { padding: 36px 28px; }
+  .protocol { padding: 32px 24px; }
+
+  .mismatch-grid { grid-template-columns: 1fr; }
+  .mismatch-header { padding: 14px 18px; }
+  .mismatch-row-domain { padding: 18px; font-size: 15px; }
+  .mismatch-cell { padding: 18px; }
+
+  .bigfive-row { grid-template-columns: 1fr; }
+  .bigfive-row.head { display: none; }
+  .bigfive-trait { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  .bigfive-high, .bigfive-low { border-right: none; padding: 14px 22px; }
+  .bigfive-high::before { content: 'HIGH: '; font-size: 10px; letter-spacing: 2px; color: var(--green); font-weight: 700; }
+  .bigfive-low::before { content: 'LOW: '; font-size: 10px; letter-spacing: 2px; color: var(--blue); font-weight: 700; }
+
+  .timeline::before { left: 14px; }
+  .timeline-dot { left: 5px; }
+  .timeline-item { padding-left: 50px; }
+
+  .system-node { min-width: auto; width: 100%; padding: 18px 22px; }
+  .system-diagram { padding: 36px 20px; }
+
+  .closing { padding: 100px 24px; }
+}
+
+@media (max-width: 420px) {
+  body { font-size: 15px; }
+  .hero-label { font-size: 11px; letter-spacing: 2px; padding: 6px 12px; }
+  .card { padding: 26px 22px; }
+  .universals { grid-template-columns: 1fr; }
+  .quote-text { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; scroll-behavior: auto; }
+}
+
+/* LANGUAGE TOGGLE */
+.lang-toggle{position:fixed;top:18px;right:18px;z-index:1000;display:flex;gap:2px;background:rgba(15,13,24,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--border-bright);border-radius:100px;padding:4px;}
+.lang-toggle button{font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--text-dim);background:transparent;border:none;border-radius:100px;padding:6px 13px;cursor:pointer;transition:color .2s ease,background .2s ease;}
+.lang-toggle button.active{color:var(--bg-deep);background:var(--accent);}
+.lang-toggle button:not(.active):hover{color:var(--text);}
+[data-lang-layer]{display:none;}
+[data-lang-layer].active{display:block;}
+@media (max-width:420px){.lang-toggle{top:12px;right:12px;}.lang-toggle button{padding:5px 11px;font-size:11px;}}
+.kn-back{position:fixed;top:18px;left:18px;z-index:1000;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;color:var(--text-dim);text-decoration:none;background:rgba(15,13,24,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--border-bright);border-radius:100px;padding:9px 14px;}
+.kn-back:hover{color:var(--accent);}
+@media (max-width:420px){.kn-back{top:12px;left:12px;padding:8px 12px;font-size:11px;}}
+</style>
+</head>
+<body>
+<a class="kn-back" href="./">← Knjižnica</a>
+
+<div class="lang-toggle" role="group" aria-label="Language / Jezik">
+  <button type="button" data-l="en" class="active">EN</button>
+  <button type="button" data-l="sl">SL</button>
+</div>
+
+<div data-lang-layer="en" class="active">
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">First Principles Guide</div>
+    <h1 class="hero-title">
+      Human Nature, <em>from the first humans</em> to right now.
+    </h1>
+    <p class="hero-subtitle">
+      A walk through the 3.5 billion years of evolution, 300,000 years of Homo sapiens, and the small set of drives and patterns that still run every human you will ever meet, including the one reading this.
+    </p>
+    <div class="hero-meta">
+      <span><span class="dot"></span>8 chapters</span>
+      <span><span class="dot"></span>~26,000 words distilled</span>
+      <span><span class="dot"></span>Updated 16. 5. 2026</span>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll to begin</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE THIRTY SECOND VERSION ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The thirty-second version</span>
+    <h2 class="section-title">If you only read <em>one</em> thing.</h2>
+    <p class="section-lead">
+      Compressed paragraph that contains the entire model. Everything else in this page is evidence, structure, and application of what you are about to read.
+    </p>
+
+    <div class="big-idea">
+      <div class="big-idea-label">The Model</div>
+      <p class="big-idea-text">
+        Humans are <strong>biological organisms</strong> shaped by 3.5 billion years of evolution, finalized for hunter-gatherer life in the Pleistocene, now living in environments that have changed faster than evolution can keep up with. We run on a small set of <strong>universal drives</strong> (survival, reproduction, status, belonging, meaning, understanding, autonomy, comfort) inside a brain whose older emotional layers are faster and stronger than the newer reasoning layer. We cooperate at scale by sharing <strong>invented realities</strong>: money, gods, nations, brands, laws. The mismatch between our nature and our environment produces most modern dysfunction, and most of it can be addressed by changing inputs rather than fighting biology.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== FIVE CORE CLAIMS ===================== -->
+<section>
+  <div class="container">
+    <span class="section-label">The five core claims</span>
+    <h2 class="section-title">The whole document in <em>five sentences</em>.</h2>
+    <p class="section-lead">
+      If the paragraph above is too long, here are the five claims you can carry in your head. Each one is unpacked across an entire chapter in the source.
+    </p>
+
+    <div class="card-grid three" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-number">01</span>
+        <h3 class="card-title">You are a Pleistocene primate.</h3>
+        <p class="card-body">Your body and mind were finalized for a different world. Almost every reflex you have is calibrated against that world, not this one. Your fitness genes, your status anxiety, your tribal loyalty, your cravings. All Pleistocene defaults running on 21st century inputs.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">02</span>
+        <h3 class="card-title">Status is the master drive most adults will not admit.</h3>
+        <p class="card-body">A large fraction of behavior, including behavior dressed up as principle, is status competition. Most of what looks like ideology or preference is rank pursuit in disguise. Naming it stops it from running you.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">03</span>
+        <h3 class="card-title">Cooperation at scale requires shared fictions.</h3>
+        <p class="card-body">Money, brands, nations, laws. They are not lies. They are the technology that lets strangers cooperate. They work as long as enough people believe them. Civilization is fragile because its operating system is belief.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two">
+      <div class="card">
+        <span class="card-number">04</span>
+        <h3 class="card-title">Most dysfunction is mismatch.</h3>
+        <p class="card-body">The body is fine. The inputs are wrong. Most modern problems (obesity, anxiety, depression, loneliness, distraction, polarization) are well-functioning ancestral systems responding correctly to inputs they were not built for. Change the inputs and most chronic modern problems improve.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">05</span>
+        <h3 class="card-title">The good life is not a default.</h3>
+        <p class="card-body">It has to be constructed deliberately, against ancient drives that no longer fit and modern environments that exploit them. The biology will not deliver flourishing by accident. The environment will not deliver it by default. Conscious participation is required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 1 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Every drive, instinct, emotion, and preference a human has was selected for because it improved reproductive success in past environments, not because it makes the human happy or wise in the present.</p>
+    <div class="quote-cite">From Chapter 02. The Hardware</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== HARDWARE / BRAIN ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The hardware</span>
+    <h2 class="section-title">A brain built in <em>layers</em>, not from scratch.</h2>
+    <p class="section-lead">
+      Evolution is conservative. It builds on top of what is already there rather than starting over. Your brain is a stack of systems added across hundreds of millions of years, with newer functions running on older infrastructure. When &quot;what I should do&quot; and &quot;what I want to do&quot; fight, you are usually feeling that stack.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="card-grid three">
+      <div class="card">
+        <span class="card-tag tag-bio">Oldest layer</span>
+        <h3 class="card-title">Brainstem</h3>
+        <p class="card-body">Heart rate. Breathing. Body temperature. Sleep cycles. Reflexes. Shared with reptiles and fish. Runs without you. You cannot override it consciously beyond very narrow windows.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-mind">Middle layer</span>
+        <h3 class="card-title">Limbic System</h3>
+        <p class="card-body">Amygdala, hippocampus, hypothalamus, basal ganglia. Shared with mammals. Generates emotion: fear, anger, attraction, disgust, joy. Faster than thought. Most &quot;gut reactions&quot; happen here, below awareness.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-social">Newest layer</span>
+        <h3 class="card-title">Cortex</h3>
+        <p class="card-body">Reason, language, planning, social modeling, self-reflection. Especially the prefrontal cortex, behind your forehead. Not fully myelinated until age 25. Less powerful in conflict than people assume.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The key asymmetry</div>
+      <p class="callout-body">The limbic system has more wiring projecting <em>up</em> into the cortex than the cortex has projecting <em>down</em>. Emotion biases reason more than reason biases emotion. This is a design feature, not a bug. It is also why willpower is unreliable: under stress, sleep loss, or hunger, prefrontal function drops and the older systems take over.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== TIMELINE / HISTORY ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The story</span>
+    <h2 class="section-title">300,000 years of <em>Homo sapiens</em>, in phase transitions.</h2>
+    <p class="section-lead">
+      Each phase transition changed the conditions of human life enough that everything afterward was different. The biology did not change much. The environment did. Most of our current problems are downstream of the gap that opened between them.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">7 million years ago</div>
+        <h4 class="timeline-title">The split from chimps</h4>
+        <p class="timeline-body">The human lineage diverges from the chimpanzee lineage. There is no single &quot;first human.&quot; A chain of hominid species follows: Australopithecus, Homo habilis, Homo erectus. Brains grow. Tools appear. Fire is controlled by roughly 1 million years ago.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">300,000 years ago</div>
+        <h4 class="timeline-title">Homo sapiens appears</h4>
+        <p class="timeline-body">We emerge in Africa. We are one of <strong>several human species</strong> on the planet, including Neanderthals and Denisovans. For 230,000 years we show no obvious cognitive supremacy.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">~70,000 years ago</div>
+        <h4 class="timeline-title">The Cognitive Revolution</h4>
+        <p class="timeline-body">Sudden flowering of art, ornament, refined tools, long-distance trade. Language gains the ability to reference abstractions and fictions. We gain the technology of <strong>shared imaginary realities</strong>, which lets us cooperate in groups larger than ~150. The other human species do not have this capability. Within tens of thousands of years, they are gone.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">70,000 to 12,000 years ago</div>
+        <h4 class="timeline-title">Hunter-gatherer life</h4>
+        <p class="timeline-body">Small bands of 30 to 50 people, tribal networks of ~150. Relatively egalitarian within bands. Status earned through skill. Animist worldview, ritual, oral storytelling. <strong>This is the world our psychology was tuned for.</strong> We are still those people, just in a different building.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">12,000 years ago</div>
+        <h4 class="timeline-title">The Agricultural Revolution</h4>
+        <p class="timeline-body">Cultivation begins independently in the Fertile Crescent, China, the Indus Valley, Mesoamerica, the Andes, and elsewhere. Surplus produces hierarchy, property, taxes, kings, armies, slavery, writing. Population explodes. Health declines for the average person. The first big stretching of the gap between our nature and our environment.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">5,000 years ago</div>
+        <h4 class="timeline-title">First civilizations</h4>
+        <p class="timeline-body">Sumer. Egypt. The Indus Valley. Shang China. Cities, temples, divine kings, codes of law, long-distance trade, organized warfare, slavery. Patterns that converge across cultures with no contact, because they are the solutions humans reach for under those conditions.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">800 to 200 BCE</div>
+        <h4 class="timeline-title">The Axial Age</h4>
+        <p class="timeline-body">Buddha. Confucius. Laozi. The Hebrew prophets. Zoroaster. Socrates, Plato, Aristotle, the Stoics. Independently, in widely separated civilizations, humans begin to ask in writing: <em>how should one live?</em> The traditions of this period still structure the moral and philosophical life of most humans alive today.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">500 BCE to 500 CE</div>
+        <h4 class="timeline-title">Classical empires</h4>
+        <p class="timeline-body">Persia, Maurya, Han China, Rome. The first polities governing tens of millions through standing armies, bureaucracy, codified law, paid roads. Universal religions emerge (Christianity, Buddhism spreading east) as the first scalable software for binding strangers into a moral community.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">500 to 1500 CE</div>
+        <h4 class="timeline-title">The medieval world</h4>
+        <p class="timeline-body">Islam emerges and spans Spain to Central Asia within a century. The Islamic Golden Age preserves Greek learning and advances mathematics and medicine. Song China invents paper money, printing, gunpowder. The Mongol Empire briefly connects Asia and Europe. The Black Death kills a third of Europe. Universities, parliaments, charters of rights begin to appear.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">1500 to 1800</div>
+        <h4 class="timeline-title">Scientific Revolution + Enlightenment</h4>
+        <p class="timeline-body">Copernicus. Galileo. Newton. The discovery that <strong>observation and math can overrule authority</strong> on factual claims. The Enlightenment extends the method to politics, law, religion, economics. Locke, Hume, Smith, Kant. Natural rights, government by consent, the idea of progress. The modern world is born in its values before it is born in its conditions.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">1750 to 1900</div>
+        <h4 class="timeline-title">Industrial Revolution</h4>
+        <p class="timeline-body">Steam, coal, iron, electricity. Energy densities no prior society had access to. Productivity rises by orders of magnitude. Cities explode. Family structure changes. Slavery is abolished across the Atlantic world. Europe colonizes most of the planet by 1900. The material world reshapes faster than at any prior moment.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">The 20th century</div>
+        <h4 class="timeline-title">Ideologies, decolonization, IT, mass life expectancy</h4>
+        <p class="timeline-body">Communism, fascism, liberal democracy compete. Liberal democracy plus markets emerges dominant by 1991. Empires dissolve. Antibiotics, vaccines, sanitation push life expectancy from 45 to 75 in industrialized countries. Two existential technologies appear: nuclear weapons, then biotechnology. The gap between human nature and human environment widens beyond anything prior.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Now</div>
+        <h4 class="timeline-title">A phase transition in progress</h4>
+        <p class="timeline-body">Globalization peaks and partially reverses. Smartphones connect most of humanity. Social media measurably hurts adolescent mental health. AI emerges as a general-purpose technology, reshaping software and knowledge work in real time. Climate change is in the data, not the forecast. Geopolitical tensions higher than any point since the Cold War. The drives have not changed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 2 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">We are still those people. Just in a different building.</p>
+    <div class="quote-cite">From Chapter 03. The Story</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE DRIVES ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The drives</span>
+    <h2 class="section-title">Eight motivations that explain <em>most adult behavior</em>.</h2>
+    <p class="section-lead">
+      Cultural surface varies dramatically across centuries and continents. The underlying drives are remarkably stable. All eight are active simultaneously in any adult life, weighing against each other in moment-to-moment decisions. Predicting human behavior means asking <strong>which drive is dominant right now</strong> and what the others are doing in the background.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-tag tag-bio">Drive 01</span>
+        <h3 class="card-title">Survival</h3>
+        <p class="card-body">Air, water, food, warmth, sleep, safety from immediate threat. When unmet, almost nothing else matters. In modern industrialized societies these are met by default for most people. The system still scans for threats it cannot find and manufactures substitutes: a snippy email, a news headline, a social slight.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-bio">Drive 02</span>
+        <h3 class="card-title">Reproduction and sex</h3>
+        <p class="card-body">The most obvious evolutionary drive and the least openly discussed. Hardwired below conscious awareness. An enormous amount of human display, accomplishment, competition, and creative production is mating-related, even when the performer would not describe it that way.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card" style="border-color: var(--accent); background: linear-gradient(135deg, var(--card) 0%, var(--accent-glow) 100%);">
+        <span class="card-tag tag-master">The master drive</span>
+        <h3 class="card-title">Drive 03. Status</h3>
+        <p class="card-body">Your rank within the group you care about. The most powerful and least admitted driver of adult behavior. Higher-status individuals in social mammals live longer, eat better, have more mates, and show lower stress markers. Status drops trigger depression more reliably than almost any other single event. <strong>Most of what people do, including a lot of what they call principle, is status competition in disguise.</strong></p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-social">Drive 04</span>
+        <h3 class="card-title">Belonging and tribe</h3>
+        <p class="card-body">Humans evolved as group animals. Solitary humans throughout history were almost always dead, exiled, or in extreme abnormal conditions. Loneliness is physically painful. Chronic social isolation predicts mortality at rates comparable to smoking. The drive forms tribes around any reliable identity marker: language, dress, religion, sports team, political party, profession.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-tag tag-mind">Drive 05</span>
+        <h3 class="card-title">Meaning and significance</h3>
+        <p class="card-body">Once basic needs are met, meaning becomes the bottleneck. Three sources are well documented: belonging to something larger than oneself, contributing through effort, and having a coherent narrative about your life. When all three are present, meaning is high. When any is missing, meaning falters.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-mind">Drive 06</span>
+        <h3 class="card-title">Understanding and mastery</h3>
+        <p class="card-body">Curiosity in its surface form, mastery in its longer form. Tied to dopamine reward when prediction succeeds or skilled action lands. Curiosity is fragile, extinguished by tedium, humiliation, or premature answers. Mastery requires deliberate practice at the edge of current ability. The foundation of every human accomplishment in science, art, craft, and sport.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two">
+      <div class="card">
+        <span class="card-tag tag-social">Drive 07</span>
+        <h3 class="card-title">Autonomy and control</h3>
+        <p class="card-body">The desire to be the cause of your own actions, not the object of someone else's. Cross-culturally stable. Workplace autonomy predicts satisfaction more reliably than salary above a threshold. The autonomy drive is in tension with belonging; healthy adult life is a negotiation between the two.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-risk">Drive 08</span>
+        <h3 class="card-title">Comfort and pleasure</h3>
+        <p class="card-body">The simplest drive, and the one our modern environment hijacks most successfully. The dopamine reward system evolved to teach the brain &quot;this is worth pursuing.&quot; In abundance, that system gets hijacked by engineered foods, algorithmic feeds, gambling, pornography. The drive is not pathological. The environment changed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 3 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Status is the single most underestimated driver of adult human behavior. Most of what people do, including a lot of what they think is principled, is status competition in disguise.</p>
+    <div class="quote-cite">From Chapter 04. The Drives</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE UNIVERSALS ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The universals</span>
+    <h2 class="section-title">Traits found in <em>every human society</em> ever studied.</h2>
+    <p class="section-lead">
+      In 1991, anthropologist Donald Brown published a list of human universals. Hundreds of items shared across every culture carefully observed. If a feature shows up in pre-agricultural hunter-gatherers, ancient Sumerian cities, medieval China, and modern Manhattan, it is part of human nature, not a cultural accident.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="universals">
+      <div class="universal-card"><div class="universal-title">Language</div><p class="universal-body">Grammar with nouns and verbs. Tense or its equivalents. Logical operators (and, not, true, false). Translation always possible.</p></div>
+      <div class="universal-card"><div class="universal-title">Music + dance</div><p class="universal-body">Group song. Rhythm. Dance. Lullabies. Music tied to ritual.</p></div>
+      <div class="universal-card"><div class="universal-title">Family + kinship</div><p class="universal-body">Marriage in some form. Incest taboos. Pair bonding. Mother, father, child roles. Extended kin networks.</p></div>
+      <div class="universal-card"><div class="universal-title">Sex + reproduction</div><p class="universal-body">Sexual jealousy. Modesty about some behaviors. Concepts of beauty. Pubertal customs.</p></div>
+      <div class="universal-card"><div class="universal-title">Politics + law</div><p class="universal-body">Leadership. Conflict resolution. Property. Inheritance. Rules. Punishment.</p></div>
+      <div class="universal-card"><div class="universal-title">Religion + ritual</div><p class="universal-body">Belief in supernatural agents. Rituals around birth, death, transitions. Magical thinking. Concepts of soul or spirit.</p></div>
+      <div class="universal-card"><div class="universal-title">Morality</div><p class="universal-body">Fairness sense. Reciprocity. Empathy. In-group vs out-group moral standards.</p></div>
+      <div class="universal-card"><div class="universal-title">Aesthetics</div><p class="universal-body">Body decoration. Visual art. Concepts of beauty. Color terms.</p></div>
+      <div class="universal-card"><div class="universal-title">Tools</div><p class="universal-body">Tool use. Tool-making. Containers. Cooking. Fire. Weapons. Clothing.</p></div>
+      <div class="universal-card"><div class="universal-title">Economic life</div><p class="universal-body">Exchange. Specialization by sex and age. Reciprocal gift-giving. Trade. Property.</p></div>
+      <div class="universal-card"><div class="universal-title">Knowledge</div><p class="universal-body">Folk biology. Folk physics. Folk psychology. Beliefs about death and disease.</p></div>
+      <div class="universal-card"><div class="universal-title">Social structure</div><p class="universal-body">In-group vs out-group. Status hierarchies. Sanctions. Distinct gender roles.</p></div>
+    </div>
+
+    <div class="callout" style="margin-top: 60px;">
+      <div class="callout-label">What this means</div>
+      <p class="callout-body">Religion, hierarchy, gender roles, property, art, storytelling, and conflict are <em>universal in form, varied in detail</em>. No society without supernatural beliefs has ever been documented. No society without status differences either. The strict 20th-century claims that gender is fully constructed or that property is artificial are not supported by the cross-cultural record. The opposite biological-determinist claims also fail. Both biology and culture are real, and both do meaningful work.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE BIG FIVE ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Individual variation</span>
+    <h2 class="section-title">Within the universals, the <em>Big Five</em>.</h2>
+    <p class="section-lead">
+      Five dimensions of personality replicated across many cultures and languages. Each is roughly 40 to 60 percent heritable. Largely stable from late adolescence onward. The trait is your starting place, not your identity. Working with it beats fighting it.
+    </p>
+
+    <div class="bigfive">
+      <div class="bigfive-row head">
+        <div>Trait</div>
+        <div>High end looks like</div>
+        <div>Low end looks like</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Openness</div>
+        <div class="bigfive-high">Curious, imaginative, drawn to novelty and abstraction. Artistic interests. Often politically liberal.</div>
+        <div class="bigfive-low">Practical, conventional, prefers familiar. Less interested in abstractions.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Conscientiousness</div>
+        <div class="bigfive-high">Disciplined, organized, reliable, future-oriented, hardworking. Predicts academic and career success.</div>
+        <div class="bigfive-low">Flexible, spontaneous, less focused on planning or schedules.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Extraversion</div>
+        <div class="bigfive-high">Energized by social contact. Talkative, assertive, seeks stimulation.</div>
+        <div class="bigfive-low">Reserved, prefers solitude. Lower social energy. Not the same as social anxiety.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Agreeableness</div>
+        <div class="bigfive-high">Cooperative, trusting, warm, conflict-averse. Predicts cooperative relationships.</div>
+        <div class="bigfive-low">Competitive, skeptical, willing to be unpopular. Direct.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Neuroticism</div>
+        <div class="bigfive-high">Prone to negative emotion, anxiety, mood swings. Threat sensitivity. Predicts mental health risk.</div>
+        <div class="bigfive-low">Emotionally stable. Less reactive. Calmer under stress.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE MISMATCH ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The mismatch</span>
+    <h2 class="section-title">Evolved nature against <em>modern environment</em>.</h2>
+    <p class="section-lead">
+      <strong>Mismatch theory</strong> is the single most useful lens for modern psychological dysfunction. Most chronic problems are not pathologies of the system. They are the predictable response of a well-functioning ancestral system to inputs it was not built for. The biology is stable. The environment changed. Interventions that move the environment closer to ancestral conditions tend to work.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="mismatch-grid">
+      <div class="mismatch-header header-domain">Domain</div>
+      <div class="mismatch-header header-ancient">Ancestral expectation</div>
+      <div class="mismatch-header header-modern">Modern reality</div>
+
+      <div class="mismatch-row-domain">Food</div>
+      <div class="mismatch-cell ancient">Calorie scarcity. Diverse foraged diet. Hard to get, high fiber, seasonal. Body evolved to crave calorie density and store fat aggressively.</div>
+      <div class="mismatch-cell modern">Cheap, 24/7, engineered for palatability. Refined sugar and fat. Low fiber. Year-round. Result: epidemic obesity, type 2 diabetes, fatty liver disease.</div>
+
+      <div class="mismatch-row-domain">Movement</div>
+      <div class="mismatch-cell ancient">Roughly 10 kilometers per day. Daily physical activity non-negotiable for survival. Cardiovascular, musculoskeletal, metabolic systems all expect it.</div>
+      <div class="mismatch-cell modern">8 to 12 hours of sitting per day. Back pain, joint problems, sarcopenia, cardiovascular disease, metabolic syndrome, mood disorders.</div>
+
+      <div class="mismatch-row-domain">Light + sleep</div>
+      <div class="mismatch-cell ancient">Bright sun during the day. Total darkness at night. Biphasic flexible sleep. Circadian system calibrated against the sun.</div>
+      <div class="mismatch-cell modern">Indoor life with low daytime light. Blue-spectrum screens at night. Late bedtimes. Alarm-driven wakes. Chronic partial sleep deprivation.</div>
+
+      <div class="mismatch-row-domain">Social density</div>
+      <div class="mismatch-cell ancient">Bands of 30 to 50 people, networks of ~150. You knew everyone you saw. You were never anonymous. The brain expects relationships at depth.</div>
+      <div class="mismatch-cell modern">Cities of millions. Daily exposure to thousands of faces, mostly strangers. Loneliness in crowds. The brain treats most encounters as low-trust.</div>
+
+      <div class="mismatch-row-domain">Information</div>
+      <div class="mismatch-cell ancient">Scarce. From people you knew. Attached to immediate consequences. Stories repeated by tellers you could see. Novel input was rare.</div>
+      <div class="mismatch-cell modern">Infinite. Mostly strangers. Decoupled from consequences. Algorithmic feeds optimize for engagement, which usually means emotional activation.</div>
+
+      <div class="mismatch-row-domain">Status visibility</div>
+      <div class="mismatch-cell ancient">Reference group was your band and surrounding bands. You compared yourself to people whose lives you knew. Bounded competition.</div>
+      <div class="mismatch-cell modern">Reference group is whoever is in your feed. Professional athletes, billionaires, celebrities, curated peer highlight reels. Comparison runs against an impossible distribution.</div>
+
+      <div class="mismatch-row-domain">Chronic threat</div>
+      <div class="mismatch-cell ancient">Threats were acute and identifiable. Lions, rivals, illness. Stress response spiked, mobilized action, then resolved.</div>
+      <div class="mismatch-cell modern">Threats are abstract, chronic, unresolvable. Financial uncertainty, career instability, news cycles, climate change. The stress cycle never completes. Burnout.</div>
+
+      <div class="mismatch-row-domain">Meaning</div>
+      <div class="mismatch-cell ancient">Provided by default. Tribe, role, worldview, ancestors, concrete contribution. The system did not have to be built.</div>
+      <div class="mismatch-cell modern">None of this supplied. Tribes must be built. Worldviews chosen. Roles not inherited. Contribution abstract and often anonymous. Meaning vacuum.</div>
+
+      <div class="mismatch-row-domain">Mating market</div>
+      <div class="mismatch-cell ancient">Limited known pool. Pair-bonding incentivized for both sexes by child-rearing demands. Trade-offs visible over time.</div>
+      <div class="mismatch-cell modern">App-mediated unlimited pool. Dynamics favor a small fraction of men and women. Higher singleness, later marriage, lower birth rates, mating dissatisfaction across sexes.</div>
+
+      <div class="mismatch-row-domain">Novelty</div>
+      <div class="mismatch-cell ancient">Rare and usually significant. New territory, tool, person, situation. The dopamine system marked novelty as worth attending to.</div>
+      <div class="mismatch-cell modern">Infinite and engineered. New content every few seconds. Dopamine overload. Diminished reward from natural sources. Constant low-grade stimulation hunger.</div>
+    </div>
+
+    <div class="callout" style="margin-top: 48px;">
+      <div class="callout-label">The pattern</div>
+      <p class="callout-body">Each row is the same story. An ancient system optimized for one environment is now receiving inputs from a different one. The dysfunction is not random. It is the systematic output of a well-functioning ancient program running on inputs it was not built for. <em>The biology is fine. The inputs are wrong.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== SYSTEM DIAGRAM ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The model</span>
+    <h2 class="section-title">The system you are <em>actually</em> running.</h2>
+    <p class="section-lead">
+      A slightly richer picture of the model as a system with parts that interact. Arrows are bidirectional in practice. Behavior shapes the environment. Outcomes shape the brain. Shared fictions become part of the environment. The system is recursive.
+    </p>
+
+    <div class="system-diagram">
+      <div class="system-flow">
+        <div class="system-node">
+          <span class="system-node-label">Layer 01</span>
+          <div class="system-node-content">Environment<br><span style="color: var(--text-very-dim); font-size: 13px;">physical, technological, cultural</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Layer 02</span>
+          <div class="system-node-content">Evolved Hardware<br><span style="color: var(--text-very-dim); font-size: 13px;">body + brain (limbic + cortex)</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Layer 03</span>
+          <div class="system-node-content">Universal Drives<br><span style="color: var(--text-very-dim); font-size: 13px;">survival, sex, status, belonging, meaning, mastery, autonomy, comfort</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Layer 04</span>
+          <div class="system-node-content">Shared Fictions<br><span style="color: var(--text-very-dim); font-size: 13px;">money, gods, nations, brands, laws, contracts</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Layer 05</span>
+          <div class="system-node-content">Behavior<br><span style="color: var(--text-very-dim); font-size: 13px;">individual + collective</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Layer 06</span>
+          <div class="system-node-content">Outcomes + Feedback<br><span style="color: var(--text-very-dim); font-size: 13px;">becomes the environment again</span></div>
+        </div>
+      </div>
+      <div class="system-loop-label">&uarr; Loop closes &uarr;</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE FIVE ERRORS ===================== -->
+<section>
+  <div class="container">
+    <div class="container-narrow" style="padding: 0;">
+      <span class="section-label">Common mistakes</span>
+      <h2 class="section-title">Five errors that will <em>trip you up</em>.</h2>
+      <p class="section-lead">
+        When you start exploring human nature, you will encounter these failure patterns. Each one is half-right and dangerous when taken as a full explanation. Naming them in advance prevents most of the damage.
+      </p>
+    </div>
+
+    <div class="errors-grid">
+      <div class="error-card">
+        <div class="error-num">Error 01</div>
+        <h4 class="error-name">The blank slate</h4>
+        <p class="error-body">The claim that humans are born with no predispositions and that all behavior comes from culture. Largely false. We are born with rich evolved predispositions: face preference, language acquisition order, fear of snakes, moral intuitions. Culture builds on this scaffolding, sometimes dramatically. It does not write on an empty page.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Error 02</div>
+        <h4 class="error-name">Biological determinism</h4>
+        <p class="error-body">The opposite mistake. The claim that biology fully determines behavior and culture is decoration. Also false. Biology sets ranges and defaults. Within those ranges, culture has enormous power. Both are real, and you need both to explain anything.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Error 03</div>
+        <h4 class="error-name">The noble savage</h4>
+        <p class="error-body">The idea that pre-civilized humans lived in peace and that civilization corrupted us. Hunter-gatherer life had real strengths: egalitarianism, healthy nutrition, strong bonds. It also had homicide rates that would horrify a modern city, frequent warfare, high child mortality, no medicine. It was not Eden.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Error 04</div>
+        <h4 class="error-name">Modern people are different</h4>
+        <p class="error-body">The mirror image. The claim that we are categorically different from people 2,000 or 20,000 years ago because of iPhones or science. Wrong. Human biology has barely changed. The deep psychology of a Bronze Age farmer is essentially ours. Read Homer. You will recognize yourself.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Error 05</div>
+        <h4 class="error-name">One driver explains everything</h4>
+        <p class="error-body">The temptation to reduce behavior to one master variable. Sex, money, status, fear of death, power, class struggle, rational choice. Every major theorist who tried this is partly right and largely wrong. Human behavior is overdetermined. Multiple drives are always active. A theory that reduces everything to one will miss most of the picture.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Bonus</div>
+        <h4 class="error-name">Romanticizing the future</h4>
+        <p class="error-body">Progress is real but not guaranteed. Technology does not automatically improve human wellbeing. Recent technologies (engineered food, social media, dating apps) have produced significant new harms alongside their benefits. Assume the next technology will too, even if you like it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== COMPARISON: WHAT CHANGES ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Stability and change</span>
+    <h2 class="section-title">What history <em>changes</em>, what it <em>doesn't</em>.</h2>
+    <p class="section-lead">
+      Most stable features of your current life depend on continued operation of cooperation infrastructure. Most stable features of your inner life depend on continued operation of your biology. Plan for the second to be more reliable than the first.
+    </p>
+
+    <div class="comparison">
+      <div class="comparison-card bad">
+        <div class="comparison-label">Has changed dramatically</div>
+        <h3 class="comparison-title">Conditions</h3>
+        <p class="comparison-body">
+          Material conditions (food, shelter, medicine, transport). Communication speed. Average lifespan and infant mortality. Slavery, formal hierarchy, gender expectations. Political institutions (democracy, citizenship, rights). Religious landscape. Average violence rates.
+          <br><br>
+          All of these have shifted enormously over centuries. Most of what feels permanent about your current society is recent and contingent.
+        </p>
+      </div>
+      <div class="comparison-card good">
+        <div class="comparison-label">Has stayed essentially the same</div>
+        <h3 class="comparison-title">Nature</h3>
+        <p class="comparison-body">
+          The drives: status, sex, belonging, meaning, comfort. The basic emotional palette. Cognitive architecture (limbic faster than cortex, mostly unconscious decisions). The need for tribe and ritual. Patterns of cooperation and defection. Rise-and-fall dynamics in civilizations. The reality of compounding asymmetries.
+          <br><br>
+          These have been stable for thousands of years and will be stable for the foreseeable future.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 4 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Civilization is a technology for cooperating at scale despite our nature. It is real, it is fragile, and it is not guaranteed to continue.</p>
+    <div class="quote-cite">From the Index. The thirty-second version</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE PROTOCOL ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">The minimum viable protocol</span>
+    <h2 class="section-title">Ten <em>infrastructure</em> habits.</h2>
+    <p class="section-lead">
+      Most adult life optimization is not adding more. It is removing the wrong inputs and rebuilding the right ones. Most of what passes for clinical mental health treatment is making people functional enough to do approximately these things. If you can do them directly, you compress months of intervention into a self-managed protocol.
+    </p>
+
+    <div class="protocol">
+      <div class="protocol-item">
+        <div class="protocol-num">01</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Sleep</h4>
+          <p class="protocol-body">Consistent schedule. Dark bedroom. No screens an hour before bed. Morning sunlight. Aim for 7 to 9 hours. The single highest-leverage intervention in modern health.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">02</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Movement</h4>
+          <p class="protocol-body">Walk daily, ideally outdoor. Resistance training twice a week. Avoid sitting more than 30 to 60 minutes without standing. The body interprets prolonged inactivity as a survival signal that conditions are bad.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">03</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Food</h4>
+          <p class="protocol-body">Whole foods most of the time. Restrict ultra-processed food at the source by not buying it. Adequate protein. Fiber. The fix is not &quot;eat less.&quot; The fix is changing the food environment.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">04</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Light</h4>
+          <p class="protocol-body">Bright light in the morning, ideally outdoor within an hour of waking. Dim light in the evening. Outdoor time every day. The circadian system is calibrated against the sun.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">05</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Connection</h4>
+          <p class="protocol-body">Two to four close relationships maintained actively. A weekly in-person ritual with someone you care about. Solitary humans deteriorate. This is not optional. This is the substrate.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">06</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Information diet</h4>
+          <p class="protocol-body">Sharp limits on feed-based content. Replace with chosen sources: books, specific creators, long-form. Phone outside the bedroom. Build the capacity for boredom back. It is the substrate of creativity.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">07</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Status</h4>
+          <p class="protocol-body">Choose your hierarchies deliberately. Curate your feed to remove unproductive comparisons. Inventory the status games you are playing. Decide which to invest in, which to exit.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">08</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Meaning</h4>
+          <p class="protocol-body">A practice or project you find inherently worthwhile, protected on the calendar. Most adults underweight meaning in favor of urgent demands. The cost is delayed and severe.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">09</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Stress recovery</h4>
+          <p class="protocol-body">Real rest, not media consumption. Walks. Time in nature. Sleep. Sauna. Breath work. Whatever closes the stress cycle for you. Modern life keeps reopening it. You have to close it deliberately.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">10</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Mating</h4>
+          <p class="protocol-body">Treat your relationship or pursuit of one as a serious life project, not a hobby. Avoid substitutes that drain the drive without satisfying it. The infrastructure for stable pair bonds has weakened. Conscious construction is required.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 36px;">
+      <div class="callout-label">If you do these consistently for three months</div>
+      <p class="callout-body">You will feel like a different person. This is not a guarantee against serious mental illness, which often has biological components requiring treatment. It is the substrate on which good mental health rests. The substrate has been quietly subtracted by modern life. <em>Reinstating it is the highest-leverage personal intervention available.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== QUOTE 5 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Cultivate what your biology wants. Override what your environment exploits.</p>
+    <div class="quote-cite">From Chapter 07. The Synthesis</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== UNCERTAINTY ===================== -->
+<section class="tight">
+  <div class="container-narrow">
+    <span class="section-label">What the model does not solve</span>
+    <h2 class="section-title">Where this model is <em>uncertain</em>.</h2>
+    <p class="section-lead">
+      A good model names its own limits. Some honest uncertainties to carry alongside what the rest of the document claims confidently.
+    </p>
+
+    <div class="card-grid two">
+      <div class="card">
+        <h3 class="card-title">The cognitive revolution mechanism</h3>
+        <p class="card-body">Was it genetic, cultural, or both? The evidence is suggestive but not conclusive. The leading hypotheses converge on a small genetic shift unlocking a capacity that required cultural critical mass to express, but the specifics are open.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Consciousness itself</h3>
+        <p class="card-body">None of the models in the source touch the hard problem. Why subjective experience exists at all remains open, and most of what we say about psychology is silent on it.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Genes vs environment, in any specific case</h3>
+        <p class="card-body">Population-level heritability estimates do not translate cleanly to individual cases. Knowing that a trait is 50 percent heritable in a population tells you almost nothing about what is possible for a specific person.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Humans deeply embedded in artificial environments</h3>
+        <p class="card-body">People who have grown up entirely online may have differently calibrated drives. We do not yet know what that looks like at population scale. The current adolescent mental health crisis is the early data.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">AI's effect on cooperation infrastructure</h3>
+        <p class="card-body">Money, contracts, brands, identity. All may be transformed by AI in the next 10 to 20 years. The drives will not change. The institutions that channel them will.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Whether the rise-and-fall cycle has the same shape now</h3>
+        <p class="card-body">History suggests cycles. The current moment is unlike any prior one in some specific ways: global connectivity, technological acceleration. The cycle may compress, stretch, or change form.</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 36px; font-size: 15px; color: var(--text-very-dim); line-height: 1.6; text-align: center; font-style: italic; font-family: 'Playfair Display', serif;">
+      The model is robust enough to bet on. It is not robust enough to claim certainty. Use it accordingly.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== CLOSING ===================== -->
+<section class="closing">
+  <div class="closing-inner">
+    <div class="closing-pre">Closing</div>
+    <h2 class="closing-title">You are a biological organism with finite time and a set of drives that, properly fed, can produce flourishing.</h2>
+    <p class="closing-body">
+      The drives, properly understood, can also produce a life that looked busy and felt empty. You have roughly 4,000 weeks in an average adult life, plus or minus, and you have spent a substantial fraction of them already. The remaining ones are finite and not refundable.
+      <br><br>
+      This is not a depressing observation. It is a clarifying one. The drives that are loudest in any moment are not always the drives that matter on a 30-year time horizon. The status game that consumes you now will be irrelevant in 10 years. The relationships you are neglecting now will be the ones you wish you had cultivated. The contribution you keep postponing is the one you will regret.
+    </p>
+    <div class="closing-attribution">Use the model. Add to it. Update it when reality demands.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  Generated from <a href="./human-nature.md">Context/Knowledge/topics/humanity/human-nature/</a> &nbsp;&middot;&nbsp; 16. 5. 2026
+</footer>
+</div>
+<div data-lang-layer="sl">
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Vodnik iz prvih principov</div>
+    <h1 class="hero-title">
+      Človeška narava, <em>od prvih ljudi</em> do tega trenutka.
+    </h1>
+    <p class="hero-subtitle">
+      Sprehod skozi 3,5 milijarde let evolucije, 300.000 let vrste Homo sapiens in tisto peščico gonov ter vzorcev, ki še vedno poganjajo vsakega človeka, ki ga boste kdaj srečali, tudi tistega, ki bere te vrstice.
+    </p>
+    <div class="hero-meta">
+      <span><span class="dot"></span>8 poglavij</span>
+      <span><span class="dot"></span>~26.000 besed, strnjenih</span>
+      <span><span class="dot"></span>Posodobljeno 16. 5. 2026</span>
+    </div>
+  </div>
+  <div class="hero-scroll">Podrsajte za začetek</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE THIRTY SECOND VERSION ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Različica v tridesetih sekundah</span>
+    <h2 class="section-title">Če preberete <em>eno samo</em> stvar.</h2>
+    <p class="section-lead">
+      Strnjen odstavek, ki vsebuje celoten model. Vse drugo na tej strani so dokazi, struktura in uporaba tega, kar sledi.
+    </p>
+
+    <div class="big-idea">
+      <div class="big-idea-label">Model</div>
+      <p class="big-idea-text">
+        Ljudje smo <strong>biološki organizmi</strong>, ki jih je oblikovalo 3,5 milijarde let evolucije in dokončno izpililo za lovsko-nabiralniško življenje v pleistocenu, danes pa živimo v okoljih, ki so se spremenila hitreje, kot jim evolucija zmore slediti. Poganja nas peščica <strong>univerzalnih gonov</strong> (preživetje, razmnoževanje, status, pripadnost, smisel, razumevanje, avtonomija, udobje) znotraj možganov, katerih starejše čustvene plasti so hitrejše in močnejše od mlajše razumske. Sodelujemo v velikem obsegu tako, da si delimo <strong>izmišljene resničnosti</strong>: denar, bogove, narode, znamke, zakone. Neujemanje med našo naravo in našim okoljem poraja večino sodobnih motenj, velik del pa je mogoče odpraviti tako, da spremenimo vhodne podatke, namesto da bi se borili proti biologiji.
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== FIVE CORE CLAIMS ===================== -->
+<section>
+  <div class="container">
+    <span class="section-label">Pet temeljnih trditev</span>
+    <h2 class="section-title">Celoten dokument v <em>petih stavkih</em>.</h2>
+    <p class="section-lead">
+      Če je zgornji odstavek predolg, je tu pet trditev, ki jih lahko nosite v glavi. Vsaka od njih je v izvorniku razdelana v celotnem poglavju.
+    </p>
+
+    <div class="card-grid three" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-number">01</span>
+        <h3 class="card-title">Ste pleistocenski primat.</h3>
+        <p class="card-body">Vaše telo in um sta bila dokončno izpiljena za drugačen svet. Skoraj vsak refleks, ki ga premorete, je umerjen po tistem svetu, ne po tem. Vaši geni za telesno pripravljenost, vaša tesnoba glede statusa, vaša plemenska zvestoba, vaše poželenje. Vse to so pleistocenske privzete nastavitve, ki tečejo na vhodnih podatkih 21. stoletja.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">02</span>
+        <h3 class="card-title">Status je gospodujoči gon, ki ga večina odraslih ne prizna.</h3>
+        <p class="card-body">Velik del vedenja, tudi tistega, ki se šopiri kot načelo, je tekmovanje za status. Večina tega, kar je videti kot ideologija ali preferenca, je preoblečeno prizadevanje za položaj. Če ga poimenujete, vas neha voditi.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">03</span>
+        <h3 class="card-title">Sodelovanje v velikem obsegu terja skupne fikcije.</h3>
+        <p class="card-body">Denar, znamke, narodi, zakoni. To niso laži. So tehnologija, ki neznancem omogoča sodelovanje. Delujejo, dokler vanje verjame dovolj ljudi. Civilizacija je krhka, ker je njen operacijski sistem verovanje.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two">
+      <div class="card">
+        <span class="card-number">04</span>
+        <h3 class="card-title">Večina motenj je neujemanje.</h3>
+        <p class="card-body">Z organizmom je vse v redu, narobe so vhodni podatki. Večina sodobnih težav (debelost, tesnoba, depresija, osamljenost, raztresenost, polarizacija) so dobro delujoči prednamski sistemi, ki se pravilno odzivajo na vhodne podatke, za katere niso bili zgrajeni. Spremenite vhodne podatke in večina kroničnih sodobnih težav se omili.</p>
+      </div>
+      <div class="card">
+        <span class="card-number">05</span>
+        <h3 class="card-title">Dobro življenje ni privzeta nastavitev.</h3>
+        <p class="card-body">Zgraditi ga je treba premišljeno, proti starodavnim gonom, ki se ne prilegajo več, in proti sodobnim okoljem, ki jih izkoriščajo. Biologija razcveta ne bo prinesla po naključju. Okolje ga ne bo prineslo samo od sebe. Potrebno je zavestno sodelovanje.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 1 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Vsi goni, nagoni, čustva in preference, kar jih človek premore, so bili izbrani zato, ker so v nekdanjih okoljih izboljševali uspešnost razmnoževanja, ne pa zato, da bi bil človek v sedanjosti srečen ali moder.</p>
+    <div class="quote-cite">Iz 2. poglavja. Strojna oprema</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== HARDWARE / BRAIN ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Strojna oprema</span>
+    <h2 class="section-title">Možgani, zgrajeni v <em>plasteh</em>, ne od začetka.</h2>
+    <p class="section-lead">
+      Evolucija je konservativna. Gradi na tem, kar že obstaja, namesto da bi začenjala znova. Vaši možgani so sklad sistemov, dodajanih skozi več sto milijonov let, kjer novejše funkcije tečejo na starejši infrastrukturi. Kadar se stepeta »kaj bi moral storiti« in »kaj si želim storiti«, običajno čutite prav ta sklad.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="card-grid three">
+      <div class="card">
+        <span class="card-tag tag-bio">Najstarejša plast</span>
+        <h3 class="card-title">Možgansko deblo</h3>
+        <p class="card-body">Srčni utrip. Dihanje. Telesna temperatura. Cikli spanja. Refleksi. Delimo ga s plazilci in ribami. Teče brez vas. Zavestno ga ne morete preglasiti, razen v zelo ozkih oknih.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-mind">Srednja plast</span>
+        <h3 class="card-title">Limbični sistem</h3>
+        <p class="card-body">Amigdala, hipokampus, hipotalamus, bazalni gangliji. Delimo ga s sesalci. Poraja čustva: strah, jezo, privlačnost, gnus, veselje. Hitrejši je od misli. Večina »trebušnih odzivov« se zgodi tu, pod ravnijo zavedanja.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-social">Najmlajša plast</span>
+        <h3 class="card-title">Skorja</h3>
+        <p class="card-body">Razum, jezik, načrtovanje, modeliranje družbenih odnosov, samorefleksija. Zlasti prefrontalna skorja, za vašim čelom. Do 25. leta ni povsem mielinizirana. V spopadu je manj močna, kot ljudje domnevajo.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">Ključna asimetrija</div>
+      <p class="callout-body">Limbični sistem ima več povezav, ki segajo <em>navzgor</em> v skorjo, kot jih ima skorja, ki segajo <em>navzdol</em>. Čustvo bolj vpliva na razum kot razum na čustvo. To je značilnost zasnove, ne napaka. Prav zato je tudi sila volje nezanesljiva: pod stresom, ob pomanjkanju spanja ali lakoti prefrontalno delovanje upade in vajeti prevzamejo starejši sistemi.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== TIMELINE / HISTORY ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Zgodba</span>
+    <h2 class="section-title">300.000 let vrste <em>Homo sapiens</em>, v faznih prehodih.</h2>
+    <p class="section-lead">
+      Vsak fazni prehod je spremenil pogoje človeškega življenja dovolj, da je bilo vse, kar mu je sledilo, drugačno. Biologija se ni kaj dosti spreminjala. Okolje se je. Večina naših današnjih težav izvira iz vrzeli, ki se je odprla med njima.
+    </p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred 7 milijoni let</div>
+        <h4 class="timeline-title">Ločitev od šimpanzov</h4>
+        <p class="timeline-body">Človeška veja se razide s šimpanzovsko. Nobenega enega samega »prvega človeka« ni. Sledi veriga hominidnih vrst: Australopithecus, Homo habilis, Homo erectus. Možgani rastejo. Pojavijo se orodja. Ogenj ukrotijo približno pred milijonom let.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred 300.000 leti</div>
+        <h4 class="timeline-title">Pojavi se Homo sapiens</h4>
+        <p class="timeline-body">Vzniknemo v Afriki. Smo ena od <strong>več človeških vrst</strong> na planetu, med njimi so neandertalci in denisovci. 230.000 let ne kažemo nobene očitne kognitivne premoči.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred ~70.000 leti</div>
+        <h4 class="timeline-title">Kognitivna revolucija</h4>
+        <p class="timeline-body">Nenaden razcvet umetnosti, okrasja, izpiljenih orodij, trgovine na dolge razdalje. Jezik pridobi zmožnost sklicevanja na abstrakcije in fikcije. Pridobimo tehnologijo <strong>skupnih namišljenih resničnosti</strong>, ki nam omogoča sodelovanje v skupinah, večjih od ~150. Druge človeške vrste te zmožnosti nimajo. V nekaj deset tisoč letih jih ni več.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred 70.000 do 12.000 leti</div>
+        <h4 class="timeline-title">Lovsko-nabiralniško življenje</h4>
+        <p class="timeline-body">Majhne skupine 30 do 50 ljudi, plemenske mreže po ~150. Znotraj skupin razmeroma enakopravni. Status prislužen s spretnostjo. Animistični svetovni nazor, obredje, ustno pripovedništvo. <strong>To je svet, za katerega je bila uglašena naša psihologija.</strong> Še vedno smo isti ljudje, le v drugačni stavbi.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred 12.000 leti</div>
+        <h4 class="timeline-title">Agrarna revolucija</h4>
+        <p class="timeline-body">Poljedelstvo se neodvisno začne v Rodovitnem polmesecu, na Kitajskem, v dolini Inda, v Mezoameriki, v Andih in drugod. Presežek porodi hierarhijo, lastnino, davke, kralje, vojske, suženjstvo, pisavo. Prebivalstvo eksplodira. Zdravje povprečnega človeka upade. Prvo veliko raztezanje vrzeli med našo naravo in našim okoljem.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Pred 5.000 leti</div>
+        <h4 class="timeline-title">Prve civilizacije</h4>
+        <p class="timeline-body">Sumer. Egipt. Dolina Inda. Šangovska Kitajska. Mesta, templji, božanski kralji, zakoniki, trgovina na dolge razdalje, organizirano vojskovanje, suženjstvo. Vzorci, ki se stekajo v kulturah brez medsebojnega stika, ker so to rešitve, po katerih ljudje posežejo pod takimi pogoji.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">800 do 200 pr. n. št.</div>
+        <h4 class="timeline-title">Osna doba</h4>
+        <p class="timeline-body">Buda. Konfucij. Lao Ce. Hebrejski preroki. Zaratustra. Sokrat, Platon, Aristotel, stoiki. Neodvisno, v med seboj daleč ločenih civilizacijah, ljudje začnejo pisno spraševati: <em>kako naj človek živi?</em> Izročila tega obdobja še vedno oblikujejo moralno in filozofsko življenje večine danes živečih ljudi.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">500 pr. n. št. do 500 n. št.</div>
+        <h4 class="timeline-title">Klasična cesarstva</h4>
+        <p class="timeline-body">Perzija, Maurijci, dinastija Han na Kitajskem, Rim. Prve ureditve, ki so s stalnimi vojskami, birokracijo, kodificiranim pravom in tlakovanimi cestami vladale desetinam milijonov. Vzniknejo univerzalne religije (krščanstvo, budizem, ki se širi proti vzhodu) kot prva programska oprema, sposobna povezati neznance v moralno skupnost v velikem obsegu.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">500 do 1500 n. št.</div>
+        <h4 class="timeline-title">Srednjeveški svet</h4>
+        <p class="timeline-body">Vznikne islam in se v stoletju razpne od Španije do Srednje Azije. Islamska zlata doba ohrani grško učenost ter napreduje v matematiki in medicini. Songovska Kitajska iznajde papirnati denar, tisk, smodnik. Mongolski imperij za kratek čas poveže Azijo in Evropo. Črna smrt pobije tretjino Evrope. Začnejo se pojavljati univerze, parlamenti, listine pravic.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">1500 do 1800</div>
+        <h4 class="timeline-title">Znanstvena revolucija in razsvetljenstvo</h4>
+        <p class="timeline-body">Kopernik. Galilei. Newton. Odkritje, da lahko <strong>opazovanje in matematika v dejstvenih vprašanjih preglasita avtoriteto</strong>. Razsvetljenstvo razširi metodo na politiko, pravo, religijo, ekonomijo. Locke, Hume, Smith, Kant. Naravne pravice, oblast s privoljenjem, ideja napredka. Sodobni svet se rodi v svojih vrednotah, preden se rodi v svojih razmerah.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">1750 do 1900</div>
+        <h4 class="timeline-title">Industrijska revolucija</h4>
+        <p class="timeline-body">Para, premog, železo, elektrika. Gostote energije, do kakršnih ni imela dostopa nobena prejšnja družba. Produktivnost naraste za velikostne rede. Mesta eksplodirajo. Družinska struktura se spremeni. Suženjstvo odpravijo po vsem atlantskem svetu. Do leta 1900 Evropa kolonizira večino planeta. Materialni svet se preoblikuje hitreje kot kadar koli prej.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">20. stoletje</div>
+        <h4 class="timeline-title">Ideologije, dekolonizacija, informatika, množično podaljšanje življenjske dobe</h4>
+        <p class="timeline-body">Tekmujejo komunizem, fašizem, liberalna demokracija. Do leta 1991 se kot prevladujoča izlušči liberalna demokracija skupaj s trgi. Imperiji razpadejo. Antibiotiki, cepiva, higiena potisnejo pričakovano življenjsko dobo s 45 na 75 let v industrializiranih državah. Pojavita se dve eksistencialni tehnologiji: jedrsko orožje, nato biotehnologija. Vrzel med človeško naravo in človeškim okoljem se razširi bolj kot kdaj prej.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-when">Zdaj</div>
+        <h4 class="timeline-title">Fazni prehod v teku</h4>
+        <p class="timeline-body">Globalizacija doseže vrh in se deloma obrne nazaj. Pametni telefoni povežejo večino človeštva. Družbena omrežja merljivo škodujejo duševnemu zdravju mladostnikov. Umetna inteligenca vznikne kot tehnologija za splošno rabo in v realnem času preoblikuje programsko opremo in umsko delo. Podnebne spremembe so v podatkih, ne v napovedih. Geopolitične napetosti so višje kot v katerem koli trenutku po hladni vojni. Goni se niso spremenili.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 2 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Še vedno smo isti ljudje. Le v drugačni stavbi.</p>
+    <div class="quote-cite">Iz 3. poglavja. Zgodba</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE DRIVES ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Goni</span>
+    <h2 class="section-title">Osem motivov, ki pojasnijo <em>večino vedenja odraslih</em>.</h2>
+    <p class="section-lead">
+      Kulturna površina se dramatično razlikuje od stoletja do stoletja in od celine do celine. Goni v ozadju so izjemno stabilni. V vsakem odraslem življenju je hkrati dejavnih vseh osem in v vsakem trenutnem odločanju tehtajo drug proti drugemu. Napovedati človeško vedenje pomeni vprašati se, <strong>kateri gon je pravkar prevladujoč</strong> in kaj počnejo ostali v ozadju.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-tag tag-bio">Gon 01</span>
+        <h3 class="card-title">Preživetje</h3>
+        <p class="card-body">Zrak, voda, hrana, toplota, spanje, varnost pred neposredno grožnjo. Kadar niso zadovoljeni, skoraj nič drugega ni pomembno. V sodobnih industrializiranih družbah so za večino ljudi zadovoljeni samodejno. Sistem še naprej oprezuje za grožnjami, ki jih ne najde, in si izmišlja nadomestke: osoren e-poštni odgovor, naslov v novicah, družbeno zbadanje.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-bio">Gon 02</span>
+        <h3 class="card-title">Razmnoževanje in spolnost</h3>
+        <p class="card-body">Najbolj očiten evolucijski gon in tisti, o katerem se najmanj odkrito govori. Trdo ožičen pod ravnijo zavesti. Ogromen del človeškega razkazovanja, dosežkov, tekmovanja in ustvarjalne produkcije je povezan s parjenjem, tudi kadar izvajalec tega ne bi tako opisal.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card" style="border-color: var(--accent); background: linear-gradient(135deg, var(--card) 0%, var(--accent-glow) 100%);">
+        <span class="card-tag tag-master">Gospodujoči gon</span>
+        <h3 class="card-title">Gon 03. Status</h3>
+        <p class="card-body">Vaš položaj znotraj skupine, za katero vam je mar. Najmočnejše in najmanj priznano gonilo vedenja odraslih. Osebki z višjim statusom pri družabnih sesalcih živijo dlje, se bolje hranijo, imajo več partnerjev in kažejo nižje kazalnike stresa. Padci statusa sprožijo depresijo bolj zanesljivo kot skoraj kateri koli drug posamezen dogodek. <strong>Večina tega, kar ljudje počnejo, tudi velik del tega, kar imenujejo načelo, je preoblečeno tekmovanje za status.</strong></p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-social">Gon 04</span>
+        <h3 class="card-title">Pripadnost in pleme</h3>
+        <p class="card-body">Ljudje smo se razvili kot skupinske živali. Osamljeni ljudje so bili skozi vso zgodovino skoraj vselej mrtvi, pregnani ali v skrajnih, nenavadnih okoliščinah. Osamljenost telesno boli. Kronična družbena izolacija napoveduje umrljivost v razmerju, primerljivem s kajenjem. Gon oblikuje plemena okrog vsakega zanesljivega označevalca identitete: jezika, oblačil, religije, športnega kluba, politične stranke, poklica.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two" style="margin-bottom: 24px;">
+      <div class="card">
+        <span class="card-tag tag-mind">Gon 05</span>
+        <h3 class="card-title">Smisel in pomembnost</h3>
+        <p class="card-body">Ko so temeljne potrebe zadovoljene, smisel postane ozko grlo. Trije viri so dobro dokumentirani: pripadnost nečemu večjemu od sebe, prispevanje z naporom in skladna pripoved o lastnem življenju. Kadar so prisotni vsi trije, je smisla veliko. Kadar kateri koli manjka, smisel omahuje.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-mind">Gon 06</span>
+        <h3 class="card-title">Razumevanje in mojstrstvo</h3>
+        <p class="card-body">Radovednost v svoji površinski obliki, mojstrstvo v svoji daljši. Vezano na dopaminsko nagrado, ko napoved uspe ali ko spretno dejanje zadene. Radovednost je krhka, ugasnejo jo dolgočasje, poniževanje ali prezgodnji odgovori. Mojstrstvo terja namensko vajo na robu trenutne zmožnosti. Temelj vsakega človeškega dosežka v znanosti, umetnosti, obrti in športu.</p>
+      </div>
+    </div>
+
+    <div class="card-grid two">
+      <div class="card">
+        <span class="card-tag tag-social">Gon 07</span>
+        <h3 class="card-title">Avtonomija in nadzor</h3>
+        <p class="card-body">Želja biti vzrok lastnih dejanj, ne predmet tujih. Stabilna prek kultur. Avtonomija na delovnem mestu napoveduje zadovoljstvo bolj zanesljivo kot plača nad določenim pragom. Gon po avtonomiji je v napetosti s pripadnostjo; zdravo odraslo življenje je pogajanje med obema.</p>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-risk">Gon 08</span>
+        <h3 class="card-title">Udobje in ugodje</h3>
+        <p class="card-body">Najpreprostejši gon in tisti, ki ga naše sodobno okolje najuspešneje ugrabi. Dopaminski sistem nagrajevanja se je razvil, da je možganom sporočal »temu je vredno slediti«. V obilju ta sistem ugrabijo prirejena hrana, algoritemski viri vsebin, igre na srečo, pornografija. Gon ni patološki. Spremenilo se je okolje.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 3 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Status je najbolj podcenjeno posamezno gonilo vedenja odraslih ljudi. Večina tega, kar ljudje počnejo, tudi velik del tega, za kar mislijo, da je načelno, je preoblečeno tekmovanje za status.</p>
+    <div class="quote-cite">Iz 4. poglavja. Goni</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE UNIVERSALS ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Univerzalije</span>
+    <h2 class="section-title">Lastnosti, prisotne v <em>vsaki preučeni človeški družbi</em>.</h2>
+    <p class="section-lead">
+      Leta 1991 je antropolog Donald Brown objavil seznam človeških univerzalij. Na stotine postavk, ki jih delijo vse skrbno opazovane kulture. Če se neka lastnost pojavi pri predagrarnih lovcih in nabiralcih, v starodavnih sumerskih mestih, na srednjeveškem Kitajskem in v sodobnem Manhattnu, je del človeške narave, ne kulturno naključje.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="universals">
+      <div class="universal-card"><div class="universal-title">Jezik</div><p class="universal-body">Slovnica s samostalniki in glagoli. Čas ali njegove ustreznice. Logični operatorji (in, ne, resnično, napačno). Prevod je vselej mogoč.</p></div>
+      <div class="universal-card"><div class="universal-title">Glasba in ples</div><p class="universal-body">Skupinsko petje. Ritem. Ples. Uspavanke. Glasba, vezana na obred.</p></div>
+      <div class="universal-card"><div class="universal-title">Družina in sorodstvo</div><p class="universal-body">Zakonska zveza v takšni ali drugačni obliki. Tabuji o incestu. Parjenje v zvezo. Vloge matere, očeta, otroka. Razširjene sorodstvene mreže.</p></div>
+      <div class="universal-card"><div class="universal-title">Spolnost in razmnoževanje</div><p class="universal-body">Spolna ljubosumnost. Sramežljivost glede nekaterih vedenj. Pojmi lepote. Šege ob puberteti.</p></div>
+      <div class="universal-card"><div class="universal-title">Politika in pravo</div><p class="universal-body">Vodenje. Reševanje sporov. Lastnina. Dedovanje. Pravila. Kaznovanje.</p></div>
+      <div class="universal-card"><div class="universal-title">Religija in obred</div><p class="universal-body">Vera v nadnaravne dejavnike. Obredi ob rojstvu, smrti, prehodih. Magično mišljenje. Pojmi duše ali duha.</p></div>
+      <div class="universal-card"><div class="universal-title">Morala</div><p class="universal-body">Občutek za pravičnost. Vzajemnost. Empatija. Različna moralna merila za skupino in tujce.</p></div>
+      <div class="universal-card"><div class="universal-title">Estetika</div><p class="universal-body">Okraševanje telesa. Likovna umetnost. Pojmi lepote. Poimenovanja barv.</p></div>
+      <div class="universal-card"><div class="universal-title">Orodja</div><p class="universal-body">Raba orodij. Izdelovanje orodij. Posode. Kuhanje. Ogenj. Orožja. Oblačila.</p></div>
+      <div class="universal-card"><div class="universal-title">Gospodarsko življenje</div><p class="universal-body">Menjava. Specializacija po spolu in starosti. Vzajemno obdarovanje. Trgovanje. Lastnina.</p></div>
+      <div class="universal-card"><div class="universal-title">Znanje</div><p class="universal-body">Ljudska biologija. Ljudska fizika. Ljudska psihologija. Verovanja o smrti in bolezni.</p></div>
+      <div class="universal-card"><div class="universal-title">Družbena struktura</div><p class="universal-body">Skupina proti tujcem. Statusne hierarhije. Sankcije. Ločene vloge po spolu.</p></div>
+    </div>
+
+    <div class="callout" style="margin-top: 60px;">
+      <div class="callout-label">Kaj to pomeni</div>
+      <p class="callout-body">Religija, hierarhija, spolne vloge, lastnina, umetnost, pripovedništvo in konflikt so <em>univerzalni po obliki, raznoliki v podrobnostih</em>. Nikdar ni bila dokumentirana družba brez nadnaravnih verovanj. Prav tako ne družba brez statusnih razlik. Strogih trditev 20. stoletja, da je spol povsem konstruiran ali da je lastnina umeten pojav, medkulturni zapis ne podpira. Tudi nasprotne, biološko deterministične trditve ne vzdržijo. Resnični sta obe, biologija in kultura, in obe opravljata pomembno delo.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE BIG FIVE ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Individualna variabilnost</span>
+    <h2 class="section-title">Znotraj univerzalij <em>velika peterica</em>.</h2>
+    <p class="section-lead">
+      Pet razsežnosti osebnosti, potrjenih prek številnih kultur in jezikov. Vsaka je približno 40 do 60 odstotno dedna. Večinoma stabilna od poznega mladostništva naprej. Lastnost je vaše izhodišče, ne vaša identiteta. Delati z njo se obnese bolje kot boriti se proti njej.
+    </p>
+
+    <div class="bigfive">
+      <div class="bigfive-row head">
+        <div>Lastnost</div>
+        <div>Visoki pol je videti takole</div>
+        <div>Nizki pol je videti takole</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Odprtost</div>
+        <div class="bigfive-high">Radoveden, domiseln, privlačijo ga novost in abstrakcije. Umetniška zanimanja. Pogosto politično liberalen.</div>
+        <div class="bigfive-low">Praktičen, konvencionalen, ima raje znano. Manj zanimanja za abstrakcije.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Vestnost</div>
+        <div class="bigfive-high">Discipliniran, urejen, zanesljiv, usmerjen v prihodnost, priden. Napoveduje uspeh v izobraževanju in karieri.</div>
+        <div class="bigfive-low">Prožen, spontan, manj osredotočen na načrtovanje ali urnike.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Ekstravertnost</div>
+        <div class="bigfive-high">Družabni stiki mu dajejo energijo. Zgovoren, odločen, išče spodbudo.</div>
+        <div class="bigfive-low">Zadržan, ima raje samoto. Nižja družabna energija. Ni isto kot socialna tesnoba.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Sprejemljivost</div>
+        <div class="bigfive-high">Sodelovalen, zaupljiv, topel, izogiba se sporom. Napoveduje sodelovalne odnose.</div>
+        <div class="bigfive-low">Tekmovalen, skeptičen, pripravljen biti nepriljubljen. Neposreden.</div>
+      </div>
+      <div class="bigfive-row">
+        <div class="bigfive-trait">Nevroticizem</div>
+        <div class="bigfive-high">Nagnjen k negativnim čustvom, tesnobi, nihanju razpoloženja. Občutljiv na grožnje. Napoveduje tveganje za duševno zdravje.</div>
+        <div class="bigfive-low">Čustveno stabilen. Manj odziven. Mirnejši pod stresom.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE MISMATCH ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Neujemanje</span>
+    <h2 class="section-title">Razvita narava proti <em>sodobnemu okolju</em>.</h2>
+    <p class="section-lead">
+      <strong>Teorija neujemanja</strong> je daleč najuporabnejša leča za sodobne psihološke motnje. Večina kroničnih težav ni patologija sistema. So predvidljiv odziv dobro delujočega prednamskega sistema na vhodne podatke, za katere ni bil zgrajen. Biologija je stabilna. Okolje se je spremenilo. Ukrepi, ki okolje približajo prednamskim pogojem, se ponavadi obnesejo.
+    </p>
+  </div>
+
+  <div class="container">
+    <div class="mismatch-grid">
+      <div class="mismatch-header header-domain">Področje</div>
+      <div class="mismatch-header header-ancient">Prednamsko pričakovanje</div>
+      <div class="mismatch-header header-modern">Sodobna resničnost</div>
+
+      <div class="mismatch-row-domain">Hrana</div>
+      <div class="mismatch-cell ancient">Pomanjkanje kalorij. Raznolika nabrana prehrana. Težko dostopna, bogata z vlakninami, sezonska. Telo se je razvilo tako, da hlepi po energijski gostoti in agresivno skladišči maščobo.</div>
+      <div class="mismatch-cell modern">Poceni, na voljo ves čas, prirejena za okusnost. Rafiniran sladkor in maščoba. Malo vlaknin. Vse leto. Posledica: epidemija debelosti, sladkorna bolezen tipa 2, zamaščena jetra.</div>
+
+      <div class="mismatch-row-domain">Gibanje</div>
+      <div class="mismatch-cell ancient">Približno 10 kilometrov na dan. Vsakodnevna telesna dejavnost, nujna za preživetje. Srčno-žilni, mišično-skeletni in presnovni sistemi jo vsi pričakujejo.</div>
+      <div class="mismatch-cell modern">8 do 12 ur sedenja na dan. Bolečine v hrbtu, težave s sklepi, sarkopenija, srčno-žilne bolezni, presnovni sindrom, motnje razpoloženja.</div>
+
+      <div class="mismatch-row-domain">Svetloba in spanje</div>
+      <div class="mismatch-cell ancient">Močno sonce podnevi. Popolna tema ponoči. Dvofazno prožno spanje. Cirkadiani sistem umerjen po soncu.</div>
+      <div class="mismatch-cell modern">Življenje v zaprtih prostorih z malo dnevne svetlobe. Zasloni v modrem spektru ponoči. Pozno leganje spat. Zbujanje z budilko. Kronično delno pomanjkanje spanja.</div>
+
+      <div class="mismatch-row-domain">Družbena gostota</div>
+      <div class="mismatch-cell ancient">Skupine 30 do 50 ljudi, mreže po ~150. Poznali ste vse, ki ste jih videli. Nikdar niste bili anonimni. Možgani pričakujejo globoke odnose.</div>
+      <div class="mismatch-cell modern">Mesta z milijoni. Vsakodnevna izpostavljenost tisočem obrazov, večinoma tujcev. Osamljenost sredi množic. Možgani večino srečanj obravnavajo kot komaj vredna zaupanja.</div>
+
+      <div class="mismatch-row-domain">Informacije</div>
+      <div class="mismatch-cell ancient">Redke. Od ljudi, ki ste jih poznali. Vezane na neposredne posledice. Zgodbe, ki so jih ponavljali pripovedovalci, ki ste jih videli. Nov vhodni podatek je bil redkost.</div>
+      <div class="mismatch-cell modern">Neskončne. Večinoma od tujcev. Odvezane od posledic. Algoritemski viri vsebin optimizirajo za angažiranost, kar navadno pomeni čustveno vzburjenje.</div>
+
+      <div class="mismatch-row-domain">Vidnost statusa</div>
+      <div class="mismatch-cell ancient">Referenčna skupina je bila vaša skupina in okoliške skupine. Primerjali ste se z ljudmi, katerih življenja ste poznali. Omejeno tekmovanje.</div>
+      <div class="mismatch-cell modern">Referenčna skupina je kdor koli se znajde v vašem viru vsebin. Poklicni športniki, milijarderji, zvezdniki, kurirani izbori vrhuncev iz življenj vrstnikov. Primerjava teče proti nemogoči porazdelitvi.</div>
+
+      <div class="mismatch-row-domain">Kronična grožnja</div>
+      <div class="mismatch-cell ancient">Grožnje so bile akutne in prepoznavne. Levi, tekmeci, bolezen. Odziv na stres je poskočil, mobiliziral dejanje, nato se je razrešil.</div>
+      <div class="mismatch-cell modern">Grožnje so abstraktne, kronične, nerazrešljive. Finančna negotovost, nestabilnost kariere, cikli novic, podnebne spremembe. Cikel stresa se nikoli ne sklene. Izgorelost.</div>
+
+      <div class="mismatch-row-domain">Smisel</div>
+      <div class="mismatch-cell ancient">Priskrbljen samodejno. Pleme, vloga, svetovni nazor, predniki, oprijemljiv prispevek. Sistema ni bilo treba graditi.</div>
+      <div class="mismatch-cell modern">Nič od tega ni priskrbljeno. Plemena je treba zgraditi. Svetovne nazore izbrati. Vloge niso podedovane. Prispevek je abstrakten in pogosto anonimen. Praznina smisla.</div>
+
+      <div class="mismatch-row-domain">Trg parjenja</div>
+      <div class="mismatch-cell ancient">Omejen znan nabor. Parjenje v zvezo, spodbujano pri obeh spolih zaradi zahtev vzgoje otrok. Kompromisi vidni skozi čas.</div>
+      <div class="mismatch-cell modern">Neomejen nabor, posredovan prek aplikacij. Dinamika koristi majhnemu deležu moških in žensk. Več samstva, poznejše poroke, nižja rodnost, nezadovoljstvo s parjenjem pri obeh spolih.</div>
+
+      <div class="mismatch-row-domain">Novost</div>
+      <div class="mismatch-cell ancient">Redka in običajno pomenljiva. Novo ozemlje, orodje, oseba, situacija. Dopaminski sistem je novost označil kot vredno pozornosti.</div>
+      <div class="mismatch-cell modern">Neskončna in prirejena. Nova vsebina vsakih nekaj sekund. Preplavljenost z dopaminom. Zmanjšana nagrada iz naravnih virov. Nenehna blaga lakota po dražljajih.</div>
+    </div>
+
+    <div class="callout" style="margin-top: 48px;">
+      <div class="callout-label">Vzorec</div>
+      <p class="callout-body">Vsaka vrstica je ista zgodba. Starodaven sistem, optimiziran za eno okolje, zdaj prejema vhodne podatke iz drugega. Motnja ni naključna. Je sistematičen izid dobro delujočega starodavnega programa, ki teče na vhodnih podatkih, za katere ni bil zgrajen. <em>Z biologijo je vse v redu. Narobe so vhodni podatki.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== SYSTEM DIAGRAM ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Model</span>
+    <h2 class="section-title">Sistem, ki ga <em>zares</em> poganjate.</h2>
+    <p class="section-lead">
+      Nekoliko bogatejša slika modela kot sistema z deli, ki se med seboj prepletajo. Puščice so v praksi dvosmerne. Vedenje oblikuje okolje. Izidi oblikujejo možgane. Skupne fikcije postanejo del okolja. Sistem je rekurziven.
+    </p>
+
+    <div class="system-diagram">
+      <div class="system-flow">
+        <div class="system-node">
+          <span class="system-node-label">Plast 01</span>
+          <div class="system-node-content">Okolje<br><span style="color: var(--text-very-dim); font-size: 13px;">fizično, tehnološko, kulturno</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Plast 02</span>
+          <div class="system-node-content">Razvita strojna oprema<br><span style="color: var(--text-very-dim); font-size: 13px;">telo in možgani (limbični sistem in skorja)</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Plast 03</span>
+          <div class="system-node-content">Univerzalni goni<br><span style="color: var(--text-very-dim); font-size: 13px;">preživetje, spolnost, status, pripadnost, smisel, mojstrstvo, avtonomija, udobje</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Plast 04</span>
+          <div class="system-node-content">Skupne fikcije<br><span style="color: var(--text-very-dim); font-size: 13px;">denar, bogovi, narodi, znamke, zakoni, pogodbe</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Plast 05</span>
+          <div class="system-node-content">Vedenje<br><span style="color: var(--text-very-dim); font-size: 13px;">posamično in kolektivno</span></div>
+        </div>
+        <div class="system-arrow">&darr;</div>
+        <div class="system-node">
+          <span class="system-node-label">Plast 06</span>
+          <div class="system-node-content">Izidi in povratne informacije<br><span style="color: var(--text-very-dim); font-size: 13px;">znova postanejo okolje</span></div>
+        </div>
+      </div>
+      <div class="system-loop-label">&uarr; Zanka se sklene &uarr;</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== THE FIVE ERRORS ===================== -->
+<section>
+  <div class="container">
+    <div class="container-narrow" style="padding: 0;">
+      <span class="section-label">Pogoste napake</span>
+      <h2 class="section-title">Pet napak, ob katere se boste <em>spotaknili</em>.</h2>
+      <p class="section-lead">
+        Ko začnete raziskovati človeško naravo, boste naleteli na te vzorce zmot. Vsak od njih je napol pravilen in nevaren, kadar ga vzamete za celovito razlago. Če jih poimenujete vnaprej, preprečite večino škode.
+      </p>
+    </div>
+
+    <div class="errors-grid">
+      <div class="error-card">
+        <div class="error-num">Napaka 01</div>
+        <h4 class="error-name">Nepopisan list</h4>
+        <p class="error-body">Trditev, da se ljudje rodimo brez nagnjenj in da vse vedenje izvira iz kulture. V veliki meri napačna. Rodimo se z bogatimi razvitimi nagnjenji: prirojeno pozornostjo do obrazov, vrstnim redom usvajanja jezika, strahom pred kačami, moralnimi intuicijami. Kultura gradi na tem ogrodju, včasih dramatično. Ne piše na prazno stran.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Napaka 02</div>
+        <h4 class="error-name">Biološki determinizem</h4>
+        <p class="error-body">Nasprotna zmota. Trditev, da biologija v celoti določa vedenje in da je kultura zgolj okras. Prav tako napačna. Biologija postavi razpone in privzete vrednosti. Znotraj teh razponov ima kultura ogromno moč. Resnični sta obe in za razlago česar koli potrebujete obe.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Napaka 03</div>
+        <h4 class="error-name">Plemeniti divjak</h4>
+        <p class="error-body">Zamisel, da so predcivilizacijski ljudje živeli v miru in da nas je civilizacija pokvarila. Lovsko-nabiralniško življenje je imelo resnične prednosti: enakopravnost, zdravo prehrano, močne vezi. Imelo je tudi stopnje umorov, ki bi zgrozile sodobno mesto, pogosto vojskovanje, visoko umrljivost otrok, nič medicine. Ni bilo raj.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Napaka 04</div>
+        <h4 class="error-name">Sodobni ljudje smo drugačni</h4>
+        <p class="error-body">Zrcalna slika. Trditev, da smo kategorično drugačni od ljudi izpred 2.000 ali 20.000 let zaradi iPhonov ali znanosti. Napačno. Človeška biologija se je komaj kaj spremenila. Globinska psihologija kmeta iz bronaste dobe je v bistvu naša. Preberite Homerja. Prepoznali boste sebe.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Napaka 05</div>
+        <h4 class="error-name">Vse pojasnjuje eno samo gonilo</h4>
+        <p class="error-body">Skušnjava, da vedenje zvedete na eno samo gospodujočo spremenljivko. Spolnost, denar, status, strah pred smrtjo, moč, razredni boj, racionalna izbira. Vsak velik teoretik, ki je to poskusil, ima deloma prav in v veliki meri narobe. Človeško vedenje je naddoločeno. Vselej je dejavnih več gonov. Teorija, ki vse zvede na eno samo gonilo, bo zgrešila večino slike.</p>
+      </div>
+      <div class="error-card">
+        <div class="error-num">Dodatek</div>
+        <h4 class="error-name">Romantiziranje prihodnosti</h4>
+        <p class="error-body">Napredek je resničen, ni pa zajamčen. Tehnologija ne izboljša samodejno človeške blaginje. Nedavne tehnologije (prirejena hrana, družbena omrežja, aplikacije za zmenke) so poleg svojih koristi prinesle znatne nove škode. Predpostavite, da bo z naslednjo tehnologijo enako, tudi če vam je všeč.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== COMPARISON: WHAT CHANGES ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Stabilnost in sprememba</span>
+    <h2 class="section-title">Kaj zgodovina <em>spreminja</em> in česa <em>ne</em>.</h2>
+    <p class="section-lead">
+      Večina stabilnih značilnosti vašega trenutnega življenja je odvisna od nadaljnjega delovanja infrastrukture sodelovanja. Večina stabilnih značilnosti vašega notranjega življenja je odvisna od nadaljnjega delovanja vaše biologije. Računajte, da bo drugo zanesljivejše od prvega.
+    </p>
+
+    <div class="comparison">
+      <div class="comparison-card bad">
+        <div class="comparison-label">Se je dramatično spremenilo</div>
+        <h3 class="comparison-title">Razmere</h3>
+        <p class="comparison-body">
+          Materialne razmere (hrana, zavetje, medicina, prevoz). Hitrost komuniciranja. Povprečna življenjska doba in umrljivost dojenčkov. Suženjstvo, formalna hierarhija, pričakovanja glede spola. Politične ustanove (demokracija, državljanstvo, pravice). Verska krajina. Povprečne stopnje nasilja.
+          <br><br>
+          Vse to se je skozi stoletja izjemno premaknilo. Večina tega, kar se pri vaši trenutni družbi zdi trajno, je novo in odvisno od okoliščin.
+        </p>
+      </div>
+      <div class="comparison-card good">
+        <div class="comparison-label">Je ostalo v bistvu enako</div>
+        <h3 class="comparison-title">Narava</h3>
+        <p class="comparison-body">
+          Goni: status, spolnost, pripadnost, smisel, udobje. Osnovna čustvena paleta. Kognitivna arhitektura (limbični sistem hitrejši od skorje, večinoma nezavedne odločitve). Potreba po plemenu in obredu. Vzorci sodelovanja in odpadanja. Dinamika vzpona in zatona civilizacij. Resničnost asimetrij, ki se sestavljajo.
+          <br><br>
+          To je bilo stabilno tisočletja in bo stabilno tudi v predvidljivi prihodnosti.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== QUOTE 4 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Civilizacija je tehnologija za sodelovanje v velikem obsegu navkljub naši naravi. Je resnična, je krhka in njeno nadaljevanje ni zajamčeno.</p>
+    <div class="quote-cite">Iz kazala. Različica v tridesetih sekundah</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== THE PROTOCOL ===================== -->
+<section>
+  <div class="container-narrow">
+    <span class="section-label">Najmanjši delujoči protokol</span>
+    <h2 class="section-title">Deset <em>infrastrukturnih</em> navad.</h2>
+    <p class="section-lead">
+      Večina optimizacije odraslega življenja ni v dodajanju, temveč v odstranjevanju napačnih vhodnih podatkov in ponovnem grajenju pravih. Večina tega, kar velja za klinično zdravljenje duševnega zdravja, ljudi pravzaprav le napravi dovolj funkcionalne, da približno počnejo te reči. Če jih zmorete početi neposredno, več mesecev obravnave stisnete v samovoden protokol.
+    </p>
+
+    <div class="protocol">
+      <div class="protocol-item">
+        <div class="protocol-num">01</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Spanje</h4>
+          <p class="protocol-body">Dosleden urnik. Temna spalnica. Nič zaslonov uro pred spanjem. Jutranja sončna svetloba. Cilj 7 do 9 ur. Posamezni ukrep z največjim vzvodom v sodobnem zdravju.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">02</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Gibanje</h4>
+          <p class="protocol-body">Vsak dan hodite, po možnosti na prostem. Vadba z uporom dvakrat na teden. Ne sedite dlje kot 30 do 60 minut, ne da bi vstali. Telo dolgotrajno nedejavnost razume kot signal za preživetje, da so razmere slabe.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">03</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Hrana</h4>
+          <p class="protocol-body">Večino časa polnovredna živila. Ultrapredelano hrano omejite pri izviru tako, da je ne kupujete. Dovolj beljakovin. Vlaknine. Rešitev ni »jejte manj«. Rešitev je sprememba prehranskega okolja.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">04</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Svetloba</h4>
+          <p class="protocol-body">Zjutraj močna svetloba, po možnosti na prostem v prvi uri po prebujanju. Zvečer pridušena svetloba. Vsak dan čas na prostem. Cirkadiani sistem je umerjen po soncu.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">05</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Povezanost</h4>
+          <p class="protocol-body">Dva do štirje bližnji odnosi, dejavno vzdrževani. Tedenski osebni obred z nekom, za katerega vam je mar. Osamljeni ljudje propadajo. To ni izbirno. To je podlaga.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">06</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Informacijska dieta</h4>
+          <p class="protocol-body">Ostro omejite vsebine iz algoritemskih tokov. Nadomestite jih z izbranimi viri: knjigami, določenimi ustvarjalci, daljšimi oblikami. Telefon zunaj spalnice. Znova zgradite zmožnost za dolgčas. Ta je podlaga ustvarjalnosti.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">07</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Status</h4>
+          <p class="protocol-body">Premišljeno izberite svoje hierarhije. Kurirajte svoj vir vsebin tako, da odstranite neproduktivne primerjave. Naredite popis statusnih iger, ki jih igrate. Odločite se, v katere vlagati in iz katerih izstopiti.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">08</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Smisel</h4>
+          <p class="protocol-body">Praksa ali projekt, ki se vam zdi sam po sebi vreden truda, zavarovan v koledarju. Večina odraslih smisel podceni v prid nujnih zahtev. Cena je odložena in huda.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">09</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Okrevanje po stresu</h4>
+          <p class="protocol-body">Pravi počitek, ne uživanje medijev. Sprehodi. Čas v naravi. Spanje. Savna. Dihalne vaje. Karkoli vam sklene cikel stresa. Sodobno življenje ga vedno znova odpira. Skleniti ga morate premišljeno.</p>
+        </div>
+      </div>
+      <div class="protocol-item">
+        <div class="protocol-num">10</div>
+        <div class="protocol-content">
+          <h4 class="protocol-title">Parjenje</h4>
+          <p class="protocol-body">Svoj odnos ali iskanje odnosa obravnavajte kot resen življenjski projekt, ne kot hobi. Izogibajte se nadomestkom, ki gon izčrpavajo, ne da bi ga potešili. Infrastruktura za stabilne partnerske vezi je oslabela. Potrebno je zavestno grajenje.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 36px;">
+      <div class="callout-label">Če to počnete dosledno tri mesece</div>
+      <p class="callout-body">Počutili se boste kot drug človek. To ni jamstvo pred resno duševno boleznijo, ki ima pogosto biološke sestavine, ki zahtevajo zdravljenje. Je podlaga, na kateri sloni dobro duševno zdravje. To podlago je sodobno življenje tiho odštelo. <em>Njena ponovna vzpostavitev je osebni ukrep z največjim vzvodom, kar jih je na voljo.</em></p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===================== QUOTE 5 ===================== -->
+<div class="container-narrow">
+  <div class="quote-block">
+    <span class="quote-mark">"</span>
+    <p class="quote-text">Gojite tisto, kar hoče vaša biologija. Preglasite tisto, kar izkorišča vaše okolje.</p>
+    <div class="quote-cite">Iz 7. poglavja. Sinteza</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===================== UNCERTAINTY ===================== -->
+<section class="tight">
+  <div class="container-narrow">
+    <span class="section-label">Česar model ne razreši</span>
+    <h2 class="section-title">Kje je ta model <em>negotov</em>.</h2>
+    <p class="section-lead">
+      Dober model poimenuje svoje meje. Nekaj poštenih negotovosti, ki jih velja nositi ob boku vsemu, kar preostanek dokumenta trdi z gotovostjo.
+    </p>
+
+    <div class="card-grid two">
+      <div class="card">
+        <h3 class="card-title">Mehanizem kognitivne revolucije</h3>
+        <p class="card-body">Je bil genetski, kulturni ali oboje? Dokazi nakazujejo, a niso dokončni. Vodilne hipoteze se stekajo k drobnemu genetskemu premiku, ki je odklenil zmožnost, za izraz katere je bila potrebna kulturna kritična masa, podrobnosti pa ostajajo odprte.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Zavest sama</h3>
+        <p class="card-body">Nobeden od modelov v izvorniku se ne dotakne trdega problema. Zakaj subjektivno izkustvo sploh obstaja, ostaja odprto, in večina tega, kar povemo o psihologiji, o tem molči.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Geni proti okolju, v vsakem posameznem primeru</h3>
+        <p class="card-body">Ocene dednosti na ravni populacije se ne prevedejo čisto na posamezne primere. Vedeti, da je neka lastnost v populaciji 50 odstotno dedna, vam ne pove tako rekoč ničesar o tem, kaj je mogoče za določenega človeka.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Ljudje, globoko vpeti v umetna okolja</h3>
+        <p class="card-body">Ljudje, ki so odrasli povsem na spletu, imajo morda drugače umerjene gone. Še ne vemo, kako je to videti v populacijskem obsegu. Sedanja kriza duševnega zdravja mladostnikov ponuja prve podatke.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Učinek umetne inteligence na infrastrukturo sodelovanja</h3>
+        <p class="card-body">Denar, pogodbe, znamke, identiteta. Vse to lahko umetna inteligenca v naslednjih 10 do 20 letih preobrazi. Goni se ne bodo spremenili. Ustanove, ki jih usmerjajo, se bodo.</p>
+      </div>
+      <div class="card">
+        <h3 class="card-title">Ali ima cikel vzpona in zatona zdaj enako obliko</h3>
+        <p class="card-body">Zgodovina nakazuje cikle. Sedanji trenutek se od vseh prejšnjih v nekaterih točkah razlikuje: globalna povezanost, tehnološko pospeševanje. Cikel se lahko stisne, raztegne ali spremeni obliko.</p>
+      </div>
+    </div>
+
+    <p style="margin-top: 36px; font-size: 15px; color: var(--text-very-dim); line-height: 1.6; text-align: center; font-style: italic; font-family: 'Playfair Display', serif;">
+      Model je dovolj trden, da nanj stavite. Ni pa dovolj trden, da bi terjal gotovost. Temu ustrezno ga uporabljajte.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== CLOSING ===================== -->
+<section class="closing">
+  <div class="closing-inner">
+    <div class="closing-pre">Zaključek</div>
+    <h2 class="closing-title">Ste biološki organizem z omejenim časom in naborom gonov, ki lahko, pravilno nahranjeni, porodijo razcvet.</h2>
+    <p class="closing-body">
+      Isti goni, pravilno razumljeni, lahko porodijo tudi življenje, ki je na videz natrpano, a znotraj prazno. V povprečnem odraslem življenju imate okoli 4.000 tednov, več ali manj, in znaten delež ste jih že porabili. Preostali so končni in nepovrnljivi.
+      <br><br>
+      To ni depresivno spoznanje. Je razjasnjujoče. Goni, ki so v nekem trenutku najglasnejši, niso vselej tisti, ki so pomembni na obzorju tridesetih let. Statusna igra, ki vas zdaj požira, bo čez 10 let nepomembna. Odnosi, ki jih zdaj zanemarjate, bodo tisti, za katere si boste želeli, da bi jih negovali. Prispevek, ki ga vedno znova odlagate, je tisti, ki ga boste obžalovali.
+    </p>
+    <div class="closing-attribution">Uporabljajte model. Dodajajte mu. Posodobite ga, ko resničnost to zahteva.</div>
+  </div>
+</section>
+
+<footer class="footer">
+  Ustvarjeno iz <a href="./human-nature.md">Context/Knowledge/topics/humanity/human-nature/</a> &nbsp;&middot;&nbsp; 16. 5. 2026
+</footer>
+</div>
+
+<script>
+(function(){
+  var TITLES={en:'Human Nature From First Principles',sl:'Človeška narava iz prvih principov'};
+  function pick(){var s=null;try{s=localStorage.getItem('hn-lang');}catch(e){}if(s==='en'||s==='sl')return s;return 'sl';}
+  function apply(l){
+    document.documentElement.lang=l;
+    var layers=document.querySelectorAll('[data-lang-layer]');
+    for(var i=0;i<layers.length;i++)layers[i].classList.toggle('active',layers[i].getAttribute('data-lang-layer')===l);
+    var btns=document.querySelectorAll('.lang-toggle button');
+    for(var j=0;j<btns.length;j++)btns[j].classList.toggle('active',btns[j].getAttribute('data-l')===l);
+    if(TITLES[l])document.title=TITLES[l];
+  }
+  document.addEventListener('DOMContentLoaded',function(){
+    var btns=document.querySelectorAll('.lang-toggle button');
+    for(var i=0;i<btns.length;i++){btns[i].addEventListener('click',function(){var l=this.getAttribute('data-l');try{localStorage.setItem('hn-lang',l);}catch(e){}apply(l);});}
+    apply(pick());
+  });
+})();
+</script>
+</body>
+</html>
